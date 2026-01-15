@@ -27,7 +27,7 @@ const GEAR = [
     specs: ['Sensor: 1/1.9" CMOS', "Color: 10-bit", "Video: 5.3K/60"],
     image: "/nazgulevoque.webp",
   },
-] as const;
+];
 
 export default function Page() {
   const [state, handleSubmit] = useForm("xzdznrnv");
@@ -42,7 +42,6 @@ export default function Page() {
           </a>
         </div>
       </header>
-      
 
       <main id="top" className="relative">
         {/* Background glow */}
@@ -522,21 +521,27 @@ export default function Page() {
 
 /* ---------- Small UI components ---------- */
 
-function Chip({ children }: { children: React.ReactNode }) {
-  return <span className="rounded-full border border-zinc-700 bg-zinc-800/30 px-4 py-2">{children}</span>;
+function Chip({ children }) {
+  return (
+    <span className="rounded-full border border-zinc-700 bg-zinc-800/30 px-4 py-2">
+      {children}
+    </span>
+  );
 }
 
-function StepCard({ step, title, children }: { step: string; title: string; children: React.ReactNode }) {
+function StepCard({ step, title, children }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/35 backdrop-blur-md p-6 shadow-lg transition hover:-translate-y-1 hover:bg-black/45 hover:border-white/15">
-      <div className="mb-2 text-sm font-bold uppercase tracking-wide text-zinc-400">{step}</div>
+      <div className="mb-2 text-sm font-bold uppercase tracking-wide text-zinc-400">
+        {step}
+      </div>
       <h3 className="text-lg font-extrabold">{title}</h3>
       <p className="mt-2 text-zinc-300">{children}</p>
     </div>
   );
 }
 
-function Service({ title, bullets }: { title: string; bullets: string[] }) {
+function Service({ title, bullets }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/35 backdrop-blur-md p-6 shadow-lg transition hover:-translate-y-1 hover:bg-black/45 hover:border-white/15">
       <h3 className="text-xl font-extrabold">{title}</h3>
@@ -560,18 +565,8 @@ function Service({ title, bullets }: { title: string; bullets: string[] }) {
  * - End resets to 0 and allows replay.
  * - No "seek to 1s onLoadedData" (can cause issues on some encodes).
  */
-function PortfolioTile({
-  label,
-  sublabel,
-  videoSrc,
-  poster,
-}: {
-  label: string;
-  sublabel?: string;
-  videoSrc: string;
-  poster?: string;
-}) {
-  const videoRef = React.useRef<HTMLVideoElement>(null);
+function PortfolioTile({ label, sublabel, videoSrc, poster }) {
+  const videoRef = React.useRef(null);
 
   const [posterReady, setPosterReady] = React.useState(false);
   const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
@@ -580,19 +575,14 @@ function PortfolioTile({
   const [hasPlayed, setHasPlayed] = React.useState(false);
 
   const start = React.useCallback(async () => {
-    // On first hover, start loading the video (big perf win)
     if (!shouldLoadVideo) setShouldLoadVideo(true);
 
     const v = videoRef.current;
     if (!v) return;
-
-    // If not ready yet, we'll let onCanPlay trigger the actual play
     if (!videoReady) return;
-
     if (hasPlayed) return;
 
     try {
-      // start from beginning
       if (v.currentTime !== 0) v.currentTime = 0;
       await v.play();
       setHasPlayed(true);
@@ -604,7 +594,6 @@ function PortfolioTile({
   const handleCanPlay = React.useCallback(async () => {
     setVideoReady(true);
 
-    // If user hovered already (triggered load), auto-start once it's ready
     if (!hasPlayed) {
       const v = videoRef.current;
       if (!v) return;
@@ -624,24 +613,29 @@ function PortfolioTile({
     v.pause();
     v.currentTime = 0;
     setHasPlayed(false);
-    setVideoReady(false); // allow fresh play next hover
-    // keep shouldLoadVideo=true so it doesn't re-download next time
+    setVideoReady(false);
   }, []);
 
   return (
     <div className="group relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10 transition-all duration-300 hover:border-zinc-600">
       <div className="relative aspect-[3/2] overflow-hidden bg-zinc-950">
-        {/* 1) INSTANT fallback (always renders immediately) */}
+        {/* Instant fallback */}
         <div className="absolute inset-0 bg-zinc-950">
           <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
             <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
-            {sublabel ? <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p> : null}
+            {sublabel && (
+              <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>
+            )}
           </div>
         </div>
 
-        {/* 2) Poster image (optional, fades in when loaded) */}
-        {poster ? (
-          <div className={`absolute inset-0 transition-opacity duration-300 ${posterReady ? "opacity-100" : "opacity-0"}`}>
+        {/* Poster */}
+        {poster && (
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 ${
+              posterReady ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <Image
               src={poster}
               alt={label}
@@ -652,10 +646,10 @@ function PortfolioTile({
               onLoadingComplete={() => setPosterReady(true)}
             />
           </div>
-        ) : null}
+        )}
 
-        {/* 3) Video (NOT loaded until hover) */}
-        {shouldLoadVideo && !failed ? (
+        {/* Video */}
+        {shouldLoadVideo && !failed && (
           <video
             ref={videoRef}
             className={[
@@ -671,9 +665,9 @@ function PortfolioTile({
             onError={() => setFailed(true)}
             onEnded={handleEnded}
           />
-        ) : null}
+        )}
 
-        {/* Hover trigger area */}
+        {/* Hover trigger */}
         <button
           type="button"
           aria-label={`Play preview for ${label}`}
@@ -682,7 +676,6 @@ function PortfolioTile({
           onFocus={start}
         />
 
-        {/* Gradient overlay (keeps text readable) */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
       </div>
     </div>
@@ -690,20 +683,10 @@ function PortfolioTile({
 }
 
 /* ---------- Gear cards ---------- */
-function GearCard({
-  title,
-  tip,
-  specs,
-  image,
-}: {
-  title: string;
-  tip: string;
-  specs: string[];
-  image: string;
-}) {
+function GearCard({ title, tip, specs, image }) {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
-  const benefits: Record<string, string[]> = {
+  const benefits = {
     "DJI Mavic 4 Pro": [
       "Professional image quality that makes listings stand out",
       "Reliable performance in various lighting conditions",
@@ -741,7 +724,9 @@ function GearCard({
           style={{ backfaceVisibility: "hidden" }}
         >
           <div className="text-center">
-            <div className="text-sm font-extrabold uppercase tracking-wide text-zinc-500">{title}</div>
+            <div className="text-sm font-extrabold uppercase tracking-wide text-zinc-500">
+              {title}
+            </div>
           </div>
 
           <div className="mt-6 flex items-center justify-center">
@@ -755,14 +740,19 @@ function GearCard({
             </div>
           </div>
 
-          <p className="mt-2 text-center text-sm font-semibold text-zinc-700">{tip}</p>
+          <p className="mt-2 text-center text-sm font-semibold text-zinc-700">
+            {tip}
+          </p>
 
           <ul className="mt-4 space-y-1.5 text-center text-sm text-zinc-700">
             {specs.map((s) => (
               <li key={s}>{s}</li>
             ))}
           </ul>
-          <p className="mt-4 text-center text-xs text-zinc-400">Click to see how this helps you →</p>
+
+          <p className="mt-4 text-center text-xs text-zinc-400">
+            Click to see how this helps you →
+          </p>
         </div>
 
         <div
@@ -778,10 +768,14 @@ function GearCard({
 
             <div className="relative z-10">
               <div className="text-center">
-                <div className="text-sm font-extrabold uppercase tracking-wide text-zinc-500">{title}</div>
+                <div className="text-sm font-extrabold uppercase tracking-wide text-zinc-500">
+                  {title}
+                </div>
               </div>
 
-              <h3 className="mt-6 text-center text-lg font-extrabold text-zinc-800">How this helps you</h3>
+              <h3 className="mt-6 text-center text-lg font-extrabold text-zinc-800">
+                How this helps you
+              </h3>
 
               <ul className="mt-6 space-y-3 text-sm text-zinc-700">
                 {cardBenefits.map((benefit, idx) => (
@@ -807,18 +801,11 @@ const RAINBOW =
 const RAINBOW_DARK_OVERLAY =
   "linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.15), rgba(0,0,0,0.35))";
 
-function RainbowLink({
-  href,
-  children,
-  iconRight,
-  size = "md",
-}: {
-  href: string;
-  children: React.ReactNode;
-  iconRight?: React.ReactNode;
-  size?: "sm" | "md";
-}) {
-  const sizeClass = size === "sm" ? "px-4 py-2 text-sm rounded-xl" : "px-6 py-3 text-base rounded-xl";
+function RainbowLink({ href, children, iconRight, size = "md" }) {
+  const sizeClass =
+    size === "sm"
+      ? "px-4 py-2 text-sm rounded-xl"
+      : "px-6 py-3 text-base rounded-xl";
 
   return (
     <a
@@ -826,7 +813,7 @@ function RainbowLink({
       className={`group relative inline-flex items-center gap-2 overflow-hidden bg-white font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 ${sizeClass}`}
     >
       <span className="relative z-10">{children}</span>
-      {iconRight ? <span className="relative z-10">{iconRight}</span> : null}
+      {iconRight && <span className="relative z-10">{iconRight}</span>}
 
       <span
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -836,6 +823,7 @@ function RainbowLink({
           animation: "rainbowShift 6.5s ease-in-out infinite",
         }}
       />
+
       <span
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background: RAINBOW_DARK_OVERLAY }}
@@ -844,17 +832,7 @@ function RainbowLink({
   );
 }
 
-function RainbowButton({
-  type = "button",
-  disabled,
-  children,
-  iconRight,
-}: {
-  type?: "button" | "submit" | "reset";
-  disabled?: boolean;
-  children: React.ReactNode;
-  iconRight?: React.ReactNode;
-}) {
+function RainbowButton({ type = "button", disabled, children, iconRight }) {
   return (
     <button
       type={type}
@@ -862,7 +840,7 @@ function RainbowButton({
       className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-white px-6 py-3 font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
     >
       <span className="relative z-10">{children}</span>
-      {iconRight ? <span className="relative z-10">{iconRight}</span> : null}
+      {iconRight && <span className="relative z-10">{iconRight}</span>}
 
       <span
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -872,6 +850,7 @@ function RainbowButton({
           animation: "rainbowShift 6.5s ease-in-out infinite",
         }}
       />
+
       <span
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background: RAINBOW_DARK_OVERLAY }}
@@ -879,3 +858,4 @@ function RainbowButton({
     </button>
   );
 }
+
