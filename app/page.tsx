@@ -42,6 +42,7 @@ export default function Page() {
           </a>
         </div>
       </header>
+      
 
       <main id="top" className="relative">
         {/* Background glow */}
