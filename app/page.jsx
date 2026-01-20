@@ -142,7 +142,7 @@ export default function Page() {
 
               {/* Mobile hint */}
               <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 sm:hidden">
-                Tap to view highlights — for full videos, visit Instagram.
+                Swipe through highlights — full videos on Instagram.
               </p>
 
               <a
@@ -155,43 +155,54 @@ export default function Page() {
               </a>
             </div>
 
-            <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-              <PortfolioTile
-                label="Northern Arizona Rehab and Fitness"
-                sublabel="Physical Therapy Clinic"
-                videoSrc="/videos/NARF-clinic.mp4"
-                // Add 2–4 images for a real rotation:
-                images={[
-                  "/posters/narf.jpg",
-                  "/posters/narf-2.jpg",
-                  "/posters/narf-3.jpg",
-                ]}
-                instaHref="https://www.instagram.com/alookfromabove_/"
-              />
+            <div className="mt-10">
+              {/* MOBILE: single carousel tile */}
+              <div className="sm:hidden">
+                <MobilePortfolioCarousel
+                  instaHref="https://www.instagram.com/alookfromabove_/"
+                  items={[
+                    {
+                      label: "Northern Arizona Rehab and Fitness",
+                      sublabel: "Physical Therapy Clinic",
+                      image: "/posters/narf.jpg",
+                    },
+                    {
+                      label: "FPV Truck Run",
+                      sublabel: "High-speed FPV • Dirt road",
+                      image: "/posters/fpv-truck.jpg",
+                    },
+                    {
+                      label: "Collection",
+                      sublabel: "FPV and Cinematic",
+                      image: "/posters/montage.jpg",
+                    },
+                  ]}
+                />
+              </div>
 
-              <PortfolioTile
-                label="FPV Truck Run"
-                sublabel="High-speed FPV • Dirt road"
-                videoSrc="/videos/AnthonysTruck.mp4"
-                images={[
-                  "/posters/fpv-truck.jpg",
-                  "/posters/fpv-truck-2.jpg",
-                  "/posters/fpv-truck-3.jpg",
-                ]}
-                instaHref="https://www.instagram.com/alookfromabove_/"
-              />
+              {/* DESKTOP: keep your existing 3 tiles */}
+              <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-3">
+                <PortfolioTile
+                  label="Northern Arizona Rehab and Fitness"
+                  sublabel="Physical Therapy Clinic"
+                  videoSrc="/videos/NARF-clinic.mp4"
+                  poster="/posters/narf.jpg"
+                />
 
-              <PortfolioTile
-                label="Collection"
-                sublabel="FPV and Cinematic"
-                videoSrc="/videos/montagevideo.mp4"
-                images={[
-                  "/posters/montage.jpg",
-                  "/posters/montage-2.jpg",
-                  "/posters/montage-3.jpg",
-                ]}
-                instaHref="https://www.instagram.com/alookfromabove_/"
-              />
+                <PortfolioTile
+                  label="FPV Truck Run"
+                  sublabel="High-speed FPV • Dirt road"
+                  videoSrc="/videos/AnthonysTruck.mp4"
+                  poster="/posters/fpv-truck.jpg"
+                />
+
+                <PortfolioTile
+                  label="Collection"
+                  sublabel="FPV and Cinematic"
+                  videoSrc="/videos/montagevideo.mp4"
+                  poster="/posters/montage.jpg"
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -593,6 +604,185 @@ function Service({ title, bullets }) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function MobilePortfolioCarousel({ items, instaHref }) {
+  const [idx, setIdx] = React.useState(0);
+
+  const total = items?.length || 0;
+  const current = total ? items[idx] : null;
+
+  const prev = React.useCallback(() => {
+    if (!total) return;
+    setIdx((i) => (i - 1 + total) % total);
+  }, [total]);
+
+  const next = React.useCallback(() => {
+    if (!total) return;
+    setIdx((i) => (i + 1) % total);
+  }, [total]);
+
+  // Keyboard support (harmless on mobile, helpful on desktop testing)
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [prev, next]);
+
+  // --- Swipe support (no libs) ---
+  const startRef = React.useRef({ x: 0, y: 0, t: 0, active: false });
+
+  const onTouchStart = (e) => {
+    const t = e.touches?.[0];
+    if (!t) return;
+    startRef.current = { x: t.clientX, y: t.clientY, t: Date.now(), active: true };
+  };
+
+  const onTouchMove = (e) => {
+    // Prevent accidental horizontal scroll while swiping the carousel.
+    // Only prevent when gesture is mostly horizontal.
+    const s = startRef.current;
+    if (!s.active) return;
+
+    const t = e.touches?.[0];
+    if (!t) return;
+
+    const dx = t.clientX - s.x;
+    const dy = t.clientY - s.y;
+
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+      e.preventDefault();
+    }
+  };
+
+  const onTouchEnd = (e) => {
+    const s = startRef.current;
+    if (!s.active) return;
+
+    const changed = e.changedTouches?.[0];
+    if (!changed) return;
+
+    const dx = changed.clientX - s.x;
+    const dy = changed.clientY - s.y;
+    const dt = Date.now() - s.t;
+
+    // Tunables
+    const SWIPE_X_MIN = 40; // px
+    const SWIPE_Y_MAX = 80; // px
+    const SWIPE_TIME_MAX = 800; // ms
+
+    // If too vertical or too slow, ignore
+    if (Math.abs(dy) > SWIPE_Y_MAX) {
+      startRef.current.active = false;
+      return;
+    }
+    if (dt > SWIPE_TIME_MAX) {
+      startRef.current.active = false;
+      return;
+    }
+
+    if (dx <= -SWIPE_X_MIN) next(); // swipe left
+    else if (dx >= SWIPE_X_MIN) prev(); // swipe right
+
+    startRef.current.active = false;
+  };
+
+  if (!current) return null;
+
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10">
+      <div
+        className="relative aspect-[3/2] overflow-hidden bg-zinc-950 touch-pan-y"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        <Image
+          src={current.image}
+          alt={current.label}
+          fill
+          className="object-cover brightness-110"
+          priority
+        />
+
+        {/* Light overlay so it stays bright but readable */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+
+        {/* Labels */}
+        <div className="absolute inset-x-0 bottom-0 p-5">
+          <p className="text-lg font-extrabold text-white">{current.label}</p>
+          {current.sublabel ? (
+            <p className="mt-0.5 text-xs text-zinc-200">{current.sublabel}</p>
+          ) : null}
+        </div>
+
+        {/* Left/Right controls */}
+        <button
+          type="button"
+          onClick={prev}
+          aria-label="Previous highlight"
+          className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95"
+        >
+          <span className="text-white text-xl leading-none">‹</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={next}
+          aria-label="Next highlight"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95"
+        >
+          <span className="text-white text-xl leading-none">›</span>
+        </button>
+
+        {/* Instagram CTA */}
+        <a
+          href={instaHref}
+          target="_blank"
+          rel="noreferrer"
+          className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold text-white/90"
+          aria-label="See videos on Instagram"
+        >
+          See videos <ArrowRight className="h-3 w-3" />
+        </a>
+
+        {/* Dots */}
+        <div className="absolute left-0 right-0 bottom-3 flex justify-center gap-2">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIdx(i)}
+              aria-label={`Go to highlight ${i + 1}`}
+              className={[
+                "h-2 w-2 rounded-full border border-white/30",
+                i === idx ? "bg-white/90" : "bg-white/20",
+              ].join(" ")}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Caption row */}
+      <div className="flex items-center justify-between px-5 py-4">
+        <div className="text-sm text-zinc-300">
+          Highlight <span className="font-bold text-white">{idx + 1}</span> / {total}
+        </div>
+
+        <a
+          href={instaHref}
+          target="_blank"
+          rel="noreferrer"
+          className="text-sm font-bold text-white underline underline-offset-4"
+        >
+          More on Instagram
+        </a>
+      </div>
     </div>
   );
 }
