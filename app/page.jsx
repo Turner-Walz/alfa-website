@@ -2,11 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
-import { ArrowRight, Check, Mail, Instagram, Phone } from "lucide-react";
+import { ArrowRight, Check, Mail, Instagram } from "lucide-react";
 import { useForm, ValidationError } from "@formspree/react";
 import { motion } from "framer-motion";
-
-const AREAS = ["Clarkdale", "Cottonwood", "Cornville", "Sedona", "Flagstaff", "Prescott"];
 
 const GEAR = [
   {
@@ -33,7 +31,7 @@ export default function Page() {
   const [state, handleSubmit] = useForm("xzdznrnv");
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white">
+    <div className="min-h-screen bg-zinc-900 text-white overflow-x-hidden">
       {/* HEADER */}
       <header className="sticky top-0 z-50 border-b border-zinc-700/60 bg-zinc-900/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-center px-5 py-4">
@@ -53,25 +51,37 @@ export default function Page() {
         {/* HERO */}
         <section className="relative w-full min-h-[78vh] md:min-h-[86vh] lg:min-h-[92vh] overflow-hidden">
           <div className="absolute inset-0 z-0">
+            {/* Optional mobile performance improvement: show poster on phones, video on sm+ */}
+            <div className="absolute inset-0 sm:hidden">
+              <Image
+                src="/posters/montage.jpg"
+                alt="ALFA hero poster"
+                fill
+                priority
+                className="object-cover"
+              />
+            </div>
+
             <video
               autoPlay
               loop
               muted
               playsInline
               preload="auto"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="hidden sm:block absolute inset-0 h-full w-full object-cover"
             >
               <source src="/videos/herobackground.mp4" type="video/mp4" />
             </video>
+
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
           </div>
 
           <div className="relative z-10 mx-auto flex min-h-[78vh] md:min-h-[86vh] lg:min-h-[92vh] max-w-6xl flex-col items-center justify-center px-5 text-center">
-            <h1 className="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
+            <h1 className="mx-auto max-w-4xl text-3xl font-extrabold tracking-tight sm:text-4xl md:text-6xl">
               The perspective that completes the story.
             </h1>
 
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-zinc-200">
+            <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-zinc-200">
               Clean, cinematic drone photos &amp; video for real estate, businesses, events, and land — across Northern
               Arizona.
             </p>
@@ -87,7 +97,7 @@ export default function Page() {
         </section>
 
         {/* TRUSTED LOCALLY */}
-        <section className="relative isolate overflow-hidden border-t border-zinc-700/60 py-14 md:py-18">
+        <section className="relative isolate overflow-hidden border-t border-zinc-700/60 py-14 md:py-16">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.05] mix-blend-soft-light" />
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.55)_100%)]" />
           <div className="pointer-events-none absolute inset-0 -z-20 bg-zinc-800/15" />
@@ -124,8 +134,15 @@ export default function Page() {
             <div className="text-center">
               <h2 className="text-3xl font-extrabold">Portfolio</h2>
               <p className="mx-auto mt-2 max-w-2xl text-zinc-300">A few highlights — more coming soon.</p>
-              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400">
+
+              {/* Desktop hint */}
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 hidden sm:block">
                 Hover over a clip to preview the video.
+              </p>
+
+              {/* Mobile hint */}
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 sm:hidden">
+                Tap a clip to preview the video.
               </p>
 
               <a
@@ -139,7 +156,6 @@ export default function Page() {
             </div>
 
             <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-              {/* IMPORTANT: make sure the casing matches your /public/videos filename exactly */}
               <PortfolioTile
                 label="Northern Arizona Rehab and Fitness"
                 sublabel="Physical Therapy Clinic"
@@ -205,14 +221,19 @@ export default function Page() {
                     delivery — footage that fits your goals and performs where it’s used.
                   </p>
 
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    <RainbowLink href="#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
+                  {/* Mobile-centered buttons */}
+                  <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:justify-start">
+                    <RainbowLink
+                      href="#contact"
+                      iconRight={<ArrowRight className="h-4 w-4" />}
+                      className="w-full sm:w-auto justify-center"
+                    >
                       Get a Quote
                     </RainbowLink>
 
                     <a
                       href="mailto:hello@alookfromabove.co"
-                      className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/30 px-5 py-3 font-bold transition hover:bg-zinc-800/60 hover:-translate-y-0.5 active:translate-y-0"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/30 px-5 py-3 font-bold transition hover:bg-zinc-800/60 hover:-translate-y-0.5 active:translate-y-0"
                     >
                       <Mail className="h-4 w-4" />
                       Email me
@@ -241,19 +262,21 @@ export default function Page() {
                     <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">Quick facts</p>
                     <ul className="mt-4 space-y-3 text-zinc-200">
                       <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 text-zinc-300" />
+                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
                         <span>FAA Part 107 certified</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 text-zinc-300" />
-                        <span>Available for collaboration with photographers &amp; video teams — or standalone projects</span>
+                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
+                        <span>
+                          Available for collaboration with photographers &amp; video teams — or standalone projects
+                        </span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 text-zinc-300" />
+                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
                         <span>Clear communication with well-defined scope for smooth capture and delivery</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 text-zinc-300" />
+                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
                         <span>Safety-first mindset on every flight</span>
                       </li>
                     </ul>
@@ -283,7 +306,10 @@ export default function Page() {
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-3 md:text-left">
-              <Service title="Real Estate & Land" bullets={["MLS-ready aerial photos", "Lot lines & neighborhood context", "Short listing clips"]} />
+              <Service
+                title="Real Estate & Land"
+                bullets={["MLS-ready aerial photos", "Lot lines & neighborhood context", "Short listing clips"]}
+              />
               <Service title="Businesses" bullets={["Building & property visuals", "Website + social content", "Premium establishing shots"]} />
               <Service title="Events" bullets={["Weddings, festivals, gatherings", "Venue establishing shots", "Highlight footage"]} />
             </div>
@@ -364,7 +390,7 @@ export default function Page() {
 
                 <div className="mt-6 space-y-3 text-zinc-200">
                   <a href="mailto:hello@alookfromabove.co" className="flex items-center gap-2">
-                    <Mail className="h-4 w-4" /> hello@alookfromabove.co
+                    <Mail className="h-4 w-4 flex-shrink-0" /> hello@alookfromabove.co
                   </a>
 
                   <a
@@ -373,13 +399,12 @@ export default function Page() {
                     rel="noreferrer"
                     className="flex items-center gap-2"
                   >
-                    <Instagram className="h-4 w-4" /> Instagram
+                    <Instagram className="h-4 w-4 flex-shrink-0" /> Instagram
                   </a>
                 </div>
 
-                <div className="hidden md:block md:h-30 lg:h-49" />
-
-                <div className="rounded-2xl border border-zinc-700 bg-zinc-800/30 p-4 text-sm text-zinc-300">
+                {/* FIX: add breathing room on mobile before the next box */}
+                <div className="mt-8 rounded-2xl border border-zinc-700 bg-zinc-800/30 p-4 text-sm text-zinc-300">
                   <div className="font-bold text-white">Include this for a fast quote:</div>
                   <ul className="mt-2 list-disc space-y-1 pl-5">
                     <li>Address or general location</li>
@@ -548,7 +573,7 @@ function Service({ title, bullets }) {
       <ul className="mt-4 space-y-2 text-zinc-300">
         {bullets.map((b) => (
           <li key={b} className="flex items-center gap-2">
-            <Check className="h-4 w-4" /> {b}
+            <Check className="h-4 w-4 flex-shrink-0" /> {b}
           </li>
         ))}
       </ul>
@@ -556,56 +581,75 @@ function Service({ title, bullets }) {
   );
 }
 
-/* ---------- Portfolio tile (fixed) ---------- */
+/* ---------- Portfolio tile ---------- */
 /**
- * Goals:
- * - Never blank: always show poster or a built-in fallback.
- * - Hover starts playback once.
- * - Leaving hover does NOT pause.
- * - End resets to 0 and allows replay.
- * - No "seek to 1s onLoadedData" (can cause issues on some encodes).
+ * Mobile behavior:
+ * - Tap to play preview
+ * Desktop behavior:
+ * - Hover/focus to play preview
+ * Brightness:
+ * - Mobile gets brighter media + lighter overlay
  */
 function PortfolioTile({ label, sublabel, videoSrc, poster }) {
   const videoRef = React.useRef(null);
+  const pendingPlayRef = React.useRef(false);
 
   const [posterReady, setPosterReady] = React.useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
   const [videoReady, setVideoReady] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
   const [hasPlayed, setHasPlayed] = React.useState(false);
 
-  const start = React.useCallback(async () => {
-    if (!shouldLoadVideo) setShouldLoadVideo(true);
+  // On touch devices, we keep the video element mounted so taps can play reliably.
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isTouchLike = window.matchMedia?.("(hover: none) and (pointer: coarse)")?.matches;
+    if (isTouchLike) {
+      // no-op here other than ensuring state exists; video is always rendered below
+    }
+  }, []);
 
+  const tryPlay = React.useCallback(async () => {
     const v = videoRef.current;
     if (!v) return;
-    if (!videoReady) return;
-    if (hasPlayed) return;
 
     try {
       if (v.currentTime !== 0) v.currentTime = 0;
       await v.play();
       setHasPlayed(true);
     } catch {
+      // If play fails, we mark failed; user can still see poster.
       setFailed(true);
     }
-  }, [hasPlayed, shouldLoadVideo, videoReady]);
+  }, []);
 
-  const handleCanPlay = React.useCallback(async () => {
+  const start = React.useCallback(() => {
+    if (failed) return;
+
+    const v = videoRef.current;
+    if (!v) return;
+
+    // If already played, don't restart (keeps your original behavior)
+    if (hasPlayed) return;
+
+    // If not ready yet, queue the play for when it can play
+    if (!videoReady) {
+      pendingPlayRef.current = true;
+      return;
+    }
+
+    tryPlay();
+  }, [failed, hasPlayed, videoReady, tryPlay]);
+
+  const handleCanPlay = React.useCallback(() => {
     setVideoReady(true);
 
-    if (!hasPlayed) {
-      const v = videoRef.current;
-      if (!v) return;
-      try {
-        if (v.currentTime !== 0) v.currentTime = 0;
-        await v.play();
-        setHasPlayed(true);
-      } catch {
-        setFailed(true);
-      }
+    // If user tapped/hovered before it was ready, honor that request
+    if (pendingPlayRef.current && !hasPlayed) {
+      pendingPlayRef.current = false;
+      // muted + playsInline should allow this on mobile in most cases
+      tryPlay();
     }
-  }, [hasPlayed]);
+  }, [hasPlayed, tryPlay]);
 
   const handleEnded = React.useCallback(() => {
     const v = videoRef.current;
@@ -623,9 +667,7 @@ function PortfolioTile({ label, sublabel, videoSrc, poster }) {
         <div className="absolute inset-0 bg-zinc-950">
           <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
             <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
-            {sublabel && (
-              <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>
-            )}
+            {sublabel && <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>}
           </div>
         </div>
 
@@ -640,7 +682,7 @@ function PortfolioTile({ label, sublabel, videoSrc, poster }) {
               src={poster}
               alt={label}
               fill
-              className="object-cover"
+              className="object-cover brightness-110 sm:brightness-100"
               priority
               loading="eager"
               onLoadingComplete={() => setPosterReady(true)}
@@ -648,13 +690,14 @@ function PortfolioTile({ label, sublabel, videoSrc, poster }) {
           </div>
         )}
 
-        {/* Video */}
-        {shouldLoadVideo && !failed && (
+        {/* Video (always mounted for mobile reliability; still lazy-ish via metadata preload) */}
+        {!failed && (
           <video
             ref={videoRef}
             className={[
               "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
               "group-hover:scale-105 transition-transform duration-300",
+              "brightness-110 sm:brightness-100",
               videoReady ? "opacity-100" : "opacity-0",
             ].join(" ")}
             src={videoSrc}
@@ -667,16 +710,23 @@ function PortfolioTile({ label, sublabel, videoSrc, poster }) {
           />
         )}
 
-        {/* Hover trigger */}
+        {/* Interaction layer: hover/focus for desktop, tap for mobile */}
         <button
           type="button"
           aria-label={`Play preview for ${label}`}
           className="absolute inset-0"
           onMouseEnter={start}
           onFocus={start}
+          onClick={start}
         />
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+        {/* Lighter overlay on mobile so it looks brighter */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent sm:from-black/70 sm:via-black/15" />
+
+        {/* Optional: small “tap to play” affordance on mobile */}
+        <div className="pointer-events-none absolute right-3 top-3 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-xs text-white/90 sm:hidden">
+          Tap to play
+        </div>
       </div>
     </div>
   );
@@ -708,12 +758,12 @@ function GearCard({ title, tip, specs, image }) {
 
   return (
     <div
-      className="group relative h-[460px] md:h-[480px] cursor-pointer"
+      className="group relative h-[430px] sm:h-[460px] md:h-[480px] cursor-pointer"
       style={{ perspective: "1000px" }}
       onClick={() => setIsFlipped((v) => !v)}
     >
       <div
-        className="relative h-full w-full transition-transform duration-600"
+        className="relative h-full w-full transition-transform duration-[600ms]"
         style={{
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -751,7 +801,7 @@ function GearCard({ title, tip, specs, image }) {
           </ul>
 
           <p className="mt-4 text-center text-xs text-zinc-400">
-            Click to see how this helps you →
+            Tap to see how this helps you →
           </p>
         </div>
 
@@ -801,7 +851,7 @@ const RAINBOW =
 const RAINBOW_DARK_OVERLAY =
   "linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.15), rgba(0,0,0,0.35))";
 
-function RainbowLink({ href, children, iconRight, size = "md" }) {
+function RainbowLink({ href, children, iconRight, size = "md", className = "" }) {
   const sizeClass =
     size === "sm"
       ? "px-4 py-2 text-sm rounded-xl"
@@ -810,7 +860,7 @@ function RainbowLink({ href, children, iconRight, size = "md" }) {
   return (
     <a
       href={href}
-      className={`group relative inline-flex items-center gap-2 overflow-hidden bg-white font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 ${sizeClass}`}
+      className={`group relative inline-flex items-center gap-2 overflow-hidden bg-white font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 ${sizeClass} ${className}`}
     >
       <span className="relative z-10">{children}</span>
       {iconRight && <span className="relative z-10">{iconRight}</span>}
@@ -832,12 +882,12 @@ function RainbowLink({ href, children, iconRight, size = "md" }) {
   );
 }
 
-function RainbowButton({ type = "button", disabled, children, iconRight }) {
+function RainbowButton({ type = "button", disabled, children, iconRight, className = "" }) {
   return (
     <button
       type={type}
       disabled={disabled}
-      className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-white px-6 py-3 font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+      className={`group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-white px-6 py-3 font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     >
       <span className="relative z-10">{children}</span>
       {iconRight && <span className="relative z-10">{iconRight}</span>}
@@ -858,4 +908,3 @@ function RainbowButton({ type = "button", disabled, children, iconRight }) {
     </button>
   );
 }
-
