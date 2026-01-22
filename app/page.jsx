@@ -447,7 +447,7 @@ export default function Page() {
                 method="POST"
                 className="relative rounded-2xl border border-zinc-700 bg-zinc-800/20 p-6"
               >
-                <input type="hidden" name="_subject" value="New ALFA quote request" />
+                <input type="hidden" name="_subject" value="ALFA Quote – {{name}} – {{service}}" />
                 <input type="hidden" name="_format" value="plain" />
 
                 <div style={{ position: "absolute", left: "-5000px" }} aria-hidden="true">
