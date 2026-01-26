@@ -183,23 +183,23 @@ export default function Page() {
               {/* DESKTOP: keep your existing 3 tiles */}
               <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-3">
                 <PortfolioTile
-                  label="Northern Arizona Rehab and Fitness"
-                  sublabel="Physical Therapy Clinic"
-                  videoSrc="/videos/NARF-clinic.mp4"
+                  label="Northern Arizona PT Clinic"
+                  sublabel="Cottonwood, AZ"
+                  youtubeId="BtMy19MHvlU"
                   poster="/posters/narf.jpg"
                 />
 
                 <PortfolioTile
-                  label="FPV Truck Run"
-                  sublabel="High-speed FPV • Dirt road"
-                  videoSrc="/videos/AnthonysTruck.mp4"
+                  label="FPV Truck Video"
+                  sublabel="Cinematic FPV • Dirt road"
+                  youtubeId="Y5r-9wg8KeE"
                   poster="/posters/fpv-truck.jpg"
                 />
 
                 <PortfolioTile
-                  label="Collection"
-                  sublabel="FPV and Cinematic"
-                  videoSrc="/videos/montagevideo.mp4"
+                  label="Sedona Aerial Reel"
+                  sublabel="Sedona, Arizona"
+                  youtubeId="Bsqh29oxDq8"
                   poster="/posters/montage.jpg"
                 />
               </div>
@@ -796,175 +796,117 @@ function MobilePortfolioCarousel({ items, instaHref }) {
  * Brightness:
  * - Mobile gets brighter media + lighter overlay
  */
-function PortfolioTile({ label, sublabel, videoSrc, images = [], instaHref }) {
-  const videoRef = React.useRef(null);
+function PortfolioTile({ label, sublabel, youtubeId, poster }) {
+  const [open, setOpen] = React.useState(false);
 
-  const [isMobile, setIsMobile] = React.useState(false);
-  const [activeIdx, setActiveIdx] = React.useState(0);
-
-  // Desktop video states (unchanged behavior)
-  const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
-  const [videoReady, setVideoReady] = React.useState(false);
-  const [failed, setFailed] = React.useState(false);
-  const [hasPlayed, setHasPlayed] = React.useState(false);
-
-  // Detect mobile/touch devices
+  // Close on Escape
   React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(hover: none) and (pointer: coarse)");
-    const update = () => setIsMobile(!!mq.matches);
-    update();
-    mq.addEventListener?.("change", update);
-    return () => mq.removeEventListener?.("change", update);
-  }, []);
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
-  // Mobile image rotation
-  React.useEffect(() => {
-    if (!isMobile) return;
-    if (!images || images.length <= 1) return;
-
-    const id = window.setInterval(() => {
-      setActiveIdx((i) => (i + 1) % images.length);
-    }, 2600);
-
-    return () => window.clearInterval(id);
-  }, [isMobile, images]);
-
-  // Desktop: start video on hover/focus
-  const startDesktopVideo = React.useCallback(async () => {
-    if (isMobile) return; // mobile uses images + insta
-    if (!shouldLoadVideo) setShouldLoadVideo(true);
-
-    const v = videoRef.current;
-    if (!v) return;
-    if (!videoReady) return;
-    if (hasPlayed) return;
-
-    try {
-      if (v.currentTime !== 0) v.currentTime = 0;
-      await v.play();
-      setHasPlayed(true);
-    } catch {
-      setFailed(true);
-    }
-  }, [isMobile, hasPlayed, shouldLoadVideo, videoReady]);
-
-  const handleCanPlay = React.useCallback(async () => {
-    setVideoReady(true);
-
-    if (!hasPlayed) {
-      const v = videoRef.current;
-      if (!v) return;
-      try {
-        if (v.currentTime !== 0) v.currentTime = 0;
-        await v.play();
-        setHasPlayed(true);
-      } catch {
-        setFailed(true);
-      }
-    }
-  }, [hasPlayed]);
-
-  const handleEnded = React.useCallback(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.pause();
-    v.currentTime = 0;
-    setHasPlayed(false);
-    setVideoReady(false);
-  }, []);
-
-  const mobileImages = (images && images.length ? images : []).filter(Boolean);
-  const currentImg = mobileImages[activeIdx] || mobileImages[0];
+  const embedSrc = youtubeId
+    ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`
+    : null;
 
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10 transition-all duration-300 hover:border-zinc-600">
-      <div className="relative aspect-[3/2] overflow-hidden bg-zinc-950">
-        {/* Background media */}
-        {isMobile ? (
-          <>
-            {/* Mobile: rotating images (bright) */}
-            {currentImg ? (
-              <Image
-                src={currentImg}
-                alt={label}
-                fill
-                className="object-cover brightness-110"
-                priority={activeIdx === 0}
-              />
-            ) : (
-              <div className="absolute inset-0 bg-zinc-900" />
-            )}
-
-            {/* Very light overlay on mobile so it stays bright */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent" />
-          </>
-        ) : (
-          <>
-            {/* Desktop: your existing poster/video behavior (slightly adjusted to use images[0] if provided) */}
-            {images?.[0] ? (
-              <Image
-                src={images[0]}
-                alt={label}
-                fill
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="absolute inset-0 bg-zinc-900" />
-            )}
-
-            {shouldLoadVideo && !failed && (
-              <video
-                ref={videoRef}
-                className={[
-                  "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
-                  "group-hover:scale-105 transition-transform duration-300",
-                  videoReady ? "opacity-100" : "opacity-0",
-                ].join(" ")}
-                src={videoSrc}
-                muted
-                playsInline
-                preload="metadata"
-                onCanPlay={handleCanPlay}
-                onError={() => setFailed(true)}
-                onEnded={handleEnded}
-              />
-            )}
-
-            <button
-              type="button"
-              aria-label={`Play preview for ${label}`}
-              className="absolute inset-0"
-              onMouseEnter={startDesktopVideo}
-              onFocus={startDesktopVideo}
+    <>
+      {/* Tile */}
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10 transition-all duration-300 hover:border-zinc-600 text-left"
+        aria-label={`Play ${label}`}
+      >
+        <div className="relative aspect-[3/2] overflow-hidden bg-zinc-950">
+          {poster ? (
+            <Image
+              src={poster}
+              alt={label}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              priority={false}
             />
+          ) : (
+            <div className="absolute inset-0 bg-zinc-900" />
+          )}
 
-            {/* Desktop overlay can stay darker */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-          </>
-        )}
+          {/* Overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
 
-        {/* Labels */}
-        <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-          <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
-          {sublabel && <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>}
+          {/* Center play button */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-7 w-7 translate-x-[1px]"
+              >
+                <path
+                  d="M8 5v14l11-7-11-7z"
+                  fill="white"
+                  fillOpacity="0.9"
+                />
+              </svg>
+            </div>
+          </div>
+
+          {/* Labels */}
+          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+            <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
+            {sublabel ? (
+              <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>
+            ) : null}
+          </div>
         </div>
+      </button>
 
-        {/* Mobile CTA to Instagram */}
-        {isMobile && instaHref ? (
-          <a
-            href={instaHref}
-            target="_blank"
-            rel="noreferrer"
-            className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-xs font-semibold text-white/90"
-            aria-label="See videos on Instagram"
-          >
-            See videos <ArrowRight className="h-3 w-3" />
-          </a>
-        ) : null}
-      </div>
-    </div>
+      {/* Modal */}
+      {open && (
+        <div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4"
+          role="dialog"
+          aria-modal="true"
+          onMouseDown={(e) => {
+            // click outside closes
+            if (e.target === e.currentTarget) setOpen(false);
+          }}
+        >
+          <div className="w-full max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+              <div className="text-sm font-bold text-white">{label}</div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="relative aspect-video bg-black">
+              {embedSrc ? (
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src={embedSrc}
+                  title={label}
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="absolute inset-0 grid place-items-center text-zinc-300">
+                  Missing youtubeId
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
