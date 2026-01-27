@@ -167,6 +167,11 @@ export default function Page() {
                       image: "/posters/narf.jpg",
                     },
                     {
+                      label: "Moab Potash Ponds FPV",
+                      sublabel: "Avata 2 • Gap + reveal",
+                      image: "/posters/moab-potash.jpg",
+                    },
+                    {
                       label: "FPV Truck Run",
                       sublabel: "High-speed FPV • Dirt road",
                       image: "/posters/fpv-truck.jpg",
@@ -181,7 +186,7 @@ export default function Page() {
               </div>
 
               {/* DESKTOP: keep your existing 3 tiles */}
-              <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                 <PortfolioTile
                   label="Northern Arizona PT Clinic"
                   sublabel="Cottonwood, AZ"
@@ -201,6 +206,13 @@ export default function Page() {
                   sublabel="Sedona, Arizona"
                   youtubeId="Bsqh29oxDq8"
                   poster="/posters/montage.jpg"
+                />
+
+                <PortfolioTile
+                  label="Moab Potash Ponds FPV"
+                  sublabel="Avata 2 • Gap + reveal"
+                  youtubeId="KOCAXZwLYM8"
+                  poster="/posters/moab-potash.jpg"
                 />
               </div>
             </div>
