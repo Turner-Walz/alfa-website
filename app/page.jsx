@@ -168,7 +168,7 @@ export default function Page() {
                     },
                     {
                       label: "Moab Potash Ponds FPV",
-                      sublabel: "Avata 2 • Gap + reveal",
+                      sublabel: "FPV Drone Reveal",
                       image: "/posters/moab-potash.jpg",
                     },
                     {
@@ -210,7 +210,7 @@ export default function Page() {
 
                 <PortfolioTile
                   label="Moab Potash Ponds FPV"
-                  sublabel="Avata 2 • Gap + reveal"
+                  sublabel="FPV Drone Reveal"
                   youtubeId="KOCAXZwLYM8"
                   poster="/posters/moab-potash.jpg"
                 />
