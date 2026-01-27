@@ -172,6 +172,11 @@ export default function Page() {
                       image: "/posters/moab-potash.jpg",
                     },
                     {
+                      label: "Cornville Property",
+                      sublabel: "Real estate highlight • Cornville, AZ",
+                      image: "/posters/cornville-property.jpg",
+                    },
+                    {
                       label: "FPV Truck Run",
                       sublabel: "High-speed FPV • Dirt road",
                       image: "/posters/fpv-truck.jpg",
@@ -186,7 +191,7 @@ export default function Page() {
               </div>
 
               {/* DESKTOP: keep your existing 3 tiles */}
-              <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <PortfolioTile
                   label="Northern Arizona PT Clinic"
                   sublabel="Cottonwood, AZ"
@@ -199,6 +204,13 @@ export default function Page() {
                   sublabel="Cinematic FPV • Dirt road"
                   youtubeId="Y5r-9wg8KeE"
                   poster="/posters/fpv-truck.jpg"
+                />
+
+                <PortfolioTile
+                  label="Cornville Property"
+                  sublabel="Cornville, AZ • Real estate highlight"
+                  youtubeId="FopFQncz4M4"
+                  poster="/posters/cornville-property.jpg"
                 />
 
                 <PortfolioTile
@@ -330,7 +342,7 @@ export default function Page() {
         <section className="relative isolate overflow-hidden border-y border-zinc-700/60">
           <div className="absolute inset-0 z-0">
             <video className="h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata">
-              <source src="/videos/herobackground.mp4" type="video/mp4" />
+              <source src="/videos/buildingsband.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-black/55" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/65" />
