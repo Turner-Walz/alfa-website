@@ -167,14 +167,14 @@ export default function Page() {
                       image: "/posters/narf.jpg",
                     },
                     {
-                      label: "Moab Potash Ponds FPV",
-                      sublabel: "FPV Drone Reveal",
-                      image: "/posters/moab-potash.jpg",
-                    },
-                    {
                       label: "Cornville Property",
                       sublabel: "Real estate highlight • Cornville, AZ",
                       image: "/posters/cornville-property.jpg",
+                    },
+                    {
+                      label: "Moab Potash Ponds FPV",
+                      sublabel: "FPV Drone Reveal",
+                      image: "/posters/moab-potash.jpg",
                     },
                     {
                       label: "FPV Truck Run",
