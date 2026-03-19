@@ -82,10 +82,8 @@ export default function Page() {
             </h1>
 
             <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-zinc-200">
-              Clean, cinematic drone photos &amp; video for real estate, businesses, events, and land — across Northern
-              Arizona.
+              Professional drone coverage for construction, property, and business projects across Northern Arizona.
             </p>
-
             <div className="mt-8 flex justify-center">
               <RainbowLink href="#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
                 Request a Quote
@@ -109,9 +107,10 @@ export default function Page() {
               </p>
 
               <p className="mx-auto mt-4 max-w-3xl text-lg text-zinc-300">
-                Photographers, businesses, and media teams across
-                <span className="font-bold text-white"> Northern Arizona</span> trust ALFA for professional drone coverage
-                that integrates seamlessly — or <span className="font-semibold text-white">stands on its own</span>.
+                Contractors, businesses, and media teams across
+                <span className="font-bold text-white"> Northern Arizona</span> trust ALFA for professional drone coverage that supports progress tracking, site documentation, and clean visual content.
+                <br className="hidden sm:block" />
+                Whether it’s for reporting, marketing, or both.
               </p>
 
               <p className="mx-auto mt-3 max-w-3xl text-lg font-semibold text-white">
@@ -119,114 +118,55 @@ export default function Page() {
               </p>
 
               <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-zinc-400">
-                <Chip>Real estate agents</Chip>
-                <Chip>Small businesses</Chip>
-                <Chip>Events &amp; venues</Chip>
-                <Chip>Land &amp; property owners</Chip>
+                <Chip>General Contractors</Chip>
+                <Chip>Home Builders</Chip>
+                <Chip>Construction Projects</Chip>
+                <Chip>Businesses &amp; Media</Chip>
               </div>
             </div>
           </div>
         </section>
 
-        {/* PORTFOLIO */}
-        <section className="border-y border-zinc-700/60 bg-zinc-900 py-16" id="portfolio">
+        {/* PATH SPLIT */}
+        <section className="border-t border-zinc-700/60 bg-zinc-900 py-16 md:py-20">
           <div className="mx-auto max-w-6xl px-5">
             <div className="text-center">
-              <h2 className="text-3xl font-extrabold">Portfolio</h2>
-              <p className="mx-auto mt-2 max-w-2xl text-zinc-300">A few highlights — more coming soon.</p>
-
-              {/* Desktop hint */}
-              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 hidden sm:block">
-                Hover over a clip to preview the video.
+              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
               </p>
-
-              {/* Mobile hint */}
-              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 sm:hidden">
-                Swipe through highlights — full videos on Instagram.
+              <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+                What are you here for?
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
+                ALFA supports both visual media and construction-focused drone work. Choose the path that fits your project.
               </p>
-
-              <a
-                href="https://www.instagram.com/alookfromabove_/"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/40 px-4 py-2 font-bold transition hover:bg-zinc-800 hover:-translate-y-0.5 active:translate-y-0"
-              >
-                See videos on Instagram <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
 
-            <div className="mt-10">
-              {/* MOBILE: single carousel tile */}
-              <div className="sm:hidden">
-                <MobilePortfolioCarousel
-                  instaHref="https://www.instagram.com/alookfromabove_/"
-                  items={[
-                    {
-                      label: "Northern Arizona Rehab and Fitness",
-                      sublabel: "Physical Therapy Clinic",
-                      image: "/posters/narf.jpg",
-                    },
-                    {
-                      label: "Cornville Property",
-                      sublabel: "Real estate highlight • Cornville, AZ",
-                      image: "/posters/cornville-property.jpg",
-                    },
-                    {
-                      label: "Moab Potash Ponds FPV",
-                      sublabel: "FPV Drone Reveal",
-                      image: "/posters/moab-potash.jpg",
-                    },
-                    {
-                      label: "FPV Truck Run",
-                      sublabel: "High-speed FPV • Dirt road",
-                      image: "/posters/fpv-truck.jpg",
-                    },
-                    {
-                      label: "Collection",
-                      sublabel: "FPV and Cinematic",
-                      image: "/posters/montage.jpg",
-                    },
-                  ]}
-                />
-              </div>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <PathCard
+                eyebrow="Construction"
+                title="Drones in Construction"
+                description="Mapping, progress tracking, inspections, and site documentation for contractors, developers, and land projects."
+                bullets={[
+                  "Orthomosaic mapping",
+                  "Progress updates",
+                  "Site inspections",
+                ]}
+                href="/construction"
+                cta="View Construction Solutions"
+              />
 
-              {/* DESKTOP: keep your existing 3 tiles */}
-              <div className="hidden sm:grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <PortfolioTile
-                  label="Northern Arizona PT Clinic"
-                  sublabel="Cottonwood, AZ"
-                  youtubeId="BtMy19MHvlU"
-                  poster="/posters/narf.jpg"
-                />
-
-                <PortfolioTile
-                  label="FPV Truck Video"
-                  sublabel="Cinematic FPV • Dirt road"
-                  youtubeId="Y5r-9wg8KeE"
-                  poster="/posters/fpv-truck.jpg"
-                />
-
-                <PortfolioTile
-                  label="Cornville Property"
-                  sublabel="Cornville, AZ • Real estate highlight"
-                  youtubeId="FopFQncz4M4"
-                  poster="/posters/cornville-property.jpg"
-                />
-
-                <PortfolioTile
-                  label="Sedona Aerial Reel"
-                  sublabel="Sedona, Arizona"
-                  youtubeId="Bsqh29oxDq8"
-                  poster="/posters/montage.jpg"
-                />
-
-                <PortfolioTile
-                  label="Moab Potash Ponds FPV"
-                  sublabel="FPV Drone Reveal"
-                  youtubeId="KOCAXZwLYM8"
-                  poster="/posters/moab-potash.jpg"
-                />
-              </div>
+              <PathCard
+                eyebrow="Media"
+                title="Drone Media Production"
+                description="Cinematic aerial photo and video for real estate, businesses, events, and branded content."
+                bullets={[
+                  "Real estate visuals",
+                  "Business promo content",
+                  "Event coverage",
+                ]}
+                href="/media"
+                cta="View Media Solutions"
+              />
             </div>
           </div>
         </section>
@@ -543,9 +483,9 @@ export default function Page() {
                         <option value="" disabled>
                           Select one
                         </option>
-                        <option value="Real Estate / Land">Real Estate / Land</option>
-                        <option value="Business">Business</option>
-                        <option value="Event">Event</option>
+                        <option value="Construction / Land Documentation">Construction / Land Documentation</option>
+                        <option value="Business">Business Branding</option>
+                        <option value="Event">Event Coverage</option>
                         <option value="Other">Other</option>
                       </select>
                     </label>
@@ -629,6 +569,58 @@ function Service({ title, bullets }) {
         ))}
       </ul>
     </div>
+  );
+}
+
+function PathCard({ eyebrow, title, description, bullets, href, cta }) {
+  return (
+    <a
+      href={href}
+      className="group relative overflow-hidden rounded-3xl border border-zinc-700 p-8 transition hover:-translate-y-1"
+    >
+      {/* Background Image */}
+      <img
+        src={
+          eyebrow === "Construction"
+            ? "/construction/progress.jpg"
+            : "/posters/narf.jpg"
+        }
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-700 group-hover:scale-105"
+      />
+
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-zinc-900/40" />
+
+      {/* Content */}
+      <div className="relative z-10">
+        <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+          {eyebrow}
+        </p>
+
+        <h3 className="mt-3 text-2xl font-extrabold">
+          {title}
+        </h3>
+
+        <p className="mt-4 text-zinc-300">
+          {description}
+        </p>
+
+        <ul className="mt-6 space-y-3 text-zinc-200">
+          {bullets.map((bullet) => (
+            <li key={bullet} className="flex items-start gap-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-white/70" />
+              <span>{bullet}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 inline-flex items-center gap-2 font-semibold text-white">
+          {cta}
+          <span className="transition group-hover:translate-x-1">→</span>
+        </div>
+      </div>
+    </a>
   );
 }
 
