@@ -1,85 +1,90 @@
-import { ArrowRight, Check, Camera, Map, ClipboardList, Building2 } from "lucide-react";
+import { ArrowRight, Check, Building2 } from "lucide-react";
+import Image from "next/image";
 
 export default function ConstructionPage() {
     return (
         <main className="min-h-screen bg-zinc-900 text-white">
-            {/* HERO */}
-            <section className="relative overflow-hidden border-b border-zinc-700/60">
-                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-                    <div className="absolute left-1/2 top-[-180px] h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-white/5 blur-3xl" />
-                    <div className="absolute bottom-[-220px] right-[-120px] h-[380px] w-[380px] rounded-full bg-white/5 blur-3xl" />
+            <div className="relative overflow-hidden border-b border-zinc-700/60">
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/construction/hero.jpg"
+                        alt="Construction site aerial overview"
+                        fill
+                        priority
+                        className="object-cover brightness-105"
+                    />
+
+                    <div className="absolute inset-0 bg-black/45" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-zinc-950" />
                 </div>
 
-                <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-                    <a href="/" className="text-sm text-zinc-400 underline underline-offset-4">
-                        ← Back to home
-                    </a>
+                {/* HERO */}
+                <section className="relative z-10 flex min-h-[48vh] items-center justify-center px-5 py-10 md:py-14">
+                    <div className="mx-auto w-full max-w-6xl">
+                        <div className="mx-auto max-w-4xl">
+                            <a
+                                href="/"
+                                className="inline-block text-sm text-zinc-300 underline underline-offset-4 transition hover:text-white"
+                            >
+                                ← Back to home
+                            </a>
+                        </div>
 
-                    <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                        ALFA Construction Services
-                    </p>
+                        <div className="mx-auto mt-6 max-w-4xl rounded-3xl border border-white/10 bg-black/45 px-8 py-12 text-center shadow-2xl backdrop-blur-md md:px-12 md:py-14">
+                            <p className="text-sm font-semibold uppercase tracking-wide text-zinc-300">
+                                ALFA Construction Services
+                            </p>
 
-                    <h1 className="mt-3 max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-                        Drone support for construction, land, and site documentation.
-                    </h1>
+                            <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
+                                Construction Drone Mapping, Progress Tracking, and Site Documentation
+                            </h1>
 
-                    <p className="mt-6 max-w-3xl text-base text-zinc-300 sm:text-lg">
-                        Clear aerial visuals and practical site documentation for contractors, builders, developers,
-                        and property projects across Northern Arizona. From progress photos to mapping and inspection
-                        support, ALFA helps teams keep a better visual record of the job.
-                    </p>
+                            <p className="mx-auto mt-6 max-w-3xl text-base text-zinc-100 sm:text-lg">
+                                Clear aerial visuals and practical site documentation for contractors, builders,
+                                developers, and property projects across Northern Arizona. From progress photos to
+                                mapping and inspection support, ALFA helps teams keep a better visual record of the
+                                job.
+                            </p>
 
-                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                        <RainbowLink href="/#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
-                            Request a Quote
-                        </RainbowLink>
+                            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                                <a
+                                    href="/#contact"
+                                    className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 font-bold text-black transition hover:bg-zinc-200 hover:-translate-y-0.5 active:translate-y-0"
+                                >
+                                    Request a Quote
+                                    <ArrowRight className="ml-2 h-4 w-4" />
+                                </a>
 
-                        <a
-                            href="mailto:hello@alookfromabove.co"
-                            className="inline-flex items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800/30 px-6 py-3 font-bold transition hover:bg-zinc-800/60 hover:-translate-y-0.5 active:translate-y-0"
-                        >
-                            Email me
-                        </a>
+                                <a
+                                    href="mailto:hello@alookfromabove.co"
+                                    className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white/15 hover:-translate-y-0.5 active:translate-y-0"
+                                >
+                                    Email me
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* VALUE PROPS */}
-            <section className="border-b border-zinc-700/60 py-16 md:py-20">
-                <div className="mx-auto max-w-6xl px-5">
-                    <div className="text-center">
-                        <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                            Why it matters
-                        </p>
-                        <h2 className="mt-2 text-3xl font-extrabold">A better view of the job site</h2>
-                        <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-                            Drone coverage helps teams document progress, communicate clearly, and keep a visual record
-                            of the work without relying on scattered phone photos or repeated site visits.
-                        </p>
+                {/* VALUE PROPS */}
+                <section className="relative pb-16 pt-16 md:pb-20 md:pt-20">
+                    <div className="relative z-10 mx-auto max-w-6xl px-5">
+                        <div className="text-center">
+                            <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+                            </p>
+                            <h2 className="mt-2 text-3xl font-extrabold">A better view of the job site</h2>
+                            <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
+                                Drone coverage gives construction teams a clear visual record of the job site
+                                that improves communication, supports planning decisions, and makes progress
+                                easier to share with clients and stakeholders.
+                            </p>
+                        </div>
                     </div>
-
-                    <div className="mt-10 grid gap-6 md:grid-cols-3">
-                        <ValueCard
-                            icon={<Camera className="h-5 w-5" />}
-                            title="Visual progress tracking"
-                            text="Show clients, crews, and stakeholders how the site is changing over time with consistent aerial updates."
-                        />
-                        <ValueCard
-                            icon={<Map className="h-5 w-5" />}
-                            title="Mapping and documentation"
-                            text="Capture orthomosaics, site overviews, and reference imagery to support planning and reporting."
-                        />
-                        <ValueCard
-                            icon={<ClipboardList className="h-5 w-5" />}
-                            title="Inspection support"
-                            text="Get safer views of roofs, structures, and hard-to-reach areas without unnecessary climbing or guesswork."
-                        />
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
             {/* SERVICES */}
-            <section className="border-b border-zinc-700/60 pt-24 pb-28 md:pt-32 md:pb-36">
+            <section className="border-b border-zinc-700/60 pb-28 pt-24 md:pb-36 md:pt-32">
                 <div className="mx-auto max-w-6xl px-5">
                     <div className="mb-16 text-center md:mb-20">
                         <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
@@ -91,6 +96,7 @@ export default function ConstructionPage() {
                             better visibility across the life of a project.
                         </p>
                     </div>
+
                     <div className="flex flex-col gap-10 md:gap-24">
                         <ConstructionServiceBlock
                             eyebrow="Construction"
@@ -135,50 +141,27 @@ export default function ConstructionPage() {
                 </div>
             </section>
 
-            {/* DELIVERABLES */}
-            <section className="border-b border-zinc-700/60 py-16 md:py-20">
-                <div className="mx-auto max-w-6xl px-5">
-                    <div className="grid gap-10 md:grid-cols-2 md:items-start">
-                        <div>
-                            <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                                Deliverables
-                            </p>
-                            <h2 className="mt-2 text-3xl font-extrabold">What you actually receive</h2>
-                            <p className="mt-4 max-w-xl text-zinc-300">
-                                Deliverables depend on the project, but the goal is always the same: useful visuals
-                                that are easy to understand and ready to share.
-                            </p>
-                        </div>
-
-                        <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-7">
-                            <ul className="space-y-4 text-zinc-200">
-                                {[
-                                    "High-resolution aerial photos",
-                                    "Short site update videos",
-                                    "Orthomosaic maps when needed",
-                                    "Inspection imagery for review",
-                                    "Clean files ready to share with clients or teams",
-                                    "Consistent documentation over time for recurring projects",
-                                ].map((item) => (
-                                    <li key={item} className="flex items-start gap-3">
-                                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
-                                        <span>{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
+            {/* PROCESS + DELIVERABLES */}
+            <section className="relative overflow-hidden border-b border-zinc-700/60 py-16 md:py-20">
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/construction/planning.jpg"
+                        alt="Construction planning background"
+                        className="h-full w-full object-cover opacity-70"
+                    />
+                    <div className="absolute inset-0 bg-zinc-950/55" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/20 via-zinc-950/70 to-zinc-950" />
                 </div>
-            </section>
 
-            {/* PROCESS */}
-            <section className="border-b border-zinc-700/60 py-16 md:py-20">
-                <div className="mx-auto max-w-6xl px-5">
+                <div className="relative z-10 mx-auto max-w-6xl px-5">
                     <div className="text-center">
                         <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
                             Process
                         </p>
                         <h2 className="mt-2 text-3xl font-extrabold">How it works</h2>
+                        <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
+                            A simple process built to make site documentation straightforward, organized, and easy to use.
+                        </p>
                     </div>
 
                     <div className="mt-10 grid gap-6 md:grid-cols-4">
@@ -199,17 +182,50 @@ export default function ConstructionPage() {
                         />
                         <StepCard
                             step="Step 4"
-                            title="Receive your assets"
+                            title="Get organized project files"
                             text="You get organized files ready for review, communication, or reporting."
                         />
+                    </div>
+
+                    <div className="mt-16 grid gap-10 border-t border-white/10 pt-16 md:grid-cols-2 md:items-start">
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+                                Deliverables
+                            </p>
+                            <h2 className="mt-2 text-3xl font-extrabold">
+                                What this gives you on every project:
+                            </h2>
+                            <p className="mt-4 max-w-xl text-zinc-300">
+                                Drone coverage gives you a clear visual record of your project that makes updates easier
+                                to share, decisions easier to explain, and progress easier to track over time.
+                            </p>
+                        </div>
+
+                        <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm">
+                            <ul className="space-y-4 text-zinc-200">
+                                {[
+                                    "Clear visual progress updates you can share with clients, partners, or stakeholders",
+                                    "A reliable visual record of the project from start to finish",
+                                    "Safer visibility of roofs, structures, and hard-to-access areas",
+                                    "Simple site overview maps that make planning and communication easier",
+                                    "Organized files ready to drop into reports, presentations, or updates",
+                                    "Consistent documentation that helps reduce repeat site visits over time",
+                                ].map((item) => (
+                                    <li key={item} className="flex items-start gap-3">
+                                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* CTA */}
-            <section className="py-16 md:py-20">
+            <section className="bg-black py-16 md:py-20">
                 <div className="mx-auto max-w-4xl px-5">
-                    <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-8 text-center md:p-10">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-md md:p-10">
                         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-zinc-600 bg-zinc-900/60">
                             <Building2 className="h-5 w-5" />
                         </div>
@@ -224,9 +240,13 @@ export default function ConstructionPage() {
                         </p>
 
                         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                            <RainbowLink href="/#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
+                            <a
+                                href="/#contact"
+                                className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 font-bold text-black transition hover:bg-zinc-200 hover:-translate-y-0.5 active:translate-y-0"
+                            >
                                 Request a Quote
-                            </RainbowLink>
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </a>
 
                             <a
                                 href="mailto:hello@alookfromabove.co"
@@ -239,18 +259,6 @@ export default function ConstructionPage() {
                 </div>
             </section>
         </main>
-    );
-}
-
-function ValueCard({ icon, title, text }) {
-    return (
-        <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-7 transition hover:-translate-y-1 hover:border-zinc-500 hover:bg-zinc-800/30">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-zinc-600 bg-zinc-900/70">
-                {icon}
-            </div>
-            <h3 className="mt-5 text-xl font-extrabold">{title}</h3>
-            <p className="mt-3 text-zinc-300">{text}</p>
-        </div>
     );
 }
 
@@ -349,25 +357,9 @@ function ConstructionServiceBlock({
     );
 }
 
-function ServiceCard({ title, bullets }) {
-    return (
-        <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-7 transition hover:-translate-y-1 hover:border-zinc-500 hover:bg-zinc-800/30">
-            <h3 className="text-2xl font-extrabold">{title}</h3>
-            <ul className="mt-5 space-y-3 text-zinc-200">
-                {bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-3">
-                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
-                        <span>{bullet}</span>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
-
 function StepCard({ step, title, text }) {
     return (
-        <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-6 transition hover:-translate-y-1 hover:border-zinc-500 hover:bg-zinc-800/30">
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/10">
             <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
                 {step}
             </p>

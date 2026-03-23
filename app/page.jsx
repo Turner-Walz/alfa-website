@@ -32,14 +32,6 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-zinc-900 text-white overflow-x-hidden">
-      {/* HEADER */}
-      <header className="sticky top-0 z-50 border-b border-zinc-700/60 bg-zinc-900/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-center px-5 py-4">
-          <a href="#top" className="inline-flex items-center justify-center" aria-label="Go to top">
-            <Image src="/ALFA-01.png" alt="ALFA logo" width={180} height={60} priority />
-          </a>
-        </div>
-      </header>
 
       <main id="top" className="relative">
         {/* Background glow */}
@@ -49,7 +41,7 @@ export default function Page() {
         </div>
 
         {/* HERO */}
-        <section className="relative w-full min-h-[78vh] md:min-h-[86vh] lg:min-h-[92vh] overflow-hidden">
+        <section className="relative w-full min-h-[60vh] md:min-h-[70vh] lg:min-h-[78vh] overflow-hidden">
           <div className="absolute inset-0 z-0">
             {/* Optional mobile performance improvement: show poster on phones, video on sm+ */}
             <div className="absolute inset-0 sm:hidden">
@@ -73,15 +65,15 @@ export default function Page() {
               <source src="/videos/herobackground.mp4" type="video/mp4" />
             </video>
 
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-zinc-900" />
           </div>
 
-          <div className="relative z-10 mx-auto flex min-h-[78vh] md:min-h-[86vh] lg:min-h-[92vh] max-w-6xl flex-col items-center justify-center px-5 text-center">
+          <div className="relative z-10 mx-auto flex min-h-[60vh] md:min-h-[70vh] lg:min-h-[78vh] max-w-6xl flex-col items-center justify-center px-5 text-center">
             <h1 className="mx-auto max-w-4xl text-3xl font-extrabold tracking-tight sm:text-4xl md:text-6xl">
               The perspective that completes the story.
             </h1>
 
-            <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-zinc-200">
+            <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-zinc-200">
               Professional drone coverage for construction, property, and business projects across Northern Arizona.
             </p>
             <div className="mt-8 flex justify-center">
@@ -91,190 +83,85 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent via-zinc-900/60 to-zinc-900" />
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-zinc-900/70 to-zinc-900" />
         </section>
 
-        {/* TRUSTED LOCALLY */}
-        <section className="relative isolate overflow-hidden border-t border-zinc-700/60 py-14 md:py-16">
+        {/* TRUST + PATH SPLIT */}
+        <section className="relative isolate overflow-hidden border-b border-zinc-700/60">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.05] mix-blend-soft-light" />
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.55)_100%)]" />
           <div className="pointer-events-none absolute inset-0 -z-20 bg-zinc-800/15" />
 
           <div className="relative z-10 mx-auto max-w-6xl px-5">
-            <div className="text-center">
-              <p className="mx-auto max-w-3xl text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                Trusted locally
-              </p>
+            {/* Trusted locally */}
+            <div className="py-14 md:py-16">
+              <div className="text-center">
+                <p className="mx-auto max-w-3xl text-sm font-semibold uppercase tracking-wide text-zinc-400">
+                  Trusted locally
+                </p>
 
-              <p className="mx-auto mt-4 max-w-3xl text-lg text-zinc-300">
-                Contractors, businesses, and media teams across
-                <span className="font-bold text-white"> Northern Arizona</span> trust ALFA for professional drone coverage that supports progress tracking, site documentation, and clean visual content.
-                <br className="hidden sm:block" />
-                Whether it’s for reporting, marketing, or both.
-              </p>
+                <p className="mx-auto mt-4 max-w-3xl text-lg text-zinc-300">
+                  Contractors, businesses, and media teams across
+                  <span className="font-bold text-white"> Northern Arizona</span> trust ALFA for professional drone coverage that supports progress tracking, site documentation, and clean visual content.
+                  <br className="hidden sm:block" />
+                  Whether it’s for reporting, marketing, or both.
+                </p>
 
-              <p className="mx-auto mt-3 max-w-3xl text-lg font-semibold text-white">
-                Clean. Cinematic. Built to elevate your work.
-              </p>
+                <p className="mx-auto mt-3 max-w-3xl text-lg font-semibold text-white">
+                  Clean. Cinematic. Built to elevate your work.
+                </p>
 
-              <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-zinc-400">
-                <Chip>General Contractors</Chip>
-                <Chip>Home Builders</Chip>
-                <Chip>Construction Projects</Chip>
-                <Chip>Businesses &amp; Media</Chip>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* PATH SPLIT */}
-        <section className="border-t border-zinc-700/60 bg-zinc-900 py-16 md:py-20">
-          <div className="mx-auto max-w-6xl px-5">
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
-              </p>
-              <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
-                What are you here for?
-              </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-                ALFA supports both visual media and construction-focused drone work. Choose the path that fits your project.
-              </p>
-            </div>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <PathCard
-                eyebrow="Construction"
-                title="Drones in Construction"
-                description="Mapping, progress tracking, inspections, and site documentation for contractors, developers, and land projects."
-                bullets={[
-                  "Orthomosaic mapping",
-                  "Progress updates",
-                  "Site inspections",
-                ]}
-                href="/construction"
-                cta="View Construction Solutions"
-              />
-
-              <PathCard
-                eyebrow="Media"
-                title="Drone Media Production"
-                description="Cinematic aerial photo and video for real estate, businesses, events, and branded content."
-                bullets={[
-                  "Real estate visuals",
-                  "Business promo content",
-                  "Event coverage",
-                ]}
-                href="/media"
-                cta="View Media Solutions"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* ABOUT */}
-        <section className="relative isolate overflow-hidden py-16 md:py-20">
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.08] mix-blend-soft-light" />
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.6)_100%)]" />
-
-          <div className="relative z-10 mx-auto max-w-6xl px-5">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-80px" }}
-              className="rounded-3xl border border-zinc-700/70 bg-zinc-800/20 p-8 md:p-10"
-            >
-              <div className="grid gap-10 md:grid-cols-2 md:items-center">
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">About</p>
-                  <h2 className="mt-2 text-3xl font-extrabold">Hi — I&apos;m Turner.</h2>
-
-                  <p className="mt-4 text-zinc-300">
-                    I’ve been flying drones across Arizona since 2020, capturing aerial perspectives that help places,
-                    events, and brands stand out. I focus on finding angles that elevate the story instead of distracting
-                    from it.
-                  </p>
-
-                  <p className="mt-4 text-zinc-300">
-                    I created <span className="font-bold text-white">ALFA: A Look From Above</span> to bring aerial
-                    coverage into projects thoughtfully — whether that means collaborating with photographers and video
-                    teams, or capturing events and properties as a standalone operator.
-                  </p>
-
-                  <p className="mt-4 text-zinc-300">
-                    Whether you’re selling a property, promoting a business, or documenting an event, strong visuals
-                    matter. Eye-catching aerial content helps people stop, look, and engage — and that’s what I aim to
-                    deliver.
-                  </p>
-
-                  <p className="mt-4 text-zinc-300">
-                    My approach is straightforward: clear communication, careful planning, safe execution, and clean
-                    delivery — footage that fits your goals and performs where it’s used.
-                  </p>
-
-                  {/* Mobile-centered buttons */}
-                  <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:justify-start">
-                    <RainbowLink
-                      href="#contact"
-                      iconRight={<ArrowRight className="h-4 w-4" />}
-                      className="w-full sm:w-auto justify-center"
-                    >
-                      Get a Quote
-                    </RainbowLink>
-
-                    <a
-                      href="mailto:hello@alookfromabove.co"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/30 px-5 py-3 font-bold transition hover:bg-zinc-800/60 hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      <Mail className="h-4 w-4" />
-                      Email me
-                    </a>
-                  </div>
-                </div>
-
-                <div className="relative overflow-hidden rounded-3xl border border-zinc-700 bg-zinc-900/40 p-6">
-                  <div className="pointer-events-none absolute inset-0 opacity-60">
-                    <div className="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
-                  </div>
-
-                  <div className="relative">
-                    <div className="mb-6 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-800/20">
-                      <div className="relative aspect-[16/11]">
-                        <Image
-                          src="/aboutmepic.jpg"
-                          alt="Turner Walz"
-                          fill
-                          className="object-cover scale-110 object-[50%_35%]"
-                          priority
-                        />
-                      </div>
-                    </div>
-
-                    <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">Quick facts</p>
-                    <ul className="mt-4 space-y-3 text-zinc-200">
-                      <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
-                        <span>FAA Part 107 certified</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
-                        <span>
-                          Available for collaboration with photographers &amp; video teams — or standalone projects
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
-                        <span>Clear communication with well-defined scope for smooth capture and delivery</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
-                        <span>Safety-first mindset on every flight</span>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-zinc-400">
+                  <Chip>General Contractors</Chip>
+                  <Chip>Home Builders</Chip>
+                  <Chip>Construction Projects</Chip>
+                  <Chip>Businesses &amp; Media</Chip>
                 </div>
               </div>
-            </motion.div>
+            </div>
+
+            {/* divider */}
+            <div className="border-t border-white/10" />
+
+            {/* Path split */}
+            <div className="py-16 md:py-20">
+              <div className="text-center">
+                <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+                  What are you here for?
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
+                  ALFA supports both visual media and construction-focused drone work. Choose the path that fits your project.
+                </p>
+              </div>
+
+              <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
+                <PathCard
+                  eyebrow="Construction"
+                  title="Drones in Construction"
+                  description="Mapping, progress tracking, inspections, and site documentation for contractors, developers, and land projects."
+                  bullets={[
+                    "Orthomosaic mapping",
+                    "Progress updates",
+                    "Site inspections",
+                  ]}
+                  href="/construction"
+                  cta="View Construction Solutions"
+                />
+
+                <PathCard
+                  eyebrow="Media"
+                  title="Drone Media Production"
+                  description="Cinematic aerial photo and video for real estate, businesses, events, and branded content."
+                  bullets={[
+                    "Real estate visuals",
+                    "Business promo content",
+                    "Event coverage",
+                  ]}
+                  href="/media"
+                  cta="View Media Solutions"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -333,26 +220,6 @@ export default function Page() {
               <RainbowLink href="#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
                 Request a Quote
               </RainbowLink>
-            </div>
-          </div>
-        </section>
-
-        {/* GEAR */}
-        <section className="relative isolate overflow-hidden border-y border-zinc-700/60 py-16" id="gear">
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.06] mix-blend-soft-light" />
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.6)_100%)]" />
-          <div className="pointer-events-none absolute inset-0 -z-20 bg-zinc-900" />
-
-          <div className="relative z-10 mx-auto max-w-6xl px-5">
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">Aerial support drones</p>
-              <h2 className="mt-2 text-3xl font-extrabold text-white">Production-level Equipment</h2>
-            </div>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {GEAR.map((g) => (
-                <GearCard key={g.title} title={g.title} tip={g.tip} specs={[...g.specs]} image={g.image} />
-              ))}
             </div>
           </div>
         </section>
@@ -576,7 +443,7 @@ function PathCard({ eyebrow, title, description, bullets, href, cta }) {
   return (
     <a
       href={href}
-      className="group relative overflow-hidden rounded-3xl border border-zinc-700 p-8 transition hover:-translate-y-1"
+      className="group relative overflow-hidden rounded-3xl border border-white/10 p-8 transition duration-300 hover:-translate-y-1 hover:border-white/25"
     >
       {/* Background Image */}
       <img
@@ -586,11 +453,11 @@ function PathCard({ eyebrow, title, description, bullets, href, cta }) {
             : "/posters/narf.jpg"
         }
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-700 group-hover:scale-105"
+        className="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-500 group-hover:scale-[1.02] group-hover:brightness-110"
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-zinc-900/40" />
+      <div className="absolute inset-0 bg-zinc-900/45 transition duration-300 group-hover:bg-zinc-900/20" />
 
       {/* Content */}
       <div className="relative z-10">
