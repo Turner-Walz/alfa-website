@@ -165,65 +165,6 @@ export default function Page() {
           </div>
         </section>
 
-        {/* CINEMATIC BAND */}
-        <section className="relative isolate overflow-hidden border-y border-zinc-700/60">
-          <div className="absolute inset-0 z-0">
-            <video className="h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata">
-              <source src="/videos/buildingsband.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-black/55" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/65" />
-          </div>
-
-          <div className="relative z-10 mx-auto max-w-6xl px-5 py-16">
-            <div className="text-center">
-              <h2 className="mb-3 text-3xl font-extrabold">What I can capture</h2>
-              <p className="mx-auto max-w-2xl text-zinc-200">
-                Drone photos and video built for listings, websites, and social — shot clean and delivered fast.
-              </p>
-            </div>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-3 md:text-left">
-              <Service
-                title="Real Estate & Land"
-                bullets={["MLS-ready aerial photos", "Lot lines & neighborhood context", "Short listing clips"]}
-              />
-              <Service title="Businesses" bullets={["Building & property visuals", "Website + social content", "Premium establishing shots"]} />
-              <Service title="Events" bullets={["Weddings, festivals, gatherings", "Venue establishing shots", "Highlight footage"]} />
-            </div>
-
-            <div className="mt-16" />
-
-            <div className="text-center">
-              <h2 className="text-3xl font-extrabold">How it works</h2>
-              <p className="mx-auto mt-4 max-w-2xl text-zinc-200">
-                A simple, straightforward process — no surprises, no pressure.
-              </p>
-            </div>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-4 md:text-left">
-              <StepCard step="Step 1" title="Request a quote">
-                Send a few details about your project, location, and timeline.
-              </StepCard>
-              <StepCard step="Step 2" title="Plan the shoot">
-                We align on goals, shot ideas, and timing — usually over a quick call or email.
-              </StepCard>
-              <StepCard step="Step 3" title="Capture the footage">
-                I handle the flight, angles, and execution with care and precision.
-              </StepCard>
-              <StepCard step="Step 4" title="Deliver the final assets">
-                You receive polished photos and/or video, ready to use.
-              </StepCard>
-            </div>
-
-            <div className="mt-10 flex justify-center">
-              <RainbowLink href="#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
-                Request a Quote
-              </RainbowLink>
-            </div>
-          </div>
-        </section>
-
         {/* CONTACT */}
         <section className="relative isolate overflow-hidden py-16" id="contact">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.06] mix-blend-soft-light" />
@@ -261,15 +202,16 @@ export default function Page() {
                   </a>
                 </div>
 
-                {/* FIX: add breathing room on mobile before the next box */}
-                <div className="mt-8 rounded-2xl border border-zinc-700 bg-zinc-800/30 p-4 text-sm text-zinc-300">
-                  <div className="font-bold text-white">Include this for a fast quote:</div>
-                  <ul className="mt-2 list-disc space-y-1 pl-5">
-                    <li>Address or general location</li>
-                    <li>What you’re capturing (real estate / business / event / other)</li>
-                    <li>Photos, video, or both</li>
-                    <li>When you need it</li>
-                  </ul>
+                <div className="my-6 hidden md:flex justify-center">
+                  <div className="relative h-[120px] w-[240px]">
+                    <Image
+                      src="/ALFA-01.png"
+                      alt="ALFA logo"
+                      fill
+                      className="object-contain opacity-80"
+                      priority
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -373,7 +315,9 @@ export default function Page() {
                         name="message"
                         required
                         rows={5}
-                        placeholder="What are we capturing? Any must-have angles, shots, or timing?"
+                        placeholder="What you want to capture.
+What it is for.
+When you need it by."
                         className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
                       />
                     </label>
@@ -394,7 +338,7 @@ export default function Page() {
         {/* FOOTER */}
         <footer className="border-t border-zinc-700/60 py-10">
           <div className="mx-auto max-w-6xl px-5 text-center text-sm text-zinc-400">
-            © {new Date().getFullYear()} ALFA: A Look From Above • Northern Arizona
+            © {new Date().getFullYear()} ALFA: A Look From Above
           </div>
         </footer>
       </main>
