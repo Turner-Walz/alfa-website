@@ -1,5 +1,5 @@
 import "./globals.css";
-import SiteHeader from "./components/SiteHeader"
+import SiteHeader from "./components/SiteHeader";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
@@ -39,9 +39,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <SiteHeader />
         {children}
         <SpeedInsights />
       </body>
     </html>
-  )
+  );
 }
