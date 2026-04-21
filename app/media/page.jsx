@@ -7,6 +7,12 @@ import { ArrowRight } from "lucide-react";
 export default function MediaPage() {
   const portfolioItems = [
     {
+      label: "The Halliday House",
+      sublabel: "Cornville, AZ • Vacation Rental",
+      youtubeId: "2xuluLFEzdo",
+      image: "/posters/halliday-house.jpg",
+    },
+    {
       label: "Northern Arizona PT Clinic",
       sublabel: "Cottonwood, AZ",
       youtubeId: "BtMy19MHvlU",
