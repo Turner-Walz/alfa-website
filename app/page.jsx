@@ -104,7 +104,7 @@ export default function Page() {
                   Contractors, businesses, and media teams across
                   <span className="font-bold text-white"> Northern Arizona</span> trust ALFA for professional drone coverage that supports progress tracking, site documentation, and clean visual content.
                   <br className="hidden sm:block" />
-                  Whether it’s for reporting, marketing, or both.
+                  Whether it's for reporting, marketing, or both.
                 </p>
 
                 <p className="mx-auto mt-3 max-w-3xl text-lg font-semibold text-white">
@@ -137,12 +137,12 @@ export default function Page() {
               <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
                 <PathCard
                   eyebrow="Construction"
-                  title="Drones in Construction"
-                  description="Mapping, progress tracking, inspections, and site documentation for contractors, developers, and land projects."
+                  title="Progress Tracking & Site Documentation"
+                  description="Keep teams aligned with aerial progress updates and site mapping. Better visibility, faster decisions."
                   bullets={[
-                    "Orthomosaic mapping",
-                    "Progress updates",
-                    "Site inspections",
+                    "Progress documentation",
+                    "Aerial site maps",
+                    "Inspection support",
                   ]}
                   href="/construction"
                   cta="View Construction Solutions"
@@ -150,11 +150,11 @@ export default function Page() {
 
                 <PathCard
                   eyebrow="Media"
-                  title="Drone Media Production"
-                  description="Cinematic aerial photo and video for real estate, businesses, events, and branded content."
+                  title="Professional Aerial Photography & Video"
+                  description="Stunning visuals that make listings stand out and events look bigger. Delivered clean and ready to use."
                   bullets={[
                     "Real estate visuals",
-                    "Business promo content",
+                    "Business & brand content",
                     "Event coverage",
                   ]}
                   href="/media"
@@ -176,7 +176,7 @@ export default function Page() {
               <div>
                 <h2 className="text-3xl font-extrabold">Request a quote</h2>
                 <p className="mt-4 max-w-xl text-zinc-300">
-                  Send your details and I’ll respond with pricing and availability.
+                  Send your details and I'll respond with pricing and availability.
                 </p>
 
                 <div className="mt-6 rounded-2xl border border-zinc-700 bg-zinc-800/30 p-4 text-sm text-zinc-300">
@@ -233,7 +233,7 @@ export default function Page() {
                 {state.succeeded && (
                   <div className="mb-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-emerald-100">
                     <div className="font-extrabold">Inquiry sent!</div>
-                    <p className="mt-1 text-sm text-emerald-100/90">Thanks — I’ll get back to you shortly.</p>
+                    <p className="mt-1 text-sm text-emerald-100/90">Thanks — I'll get back to you shortly.</p>
                   </div>
                 )}
 
@@ -749,7 +749,7 @@ function GearCard({ title, tip, specs, image }) {
     ],
     "DJI Avata 2": [
       "Smooth indoor fly-through footage that feels immersive and cinematic",
-      "Unique perspectives through tight spaces that traditional drones can’t capture",
+      "Unique perspectives through tight spaces that traditional drones can't capture",
       "Eye-catching content that stands out for social media and promotions",
     ],
     "iFlight Nazgul Evoque F5": [

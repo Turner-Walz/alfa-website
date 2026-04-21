@@ -36,14 +36,11 @@ export default function ConstructionPage() {
                             </p>
 
                             <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
-                                Construction Drone Mapping, Progress Tracking, and Site Documentation
+                                Aerial Site Documentation That Keeps Teams Aligned
                             </h1>
 
                             <p className="mx-auto mt-6 max-w-3xl text-base text-zinc-100 sm:text-lg">
-                                Clear aerial visuals and practical site documentation for contractors, builders,
-                                developers, and property projects across Northern Arizona. From progress photos to
-                                mapping and inspection support, ALFA helps teams keep a better visual record of the
-                                job.
+                                Professional drone documentation for contractors, builders, and developers across Northern Arizona. Progress tracking, site mapping, and inspection support that reduces miscommunication and accelerates decision-making.
                             </p>
 
                             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -72,11 +69,9 @@ export default function ConstructionPage() {
                         <div className="text-center">
                             <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
                             </p>
-                            <h2 className="mt-2 text-3xl font-extrabold">A better view of the job site</h2>
+                            <h2 className="mt-2 text-3xl font-extrabold">The visibility contractors need</h2>
                             <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-                                Drone coverage gives construction teams a clear visual record of the job site
-                                that improves communication, supports planning decisions, and makes progress
-                                easier to share with clients and stakeholders.
+                                Aerial coverage eliminates the guesswork. You get documented progress, faster stakeholder alignment, and a clear record of every phase. Less time defending decisions. More time building.
                             </p>
                         </div>
                     </div>
@@ -90,50 +85,49 @@ export default function ConstructionPage() {
                         <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
                             Services
                         </p>
-                        <h2 className="mt-2 text-3xl font-extrabold">Construction drone services</h2>
+                        <h2 className="mt-2 text-3xl font-extrabold">What we document</h2>
                         <p className="mx-auto mt-5 max-w-2xl text-zinc-300">
-                            Focused support for construction teams that need clear visuals, reliable documentation, and
-                            better visibility across the life of a project.
+                            Three core services designed to give you the documentation and visibility you need to manage projects with confidence.
                         </p>
                     </div>
 
                     <div className="flex flex-col gap-10 md:gap-24">
                         <ConstructionServiceBlock
-                            eyebrow="Construction"
-                            title="Construction Progress Photography & Videography"
-                            description="Keep stakeholders informed with clear, consistent aerial coverage that shows how the site is changing over time. This is useful for client communication, internal updates, and maintaining a professional visual record of the job from start to finish."
+                            eyebrow="Progress Tracking"
+                            title="Scheduled Progress Documentation"
+                            description="Consistent aerial coverage at key phases keeps stakeholders informed without waiting for site visits. Clients see progress. Partners understand timelines. You have undeniable proof of every milestone."
                             bullets={[
-                                "Scheduled progress photo updates",
-                                "Aerial overview videos",
-                                "Before-and-after comparisons",
-                                "Visual assets for reports and stakeholder updates",
+                                "Scheduled photo updates at your intervals",
+                                "Before, during, and after comparisons",
+                                "Video summaries for stakeholder reports",
+                                "Organized delivery ready for presentations or client comms",
                             ]}
                             image="/construction/progress.jpg"
                         />
 
                         <ConstructionServiceBlock
-                            eyebrow="Mapping"
-                            title="Aerial Mapping & Orthomosaics"
-                            description="High-level mapping support for projects that need a clearer understanding of site conditions, layout, and changes over time. Orthomosaic maps can help teams document the site more accurately and communicate updates more clearly."
+                            eyebrow="Site Mapping"
+                            title="Orthomosaic Maps & Aerial Surveys"
+                            description="Precise overhead maps for land projects, earthwork documentation, and layout verification. Track site changes over time. Make faster decisions. Reduce the risk of miscommunication on scope and boundaries."
                             bullets={[
-                                "Orthomosaic map capture",
-                                "High-resolution site overviews",
-                                "Change tracking over time",
-                                "Visual documentation for planning and communication",
+                                "High-resolution orthomosaic maps",
+                                "Change documentation over project phases",
+                                "Site condition surveys for planning",
+                                "Easy integration into project reports and timelines",
                             ]}
                             image="/construction/mapping.jpg"
                             reverse
                         />
 
                         <ConstructionServiceBlock
-                            eyebrow="Documentation"
-                            title="Inspection Support & Site Documentation"
-                            description="Drone imagery can make it easier to review roofs, structures, and hard-to-access areas while reducing unnecessary climbing and improving visibility for project documentation."
+                            eyebrow="Safety & Inspections"
+                            title="Aerial Inspection & Hard-to-Access Documentation"
+                            description="Review roofs, structures, and elevated areas without sending crews up. Drone imagery gives you clearer visibility, better documentation, and safer inspections. Identify issues early. Avoid costly rework."
                             bullets={[
                                 "Roof and exterior inspection imagery",
-                                "Safer views of elevated or restricted areas",
-                                "Visual documentation for review and reporting",
-                                "Milestone-based capture for project records",
+                                "High-access area documentation without crews",
+                                "Defect and detail photography for QA",
+                                "Professional inspection records for liability and handoff",
                             ]}
                             image="/construction/inspection.jpg"
                         />
@@ -160,7 +154,7 @@ export default function ConstructionPage() {
                         </p>
                         <h2 className="mt-2 text-3xl font-extrabold">How it works</h2>
                         <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-                            A simple process built to make site documentation straightforward, organized, and easy to use.
+                            Straightforward. No surprises. Built to fit into your workflow without friction.
                         </p>
                     </div>
 
@@ -168,48 +162,47 @@ export default function ConstructionPage() {
                         <StepCard
                             step="Step 1"
                             title="Share the project"
-                            text="Tell me the site location, timeline, and what you need documented."
+                            text="Tell me the site, timeline, scope, and documentation you need. That's all I need to quote."
                         />
                         <StepCard
                             step="Step 2"
-                            title="Plan the capture"
-                            text="We align on the type of coverage, deliverables, and schedule."
+                            title="Plan the details"
+                            text="We align on capture frequency, deliverables, and scheduling to fit your project phases."
                         />
                         <StepCard
                             step="Step 3"
-                            title="Capture the site"
-                            text="I handle the flight work safely and efficiently on location."
+                            title="I handle the flying"
+                            text="Professional, safe flight work on location. You stay focused on the job."
                         />
                         <StepCard
                             step="Step 4"
-                            title="Get organized project files"
-                            text="You get organized files ready for review, communication, or reporting."
+                            title="Get organized files"
+                            text="Professionally organized photos, video, or maps ready to drop into reports or share with clients."
                         />
                     </div>
 
                     <div className="mt-16 grid gap-10 border-t border-white/10 pt-16 md:grid-cols-2 md:items-start">
                         <div>
                             <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                                Deliverables
+                                Every project includes
                             </p>
                             <h2 className="mt-2 text-3xl font-extrabold">
-                                What this gives you on every project:
+                                What you actually get:
                             </h2>
                             <p className="mt-4 max-w-xl text-zinc-300">
-                                Drone coverage gives you a clear visual record of your project that makes updates easier
-                                to share, decisions easier to explain, and progress easier to track over time.
+                                Documentation that pays for itself through faster decisions, clearer communication, and fewer repeat site visits.
                             </p>
                         </div>
 
                         <div className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm">
                             <ul className="space-y-4 text-zinc-200">
                                 {[
-                                    "Clear visual progress updates you can share with clients, partners, or stakeholders",
-                                    "A reliable visual record of the project from start to finish",
-                                    "Safer visibility of roofs, structures, and hard-to-access areas",
-                                    "Simple site overview maps that make planning and communication easier",
-                                    "Organized files ready to drop into reports, presentations, or updates",
-                                    "Consistent documentation that helps reduce repeat site visits over time",
+                                    "Professional visuals you can share with clients and partners without explanation",
+                                    "Undeniable progress record that settles timeline questions",
+                                    "Safer documentation of elevated or restricted areas",
+                                    "Evidence-based site maps for planning and decision-making",
+                                    "Organized files that integrate into reports, proposals, and presentations",
+                                    "Reduced site visits and faster issue identification",
                                 ].map((item) => (
                                     <li key={item} className="flex items-start gap-3">
                                         <Check className="mt-1 h-4 w-4 flex-shrink-0 text-zinc-300" />
@@ -231,12 +224,11 @@ export default function ConstructionPage() {
                         </div>
 
                         <h2 className="mt-5 text-3xl font-extrabold">
-                            Need construction drone coverage in Northern Arizona?
+                            Ready to get better site visibility?
                         </h2>
 
                         <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-                            Reach out with your location, project type, and timeline, and I’ll put together a clear
-                            quote based on the work you need.
+                            Tell me about your project, location, and timeline. I'll send a clear quote based on exactly what you need.
                         </p>
 
                         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -298,7 +290,7 @@ function ConstructionServiceBlock({
                     </p>
 
                     <p className="mt-7 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                        Deliverables include
+                        What's included
                     </p>
 
                     <ul className="mt-4 space-y-3 text-zinc-200">
@@ -340,7 +332,7 @@ function ConstructionServiceBlock({
                     </p>
 
                     <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                        Deliverables include
+                        What's included
                     </p>
 
                     <ul className="mt-5 space-y-4 text-zinc-200">
