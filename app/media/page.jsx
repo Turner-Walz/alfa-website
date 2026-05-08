@@ -4,71 +4,112 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
+const CATEGORIES = [
+  { id: "all", label: "All" },
+  { id: "fpv", label: "FPV / Flythrough" },
+  { id: "business", label: "Business & Events" },
+];
+
 export default function MediaPage() {
+  const [activeCategory, setActiveCategory] = React.useState("all");
+
   const portfolioItems = [
+    {
+      label: "Commercial Building Flythrough",
+      sublabel: "Cottonwood, AZ • Cinematic FPV",
+      youtubeId: "N8lq8gS1a20",
+      image: "/posters/commercial-building.jpg",
+      category: "fpv",
+    },
+    {
+      label: "Choice Roofing",
+      sublabel: "Cottonwood, AZ • Brand Video",
+      youtubeId: "bNwrwLim6cA",
+      image: "/posters/choice-roofing.jpg",
+      category: "business",
+      vertical: true,
+    },
+    {
+      label: "Verde Valley Fair 2026",
+      sublabel: "Cottonwood, AZ • FPV Flyover",
+      youtubeId: "Bi9FKKsMyBI",
+      image: "/posters/fairthumbnail.jpg",
+      category: "fpv",
+    },
     {
       label: "The Halliday House",
       sublabel: "Cornville, AZ • Vacation Rental",
       youtubeId: "2xuluLFEzdo",
       image: "/posters/halliday-house.jpg",
+      category: "fpv",
+    },
+    {
+      label: "Cornville Swap Meet",
+      sublabel: "Cornville, AZ • Event Reel",
+      youtubeId: "GIJsdV0fzwY",
+      image: "/posters/swapmeet.jpg",
+      category: "business",
+      vertical: true,
     },
     {
       label: "Northern Arizona PT Clinic",
       sublabel: "Cottonwood, AZ",
       youtubeId: "BtMy19MHvlU",
       image: "/posters/narf.jpg",
+      category: "business",
     },
     {
       label: "FPV Truck Video",
       sublabel: "Cinematic FPV • Dirt road",
       youtubeId: "Y5r-9wg8KeE",
       image: "/posters/fpv-truck.jpg",
-    },
-    {
-      label: "Cornville Property",
-      sublabel: "Cornville, AZ • Real estate highlight",
-      youtubeId: "FopFQncz4M4",
-      image: "/posters/cornville-property.jpg",
+      category: "fpv",
     },
     {
       label: "Sedona Aerial Reel",
       sublabel: "Sedona, Arizona",
       youtubeId: "Bsqh29oxDq8",
       image: "/posters/montage.jpg",
+      category: "fpv",
     },
     {
       label: "Moab Potash Ponds FPV",
       sublabel: "FPV Drone Reveal",
       youtubeId: "KOCAXZwLYM8",
       image: "/posters/moab-potash.jpg",
+      category: "fpv",
     },
   ];
 
+  const filtered = activeCategory === "all"
+    ? portfolioItems
+    : portfolioItems.filter((item) => item.category === activeCategory);
+
   return (
-    <main className="min-h-screen bg-zinc-900 py-20 text-white">
+    <main className="min-h-screen bg-zinc-900 text-white">
+
       {/* HEADER */}
-      <div className="mx-auto max-w-5xl px-5">
-        <div className="mt-6">
+      <section className="relative overflow-hidden border-b border-zinc-700/60 py-20">
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/textures/noise.jpg')] opacity-[0.08] mix-blend-soft-light" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.65)_100%)]" />
+        <div className="relative z-10 mx-auto max-w-5xl px-5">
           <a href="/" className="text-sm text-zinc-400 underline underline-offset-4">
             ← Back to home
           </a>
+          <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-zinc-400">
+            ALFA
+          </p>
+          <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">
+            Drone Media Production
+          </h1>
+          <p className="mt-4 max-w-2xl text-zinc-300">
+            Cinematic drone photo and video for real estate, businesses, events, and branded content.
+          </p>
         </div>
-
-        <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-zinc-400">
-          ALFA
-        </p>
-
-        <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">
-          Drone Media Production
-        </h1>
-
-        <p className="mt-4 max-w-2xl text-zinc-300">
-          Cinematic drone photo and video for real estate, businesses, events, and branded content.
-        </p>
-      </div>
+      </section>
 
       {/* WHAT I CAN CAPTURE + HOW IT WORKS */}
-      <section className="relative isolate overflow-hidden border-y border-zinc-700/60 mt-16">
+      <section className="relative isolate overflow-hidden border-y border-zinc-700/60">
         <div className="absolute inset-0 z-0">
           <video
             className="h-full w-full object-cover"
@@ -80,19 +121,13 @@ export default function MediaPage() {
           >
             <source src="/videos/buildingsband.mp4" type="video/mp4" />
           </video>
-
           <div className="absolute inset-0 bg-black/60" />
-
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-6xl px-5 py-16">
-          {/* WHAT I CAN CAPTURE */}
           <div className="text-center">
-            <h2 className="mb-3 text-3xl font-extrabold">
-              What I can capture
-            </h2>
-
+            <h2 className="mb-3 text-3xl font-extrabold">What I can capture</h2>
             <p className="mx-auto max-w-2xl text-zinc-200">
               Drone photos and video built for listings, websites, and social — shot clean and delivered fast.
             </p>
@@ -107,7 +142,6 @@ export default function MediaPage() {
                 "Short listing clips",
               ]}
             />
-
             <Service
               title="Businesses"
               bullets={[
@@ -116,7 +150,6 @@ export default function MediaPage() {
                 "Premium establishing shots",
               ]}
             />
-
             <Service
               title="Events"
               bullets={[
@@ -127,15 +160,10 @@ export default function MediaPage() {
             />
           </div>
 
-          {/* spacing */}
           <div className="mt-16" />
 
-          {/* HOW IT WORKS */}
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold">
-              How it works
-            </h2>
-
+            <h2 className="text-3xl font-extrabold">How it works</h2>
             <p className="mx-auto mt-4 max-w-2xl text-zinc-200">
               A simple, straightforward process — no surprises, no pressure.
             </p>
@@ -145,15 +173,12 @@ export default function MediaPage() {
             <StepCard step="Step 1" title="Request a quote">
               Send a few details about your project, location, and timeline.
             </StepCard>
-
             <StepCard step="Step 2" title="Plan the shoot">
               We align on goals, shot ideas, and timing — usually over a quick call or email.
             </StepCard>
-
             <StepCard step="Step 3" title="Capture the footage">
               I handle the flight, angles, and execution with care and precision.
             </StepCard>
-
             <StepCard step="Step 4" title="Deliver the final assets">
               You receive polished photos and/or video, ready to use.
             </StepCard>
@@ -170,83 +195,103 @@ export default function MediaPage() {
         </div>
       </section>
 
-      {/* PORTFOLIO */}
-      <section className="mt-16" id="portfolio">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold">Recent Work</h2>
-            <p className="mx-auto mt-2 max-w-2xl text-zinc-300">
-              A selection of recent aerial photo and video work across Northern Arizona.
-            </p>
+      {/* PORTFOLIO + CTA */}
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/textures/noise.jpg')] opacity-[0.08] mix-blend-soft-light" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.65)_100%)]" />
 
-            <p className="mx-auto mt-2 hidden max-w-2xl text-sm text-zinc-400 sm:block">
-              Click a clip to play the video.
-            </p>
-
-            <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 sm:hidden">
-              Swipe through highlights or tap a clip to play.
-            </p>
-
-            <a
-              href="https://www.instagram.com/alookfromabove_/"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/40 px-4 py-2 font-bold transition hover:-translate-y-0.5 hover:bg-zinc-800 active:translate-y-0"
-            >
-              See videos on Instagram <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
-
-          <div className="mt-10">
-            {/* MOBILE */}
-            <div className="sm:hidden">
-              <MobilePortfolioCarousel
-                instaHref="https://www.instagram.com/alookfromabove_/"
-                items={portfolioItems}
-              />
+        <section className="relative z-10 mt-16" id="portfolio">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="text-center">
+              <h2 className="text-3xl font-extrabold">Recent Work</h2>
+              <p className="mx-auto mt-2 max-w-2xl text-zinc-300">
+                A selection of recent aerial photo and video work across Northern Arizona.
+              </p>
+              <p className="mx-auto mt-2 hidden max-w-2xl text-sm text-zinc-400 sm:block">
+                Click a clip to play the video.
+              </p>
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 sm:hidden">
+                Swipe through highlights or tap a clip to play.
+              </p>
+              <a
+                href="https://www.instagram.com/alookfromabove_/"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/40 px-4 py-2 font-bold transition hover:-translate-y-0.5 hover:bg-zinc-800 active:translate-y-0"
+              >
+                See videos on Instagram <ArrowRight className="h-4 w-4" />
+              </a>
             </div>
 
-            {/* DESKTOP */}
-            <div className="hidden grid-cols-1 gap-6 sm:grid md:grid-cols-2 lg:grid-cols-3">
-              {portfolioItems.map((item) => (
-                <PortfolioTile
-                  key={item.label}
-                  label={item.label}
-                  sublabel={item.sublabel}
-                  youtubeId={item.youtubeId}
-                  poster={item.image}
-                />
+            {/* FILTER TABS */}
+            <div className="mt-10 flex flex-wrap justify-center gap-2">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={[
+                    "rounded-full border px-5 py-2 text-sm font-semibold transition hover:-translate-y-0.5 active:translate-y-0",
+                    activeCategory === cat.id
+                      ? "border-white bg-white text-black"
+                      : "border-zinc-700 bg-zinc-800/40 text-zinc-300 hover:border-zinc-500 hover:text-white",
+                  ].join(" ")}
+                >
+                  {cat.label}
+                </button>
               ))}
             </div>
+
+            <div className="mt-10">
+              {/* MOBILE */}
+              <div className="sm:hidden">
+                <MobilePortfolioCarousel
+                  instaHref="https://www.instagram.com/alookfromabove_/"
+                  items={filtered}
+                />
+              </div>
+              {/* DESKTOP */}
+              <div className="hidden grid-cols-1 gap-6 sm:grid md:grid-cols-2 lg:grid-cols-3">
+                {filtered.map((item) => (
+                  <PortfolioTile
+                    key={item.label}
+                    label={item.label}
+                    sublabel={item.sublabel}
+                    youtubeId={item.youtubeId}
+                    poster={item.image}
+                    vertical={item.vertical}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA */}
-      <section className="mx-auto mt-20 max-w-4xl px-5">
-        <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-8 text-center md:p-10">
-          <h2 className="text-3xl font-extrabold">Need media like this for your project?</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-            Reach out with your project, property, or event and I’ll help you plan the right coverage.
-          </p>
-
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="/#contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-bold text-black transition hover:-translate-y-0.5 hover:bg-zinc-200 active:translate-y-0"
-            >
-              Request a Quote <ArrowRight className="h-4 w-4" />
-            </a>
-
-            <a
-              href="mailto:hello@alookfromabove.co"
-              className="inline-flex items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800/30 px-6 py-3 font-bold transition hover:-translate-y-0.5 hover:bg-zinc-800/60 active:translate-y-0"
-            >
-              Email me
-            </a>
+        {/* CTA */}
+        <section className="relative z-10 mx-auto mt-20 max-w-4xl px-5 pb-20">
+          <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-8 text-center md:p-10">
+            <h2 className="text-3xl font-extrabold">Need media like this for your project?</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
+              Reach out with your project, property, or event and I'll help you plan the right coverage.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a
+                href="/#contact"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-bold text-black transition hover:-translate-y-0.5 hover:bg-zinc-200 active:translate-y-0"
+              >
+                Request a Quote <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="mailto:hello@alookfromabove.co"
+                className="inline-flex items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800/30 px-6 py-3 font-bold transition hover:-translate-y-0.5 hover:bg-zinc-800/60 active:translate-y-0"
+              >
+                Email me
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+
     </main>
   );
 }
@@ -257,7 +302,6 @@ function Service({ title, bullets }) {
       <h3 className="text-2xl font-extrabold text-white transition duration-300 group-hover:text-white">
         {title}
       </h3>
-
       <ul className="mt-6 space-y-4 text-zinc-200">
         {bullets.map((bullet) => (
           <li key={bullet} className="flex items-start gap-3">
@@ -276,14 +320,8 @@ function StepCard({ step, title, children }) {
       <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400 transition duration-300 group-hover:text-zinc-300">
         {step}
       </p>
-
-      <h3 className="mt-4 text-2xl font-extrabold text-white">
-        {title}
-      </h3>
-
-      <p className="mt-4 text-zinc-200">
-        {children}
-      </p>
+      <h3 className="mt-4 text-2xl font-extrabold text-white">{title}</h3>
+      <p className="mt-4 text-zinc-200">{children}</p>
     </div>
   );
 }
@@ -294,6 +332,8 @@ function MobilePortfolioCarousel({ items, instaHref }) {
 
   const total = items?.length || 0;
   const current = total ? items[idx] : null;
+
+  React.useEffect(() => { setIdx(0); }, [items]);
 
   const prev = React.useCallback(() => {
     if (!total) return;
@@ -326,48 +366,31 @@ function MobilePortfolioCarousel({ items, instaHref }) {
   const onTouchMove = (e) => {
     const s = startRef.current;
     if (!s.active) return;
-
     const t = e.touches?.[0];
     if (!t) return;
-
     const dx = t.clientX - s.x;
     const dy = t.clientY - s.y;
-
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
-      e.preventDefault();
-    }
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) e.preventDefault();
   };
 
   const onTouchEnd = (e) => {
     const s = startRef.current;
     if (!s.active) return;
-
     const changed = e.changedTouches?.[0];
     if (!changed) return;
-
     const dx = changed.clientX - s.x;
     const dy = changed.clientY - s.y;
     const dt = Date.now() - s.t;
-
-    const SWIPE_X_MIN = 40;
-    const SWIPE_Y_MAX = 80;
-    const SWIPE_TIME_MAX = 800;
-
-    if (Math.abs(dy) > SWIPE_Y_MAX || dt > SWIPE_TIME_MAX) {
-      startRef.current.active = false;
-      return;
-    }
-
-    if (dx <= -SWIPE_X_MIN) next();
-    else if (dx >= SWIPE_X_MIN) prev();
-
+    if (Math.abs(dy) > 80 || dt > 800) { startRef.current.active = false; return; }
+    if (dx <= -40) next();
+    else if (dx >= 40) prev();
     startRef.current.active = false;
   };
 
   if (!current) return null;
 
   const embedSrc = current.youtubeId
-    ? `https://www.youtube.com/embed/${current.youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`
+    ? `https://www.youtube.com/embed/${current.youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`
     : null;
 
   return (
@@ -380,10 +403,7 @@ function MobilePortfolioCarousel({ items, instaHref }) {
           tabIndex={0}
           aria-label={`Play ${current.label}`}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              setOpen(true);
-            }
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(true); }
           }}
         >
           <div
@@ -392,16 +412,8 @@ function MobilePortfolioCarousel({ items, instaHref }) {
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
           >
-            <Image
-              src={current.image}
-              alt={current.label}
-              fill
-              className="object-cover brightness-110"
-              priority
-            />
-
+            <Image src={current.image} alt={current.label} fill className="object-cover brightness-110" priority />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
-
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm">
                 <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 translate-x-[1px]">
@@ -409,119 +421,46 @@ function MobilePortfolioCarousel({ items, instaHref }) {
                 </svg>
               </div>
             </div>
-
             <div className="absolute inset-x-0 bottom-0 p-5">
               <p className="text-lg font-extrabold text-white">{current.label}</p>
-              {current.sublabel ? (
-                <p className="mt-0.5 text-xs text-zinc-200">{current.sublabel}</p>
-              ) : null}
+              {current.sublabel && <p className="mt-0.5 text-xs text-zinc-200">{current.sublabel}</p>}
             </div>
-
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-              aria-label="Previous highlight"
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95"
-            >
+            <button type="button" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Previous" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95">
               <span className="text-xl leading-none text-white">‹</span>
             </button>
-
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-              aria-label="Next highlight"
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95"
-            >
+            <button type="button" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Next" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95">
               <span className="text-xl leading-none text-white">›</span>
             </button>
-
-            <a
-              href={instaHref}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold text-white/90"
-              aria-label="See videos on Instagram"
-            >
+            <a href={instaHref} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold text-white/90">
               See videos <ArrowRight className="h-3 w-3" />
             </a>
-
             <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
               {items.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIdx(i);
-                  }}
-                  aria-label={`Go to highlight ${i + 1}`}
-                  className={[
-                    "h-2 w-2 rounded-full border border-white/30",
-                    i === idx ? "bg-white/90" : "bg-white/20",
-                  ].join(" ")}
-                />
+                <button key={i} type="button" onClick={(e) => { e.stopPropagation(); setIdx(i); }} aria-label={`Go to ${i + 1}`}
+                  className={["h-2 w-2 rounded-full border border-white/30", i === idx ? "bg-white/90" : "bg-white/20"].join(" ")} />
               ))}
             </div>
           </div>
         </div>
-
         <div className="flex items-center justify-between px-5 py-4">
-          <div className="text-sm text-zinc-300">
-            Highlight <span className="font-bold text-white">{idx + 1}</span> / {total}
-          </div>
-
-          <a
-            href={instaHref}
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm font-bold text-white underline underline-offset-4"
-          >
-            More on Instagram
-          </a>
+          <div className="text-sm text-zinc-300">Highlight <span className="font-bold text-white">{idx + 1}</span> / {total}</div>
+          <a href={instaHref} target="_blank" rel="noreferrer" className="text-sm font-bold text-white underline underline-offset-4">More on Instagram</a>
         </div>
       </div>
 
       {open && (
-        <div
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4"
-          role="dialog"
-          aria-modal="true"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) setOpen(false);
-          }}
-        >
-          <div className="w-full max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true"
+          onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
+          <div className={["overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl", current.vertical ? "w-full max-w-sm" : "w-full max-w-4xl"].join(" ")}>
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="text-sm font-bold text-white">{current.label}</div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Close
-              </button>
+              <button type="button" onClick={() => setOpen(false)} className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10">Close</button>
             </div>
-
-            <div className="relative aspect-video bg-black">
+            <div className={["relative bg-black", current.vertical ? "aspect-[9/16]" : "aspect-video"].join(" ")}>
               {embedSrc ? (
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src={embedSrc}
-                  title={current.label}
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                />
+                <iframe className="absolute inset-0 h-full w-full" src={embedSrc} title={current.label} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
               ) : (
-                <div className="absolute inset-0 grid place-items-center text-zinc-300">
-                  Missing youtubeId
-                </div>
+                <div className="absolute inset-0 grid place-items-center text-zinc-300">Missing youtubeId</div>
               )}
             </div>
           </div>
@@ -531,20 +470,18 @@ function MobilePortfolioCarousel({ items, instaHref }) {
   );
 }
 
-function PortfolioTile({ label, sublabel, youtubeId, poster }) {
+function PortfolioTile({ label, sublabel, youtubeId, poster, vertical }) {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
   const embedSrc = youtubeId
-    ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`
+    ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`
     : null;
 
   return (
@@ -557,18 +494,11 @@ function PortfolioTile({ label, sublabel, youtubeId, poster }) {
       >
         <div className="relative aspect-[3/2] overflow-hidden bg-zinc-950">
           {poster ? (
-            <Image
-              src={poster}
-              alt={label}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-            />
+            <Image src={poster} alt={label} fill className="object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
           ) : (
             <div className="absolute inset-0 bg-zinc-900" />
           )}
-
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
               <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7 translate-x-[1px]">
@@ -576,50 +506,31 @@ function PortfolioTile({ label, sublabel, youtubeId, poster }) {
               </svg>
             </div>
           </div>
-
+          {vertical && (
+            <div className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/50 px-2 py-0.5 text-xs font-semibold text-white/80 backdrop-blur-sm">
+              Vertical
+            </div>
+          )}
           <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
             <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
-            {sublabel ? (
-              <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>
-            ) : null}
+            {sublabel && <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>}
           </div>
         </div>
       </button>
 
       {open && (
-        <div
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4"
-          role="dialog"
-          aria-modal="true"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) setOpen(false);
-          }}
-        >
-          <div className="w-full max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true"
+          onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
+          <div className={["overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl", vertical ? "w-full max-w-sm" : "w-full max-w-4xl"].join(" ")}>
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="text-sm font-bold text-white">{label}</div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Close
-              </button>
+              <button type="button" onClick={() => setOpen(false)} className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10">Close</button>
             </div>
-
-            <div className="relative aspect-video bg-black">
+            <div className={["relative bg-black", vertical ? "aspect-[9/16]" : "aspect-video"].join(" ")}>
               {embedSrc ? (
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src={embedSrc}
-                  title={label}
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                />
+                <iframe className="absolute inset-0 h-full w-full" src={embedSrc} title={label} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
               ) : (
-                <div className="absolute inset-0 grid place-items-center text-zinc-300">
-                  Missing youtubeId
-                </div>
+                <div className="absolute inset-0 grid place-items-center text-zinc-300">Missing youtubeId</div>
               )}
             </div>
           </div>
