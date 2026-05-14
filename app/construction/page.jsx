@@ -107,12 +107,12 @@ export default function ConstructionPage() {
 
                         <ConstructionServiceBlock
                             eyebrow="Site Mapping"
-                            title="Orthomosaic Maps & Aerial Surveys"
-                            description="Precise overhead maps for land projects, earthwork documentation, and layout verification. Track site changes over time. Make faster decisions. Reduce the risk of miscommunication on scope and boundaries."
+                            title="Orthomosaic Maps & Site Documentation"
+                            description="Precise overhead maps for land projects, earthwork documentation, and layout verification. Track site changes over time. Make faster decisions. Reduce the risk of miscommunication on scope and boundaries. Not a licensed survey service."
                             bullets={[
                                 "High-resolution orthomosaic maps",
                                 "Change documentation over project phases",
-                                "Site condition surveys for planning",
+                                "Site condition updates for planning",
                                 "Easy integration into project reports and timelines",
                             ]}
                             image="/construction/mapping.jpg"
