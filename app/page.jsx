@@ -869,20 +869,6 @@ function RainbowLink({ href, children, iconRight, size = "md", className = "" })
     >
       <span className="relative z-10">{children}</span>
       {iconRight && <span className="relative z-10">{iconRight}</span>}
-
-      <span
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background: RAINBOW,
-          backgroundSize: "220% 220%",
-          animation: "rainbowShift 6.5s ease-in-out infinite",
-        }}
-      />
-
-      <span
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: RAINBOW_DARK_OVERLAY }}
-      />
     </a>
   );
 }

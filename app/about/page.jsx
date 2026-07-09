@@ -6,6 +6,13 @@ import { motion } from "framer-motion";
 
 const GEAR = [
   {
+    title: "DJI Matrice 4E",
+    tip: "Centimeter-accurate mapping and inspection for construction projects.",
+    specs: ['Sensor: 4/3" CMOS 20MP (mechanical shutter, 0.5s interval up to 21 m/s)', "RTK: 1cm horizontal / 1.5cm vertical accuracy"],
+    image: "/matrice4e.png",
+    imageScale: 1.3,
+  },
+  {
     title: "DJI Mavic 4 Pro",
     tip: "Clean, cinematic aerials for real estate, land, and brand visuals.",
     specs: ['Sensor: 4/3" CMOS', "Color: 10-bit D-Log M", "Video: Up to 6k/120"],
@@ -22,6 +29,12 @@ const GEAR = [
     tip: "High-energy FPV shots for motion, action, and cinematic chase sequences.",
     specs: ['Sensor: 1/1.9" CMOS', "Color: 10-bit", "Video: 5.3K/60"],
     image: "/nazgulevoque.webp",
+  },
+  {
+    title: "BETAFPV Pavo20 Pro II",
+    tip: "Tiny enough to go anywhere. Light enough to fly over anyone.",
+    specs: ["Weight: 107.7g w/ DJI O4 Pro (sub-250g)", "Video: 4K/120 (DJI O4 Pro)", 'Props: 2.2" ducted (PA12 nylon)'],
+    image: "/pavo20pro2.png",
   },
 ];
 
@@ -167,7 +180,7 @@ export default function AboutPage() {
 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {GEAR.map((g) => (
-              <GearCard key={g.title} title={g.title} tip={g.tip} specs={[...g.specs]} image={g.image} />
+              <GearCard key={g.title} title={g.title} tip={g.tip} specs={[...g.specs]} image={g.image} imageScale={g.imageScale} />
             ))}
           </div>
         </div>
@@ -204,8 +217,12 @@ export default function AboutPage() {
   );
 }
 
-function GearCard({ title, tip, specs, image }) {
+function GearCard({ title, tip, specs, image, imageScale = 1 }) {
   const benefits = {
+    "DJI Matrice 4E": [
+      "Deliverable-ready data — RTK accuracy for grading plans, volume calculations, and as-built docs",
+      "Cover more ground, faster — mechanical shutter captures more area per flight than rolling-shutter drones",
+    ],
     "DJI Mavic 4 Pro": [
       "Professional image quality that makes listings stand out",
       "Reliable performance in various lighting conditions",
@@ -220,6 +237,10 @@ function GearCard({ title, tip, specs, image }) {
       "Cinematic motion tracking for premium feel",
       "High-speed shots that capture energy and scale",
       "Creative angles that differentiate your brand",
+    ],
+    "BETAFPV Pavo20 Pro II": [
+      "Fly over crowds legally — sub-250g with enclosed props meets FAA rules for flying over people",
+      "Access the inaccessible — its 2.2\" frame fits doorways and corridors standard drones can't reach",
     ],
   };
 
@@ -242,7 +263,7 @@ function GearCard({ title, tip, specs, image }) {
           </div>
 
           <div className="mt-6 flex items-center justify-center">
-            <div className="relative h-52 w-full max-w-[300px]">
+            <div className="relative h-52 w-full max-w-[300px]" style={{ transform: `scale(${imageScale})` }}>
               <Image
                 src={image}
                 alt={title}
