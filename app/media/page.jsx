@@ -9,7 +9,7 @@ import { ContactSection, Faq, Field, FieldRow, Footer, Hero, ServiceSelect, Vide
 import { Chips, Eyebrow, JsonLd, ParallaxImage, SecHead, Split } from "../components/ui";
 import { INSTAGRAM, OPEN_GRAPH } from "../lib/site";
 
-const TITLE = "FPV Fly-Throughs & Drone Video for Real Estate & Events — AZ";
+const TITLE = "FPV Fly-Throughs & Drone Video for Real Estate & Events in AZ";
 const DESCRIPTION =
   "Cinematic FPV fly-throughs, real estate listings, event coverage and brand content in Sedona, Cottonwood, Prescott & Phoenix. Drone media from $150.";
 
