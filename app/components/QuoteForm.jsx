@@ -29,7 +29,7 @@ export default function QuoteForm({ children, note }) {
 
   return (
     <form action={FORMSPREE_ENDPOINT} method="POST" onSubmit={onSubmit} style={{ display: "grid", gap: 16, position: "relative" }}>
-      <input type="hidden" name="_subject" value="ALFA Quote — new inquiry" />
+      <input type="hidden" name="_subject" value="ALFA Quote: new inquiry" />
       <div style={{ position: "absolute", left: -5000 }} aria-hidden="true">
         <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
       </div>
