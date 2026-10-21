@@ -9,10 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@formspree/react": "^3.0.0",
     "@vercel/speed-insights": "^2.0.0",
-    "framer-motion": "^12.25.0",
-    "lucide-react": "^0.562.0",
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.20",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"

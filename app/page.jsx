@@ -1,901 +1,412 @@
-"use client";
-
-import React from "react";
 import Image from "next/image";
-import { ArrowRight, Check, Mail, Instagram } from "lucide-react";
-import { useForm, ValidationError } from "@formspree/react";
-import { motion } from "framer-motion";
+import Link from "next/link";
+import Hud from "./components/Hud";
+import HeroVideo from "./components/HeroVideo";
+import LazyVideo from "./components/LazyVideo";
+import PageMotion from "./components/PageMotion";
+import VideoModal from "./components/VideoModal";
+import { ContactSection, Field, FieldRow, Footer, Hero, ServiceSelect } from "./components/sections";
+import { Eyebrow, JsonLd, Marquee, SecHead, Split } from "./components/ui";
+import { EMAIL, INSTAGRAM, SITE_URL } from "./lib/site";
 
-const GEAR = [
+const SECTIONS = [
+  { id: "top", label: "intro" },
+  { id: "help", label: "choose one" },
+  { id: "pilot", label: "the pilot" },
+  { id: "work", label: "work" },
+  { id: "reviews", label: "reviews" },
+  { id: "process", label: "process" },
+  { id: "contact", label: "contact" },
+];
+
+const BUSINESS_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "ALFA Drone Solutions",
+  alternateName: "A Look From Above",
+  url: SITE_URL,
+  logo: `${SITE_URL}/alfa-logo.png`,
+  image: `${SITE_URL}/og-image.jpg`,
+  telephone: "+1-928-224-9426",
+  email: EMAIL,
+  founder: { "@type": "Person", name: "Turner Walz" },
+  areaServed: [
+    "Cottonwood, AZ", "Sedona, AZ", "Camp Verde, AZ", "Clarkdale, AZ", "Cornville, AZ",
+    "Prescott, AZ", "Prescott Valley, AZ", "Flagstaff, AZ", "Phoenix, AZ",
+  ],
+  address: { "@type": "PostalAddress", addressRegion: "AZ", addressCountry: "US" },
+  sameAs: [INSTAGRAM],
+  priceRange: "$$",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Drone services",
+    itemListElement: [
+      "FPV fly-through video",
+      "Real estate drone photography & video",
+      "Event drone coverage",
+      "Brand content for small businesses",
+      "Construction progress documentation",
+      "Land documentation",
+      "Drone mapping & orthomosaics",
+    ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
+  },
+};
+
+const PATHS = [
   {
-    title: "DJI Mavic 4 Pro",
-    tip: "Clean, cinematic aerials for real estate, land, and brand visuals.",
-    specs: ['Sensor: 4/3" CMOS', "Color: 10-bit D-Log M", "Video: Up to 6k/120"],
-    image: "/mavic4pro.png",
+    href: "/media",
+    img: "/media-card-sunset-flipped.jpg",
+    alt: "Aerial sunset over a commercial building",
+    label: "01 / media",
+    color: "var(--orange)",
+    title: "Make it look incredible",
+    body: "FPV fly-throughs, listings, events, brand content, and a second pilot for crews that already have the vision.",
+    cta: "view media",
   },
   {
-    title: "DJI Avata 2",
-    tip: "Immersive FPV — perfect for indoor fly-throughs and dynamic reveals.",
-    specs: ['Sensor: 1/1.3" CMOS', "Color: 10-bit D-Log M", "Video: 4K/60"],
-    image: "/avata2.png",
-  },
-  {
-    title: "iFlight Nazgul Evoque F5",
-    tip: "High-energy FPV shots for motion, action, and cinematic chase sequences.",
-    specs: ['Sensor: 1/1.9" CMOS', "Color: 10-bit", "Video: 5.3K/60"],
-    image: "/nazgulevoque.webp",
+    href: "/construction",
+    img: "/construction/progress.jpg",
+    alt: "Aerial drone photo of a construction site in progress, Northern Arizona",
+    label: "02 / documentation",
+    color: "var(--teal)",
+    title: "Know what changed",
+    body: "Construction progress updates, land documentation for future planning, and mapping that tracks a site over time.",
+    cta: "view documentation",
   },
 ];
 
-export default function Page() {
-  const [state, handleSubmit] = useForm("xzdznrnv");
-
-  return (
-    <div className="min-h-screen bg-zinc-900 text-white overflow-x-hidden">
-
-      <main id="top" className="relative">
-        {/* Background glow */}
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute left-1/2 top-[-220px] h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-white/5 blur-3xl" />
-          <div className="absolute bottom-[-260px] left-[-260px] h-[520px] w-[520px] rounded-full bg-white/5 blur-3xl" />
-        </div>
-
-        {/* HERO */}
-        <section className="relative w-full min-h-[60vh] md:min-h-[70vh] lg:min-h-[78vh] overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            {/* Optional mobile performance improvement: show poster on phones, video on sm+ */}
-            <div className="absolute inset-0 sm:hidden">
-              <Image
-                src="/posters/montage.jpg"
-                alt="ALFA hero poster"
-                fill
-                priority
-                className="object-cover"
-              />
-            </div>
-
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className="hidden sm:block absolute inset-0 h-full w-full object-cover"
-            >
-              <source src="/videos/herobackground.mp4" type="video/mp4" />
-            </video>
-
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-zinc-900" />
-          </div>
-
-          <div className="relative z-10 mx-auto flex min-h-[60vh] md:min-h-[70vh] lg:min-h-[78vh] max-w-6xl flex-col items-center justify-center px-5 text-center">
-            <h1 className="mx-auto max-w-4xl text-3xl font-extrabold tracking-tight sm:text-4xl md:text-6xl">
-              The perspective that completes the story.
-            </h1>
-
-            <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-zinc-200">
-              Professional drone coverage for construction, property, and business projects across Northern Arizona.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <RainbowLink href="#contact" iconRight={<ArrowRight className="h-4 w-4" />}>
-                Request a Quote
-              </RainbowLink>
-            </div>
-          </div>
-
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent via-zinc-900/70 to-zinc-900" />
-        </section>
-
-        {/* TRUST + PATH SPLIT */}
-        <section className="relative isolate overflow-hidden border-b border-zinc-700/60">
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.05] mix-blend-soft-light" />
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.55)_100%)]" />
-          <div className="pointer-events-none absolute inset-0 -z-20 bg-zinc-800/15" />
-
-          <div className="relative z-10 mx-auto max-w-6xl px-5">
-            {/* Trusted locally */}
-            <div className="py-14 md:py-16">
-              <div className="text-center">
-                <p className="mx-auto max-w-3xl text-sm font-semibold uppercase tracking-wide text-zinc-400">
-                  Trusted locally
-                </p>
-
-                <p className="mx-auto mt-4 max-w-3xl text-lg text-zinc-300">
-                  Contractors, businesses, and media teams across
-                  <span className="font-bold text-white"> Northern Arizona</span> trust ALFA for professional drone coverage that supports progress tracking, site documentation, and clean visual content.
-                  <br className="hidden sm:block" />
-                  Whether it's for reporting, marketing, or both.
-                </p>
-
-                <p className="mx-auto mt-3 max-w-3xl text-lg font-semibold text-white">
-                  Clean. Cinematic. Built to elevate your work.
-                </p>
-
-                <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-zinc-400">
-                  <Chip>General Contractors</Chip>
-                  <Chip>Home Builders</Chip>
-                  <Chip>Construction Projects</Chip>
-                  <Chip>Businesses &amp; Media</Chip>
-                </div>
-              </div>
-            </div>
-
-            {/* divider */}
-            <div className="border-t border-white/10" />
-
-            {/* Path split */}
-            <div className="py-16 md:py-20">
-              <div className="text-center">
-                <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
-                  What are you here for?
-                </h2>
-                <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-                  ALFA supports both visual media and construction-focused drone work. Choose the path that fits your project.
-                </p>
-              </div>
-
-              <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
-                <PathCard
-                  eyebrow="Construction"
-                  title="Progress Tracking & Site Documentation"
-                  description="Keep teams aligned with aerial progress updates and site mapping. Better visibility, faster decisions."
-                  bullets={[
-                    "Progress documentation",
-                    "Aerial site maps",
-                    "Inspection support",
-                  ]}
-                  href="/construction"
-                  cta="View Construction Solutions"
-                />
-
-                <PathCard
-                  eyebrow="Media"
-                  title="Professional Aerial Photography & Video"
-                  description="Stunning visuals that make listings stand out and events look bigger. Delivered clean and ready to use."
-                  bullets={[
-                    "Real estate visuals",
-                    "Business & brand content",
-                    "Event coverage",
-                  ]}
-                  href="/media"
-                  cta="View Media Solutions"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACT */}
-        <section className="relative isolate overflow-hidden py-16" id="contact">
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/textures/noise.jpg')] opacity-[0.06] mix-blend-soft-light" />
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.6)_100%)]" />
-          <div className="pointer-events-none absolute inset-0 -z-20 bg-zinc-900" />
-
-          <div className="relative z-10 mx-auto max-w-6xl px-5 pb-24">
-            <div className="mt-10 grid gap-8 md:grid-cols-2 md:items-start">
-              <div>
-                <h2 className="text-3xl font-extrabold">Request a quote</h2>
-                <p className="mt-4 max-w-xl text-zinc-300">
-                  Send your details and I'll respond with pricing and availability.
-                </p>
-
-                <div className="mt-6 rounded-2xl border border-zinc-700 bg-zinc-800/30 p-4 text-sm text-zinc-300">
-                  <div className="font-bold text-white">Pricing overview</div>
-                  <p className="mt-2">
-                    Projects are priced based on scope, location, and deliverables. Most shoots are straightforward and quoted
-                    clearly after a quick review.
-                  </p>
-                </div>
-
-                <div className="mt-6 space-y-3 text-zinc-200">
-                  <a href="mailto:hello@alookfromabove.co" className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 flex-shrink-0" /> hello@alookfromabove.co
-                  </a>
-
-                  <a
-                    href="https://www.instagram.com/alookfromabove_/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-2"
-                  >
-                    <Instagram className="h-4 w-4 flex-shrink-0" /> Instagram
-                  </a>
-                </div>
-
-                <div className="my-6 hidden md:flex justify-center">
-                  <div className="relative h-[120px] w-[240px]">
-                    <Image
-                      src="/ALFA-01.png"
-                      alt="ALFA logo"
-                      fill
-                      className="object-contain opacity-80"
-                      priority
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <form
-                onSubmit={handleSubmit}
-                method="POST"
-                className="relative rounded-2xl border border-zinc-700 bg-zinc-800/20 p-6"
-              >
-                <input type="hidden" name="_subject" value="ALFA Quote – {{name}} – {{service}}" />
-                <input type="hidden" name="_format" value="plain" />
-
-                <div style={{ position: "absolute", left: "-5000px" }} aria-hidden="true">
-                  <label>
-                    Leave this field empty:
-                    <input name="_gotcha" type="text" tabIndex={-1} autoComplete="off" />
-                  </label>
-                </div>
-
-                {state.succeeded && (
-                  <div className="mb-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-emerald-100">
-                    <div className="font-extrabold">Inquiry sent!</div>
-                    <p className="mt-1 text-sm text-emerald-100/90">Thanks — I'll get back to you shortly.</p>
-                  </div>
-                )}
-
-                {state.errors?.length > 0 && !state.succeeded && (
-                  <div className="mb-4 rounded-2xl border border-red-500/40 bg-red-500/10 p-4 text-red-100">
-                    <div className="font-extrabold">Something went wrong.</div>
-                    <p className="mt-1 text-sm text-red-100/90">Please try again, or email hello@alookfromabove.co.</p>
-                  </div>
-                )}
-
-                {!state.succeeded && (
-                  <div className="grid gap-4">
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold">Name</span>
-                      <input
-                        name="name"
-                        required
-                        placeholder="Your name"
-                        autoComplete="name"
-                        className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
-                      />
-                    </label>
-
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold">Email</span>
-                      <input
-                        name="email"
-                        type="email"
-                        required
-                        placeholder="you@example.com"
-                        autoComplete="email"
-                        className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
-                      />
-                    </label>
-                    <ValidationError prefix="Email" field="email" errors={state.errors} />
-
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold">Phone (optional)</span>
-                      <input
-                        name="phone"
-                        type="tel"
-                        placeholder="(928) 555-1234"
-                        autoComplete="tel"
-                        className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
-                      />
-                    </label>
-
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold">Service type</span>
-                      <select
-                        name="service"
-                        required
-                        defaultValue=""
-                        className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
-                      >
-                        <option value="" disabled>
-                          Select one
-                        </option>
-                        <option value="Construction / Land Documentation">Construction / Land Documentation</option>
-                        <option value="Business">Business Branding</option>
-                        <option value="Event">Event Coverage</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </label>
-
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold">Location / Address</span>
-                      <input
-                        name="location"
-                        required
-                        placeholder="Address or city area"
-                        className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
-                      />
-                    </label>
-
-                    <label className="grid gap-2">
-                      <span className="text-sm font-bold">Details</span>
-                      <textarea
-                        name="message"
-                        required
-                        rows={5}
-                        placeholder="What you want to capture.
-What it is for.
-When you need it by."
-                        className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-white/10"
-                      />
-                    </label>
-                    <ValidationError prefix="Message" field="message" errors={state.errors} />
-
-                    <RainbowButton type="submit" disabled={state.submitting} iconRight={<ArrowRight className="h-4 w-4" />}>
-                      {state.submitting ? "Sending..." : "Send inquiry"}
-                    </RainbowButton>
-
-                    <p className="text-xs text-zinc-400">No spam. Your information is only used to respond to your inquiry.</p>
-                  </div>
-                )}
-              </form>
-            </div>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="border-t border-zinc-700/60 py-10">
-          <div className="mx-auto max-w-6xl px-5 text-center text-sm text-zinc-400">
-            © {new Date().getFullYear()} ALFA: A Look From Above
-          </div>
-        </footer>
-      </main>
-    </div>
-  );
-}
-
-/* ---------- Small UI components ---------- */
-
-function Chip({ children }) {
-  return (
-    <span className="rounded-full border border-zinc-700 bg-zinc-800/30 px-4 py-2">
-      {children}
-    </span>
-  );
-}
-
-function StepCard({ step, title, children }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/35 backdrop-blur-md p-6 shadow-lg transition hover:-translate-y-1 hover:bg-black/45 hover:border-white/15">
-      <div className="mb-2 text-sm font-bold uppercase tracking-wide text-zinc-400">
-        {step}
-      </div>
-      <h3 className="text-lg font-extrabold">{title}</h3>
-      <p className="mt-2 text-zinc-300">{children}</p>
-    </div>
-  );
-}
-
-function Service({ title, bullets }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/35 backdrop-blur-md p-6 shadow-lg transition hover:-translate-y-1 hover:bg-black/45 hover:border-white/15">
-      <h3 className="text-xl font-extrabold">{title}</h3>
-      <ul className="mt-4 space-y-2 text-zinc-300">
-        {bullets.map((b) => (
-          <li key={b} className="flex items-center gap-2">
-            <Check className="h-4 w-4 flex-shrink-0" /> {b}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function PathCard({ eyebrow, title, description, bullets, href, cta }) {
-  return (
-    <a
-      href={href}
-      className="group relative overflow-hidden rounded-3xl border border-white/10 p-8 transition duration-300 hover:-translate-y-1 hover:border-white/25"
-    >
-      {/* Background Image */}
-      <img
-        src={
-          eyebrow === "Construction"
-            ? "/construction/progress.jpg"
-            : "/posters/narf.jpg"
-        }
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-50 transition duration-500 group-hover:scale-[1.02] group-hover:brightness-110"
-      />
-
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-zinc-900/45 transition duration-300 group-hover:bg-zinc-900/20" />
-
-      {/* Content */}
-      <div className="relative z-10">
-        <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
-          {eyebrow}
-        </p>
-
-        <h3 className="mt-3 text-2xl font-extrabold">
-          {title}
-        </h3>
-
-        <p className="mt-4 text-zinc-300">
-          {description}
-        </p>
-
-        <ul className="mt-6 space-y-3 text-zinc-200">
-          {bullets.map((bullet) => (
-            <li key={bullet} className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-white/70" />
-              <span>{bullet}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-8 inline-flex items-center gap-2 font-semibold text-white">
-          {cta}
-          <span className="transition group-hover:translate-x-1">→</span>
-        </div>
-      </div>
-    </a>
-  );
-}
-
-function MobilePortfolioCarousel({ items, instaHref }) {
-  const [idx, setIdx] = React.useState(0);
-
-  const total = items?.length || 0;
-  const current = total ? items[idx] : null;
-
-  const prev = React.useCallback(() => {
-    if (!total) return;
-    setIdx((i) => (i - 1 + total) % total);
-  }, [total]);
-
-  const next = React.useCallback(() => {
-    if (!total) return;
-    setIdx((i) => (i + 1) % total);
-  }, [total]);
-
-  // Keyboard support (harmless on mobile, helpful on desktop testing)
-  React.useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [prev, next]);
-
-  // --- Swipe support (no libs) ---
-  const startRef = React.useRef({ x: 0, y: 0, t: 0, active: false });
-
-  const onTouchStart = (e) => {
-    const t = e.touches?.[0];
-    if (!t) return;
-    startRef.current = { x: t.clientX, y: t.clientY, t: Date.now(), active: true };
-  };
-
-  const onTouchMove = (e) => {
-    // Prevent accidental horizontal scroll while swiping the carousel.
-    // Only prevent when gesture is mostly horizontal.
-    const s = startRef.current;
-    if (!s.active) return;
-
-    const t = e.touches?.[0];
-    if (!t) return;
-
-    const dx = t.clientX - s.x;
-    const dy = t.clientY - s.y;
-
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
-      e.preventDefault();
-    }
-  };
-
-  const onTouchEnd = (e) => {
-    const s = startRef.current;
-    if (!s.active) return;
-
-    const changed = e.changedTouches?.[0];
-    if (!changed) return;
-
-    const dx = changed.clientX - s.x;
-    const dy = changed.clientY - s.y;
-    const dt = Date.now() - s.t;
-
-    // Tunables
-    const SWIPE_X_MIN = 40; // px
-    const SWIPE_Y_MAX = 80; // px
-    const SWIPE_TIME_MAX = 800; // ms
-
-    // If too vertical or too slow, ignore
-    if (Math.abs(dy) > SWIPE_Y_MAX) {
-      startRef.current.active = false;
-      return;
-    }
-    if (dt > SWIPE_TIME_MAX) {
-      startRef.current.active = false;
-      return;
-    }
-
-    if (dx <= -SWIPE_X_MIN) next(); // swipe left
-    else if (dx >= SWIPE_X_MIN) prev(); // swipe right
-
-    startRef.current.active = false;
-  };
-
-  if (!current) return null;
-
-  return (
-    <div className="relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10">
-      <div
-        className="relative aspect-[3/2] overflow-hidden bg-zinc-950 touch-pan-y"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
-        <Image
-          src={current.image}
-          alt={current.label}
-          fill
-          className="object-cover brightness-110"
-          priority
-        />
-
-        {/* Light overlay so it stays bright but readable */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
-
-        {/* Labels */}
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <p className="text-lg font-extrabold text-white">{current.label}</p>
-          {current.sublabel ? (
-            <p className="mt-0.5 text-xs text-zinc-200">{current.sublabel}</p>
-          ) : null}
-        </div>
-
-        {/* Left/Right controls */}
-        <button
-          type="button"
-          onClick={prev}
-          aria-label="Previous highlight"
-          className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95"
-        >
-          <span className="text-white text-xl leading-none">‹</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={next}
-          aria-label="Next highlight"
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95"
-        >
-          <span className="text-white text-xl leading-none">›</span>
-        </button>
-
-        {/* Instagram CTA */}
-        <a
-          href={instaHref}
-          target="_blank"
-          rel="noreferrer"
-          className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold text-white/90"
-          aria-label="See videos on Instagram"
-        >
-          See videos <ArrowRight className="h-3 w-3" />
-        </a>
-
-        {/* Dots */}
-        <div className="absolute left-0 right-0 bottom-3 flex justify-center gap-2">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIdx(i)}
-              aria-label={`Go to highlight ${i + 1}`}
-              className={[
-                "h-2 w-2 rounded-full border border-white/30",
-                i === idx ? "bg-white/90" : "bg-white/20",
-              ].join(" ")}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Caption row */}
-      <div className="flex items-center justify-between px-5 py-4">
-        <div className="text-sm text-zinc-300">
-          Highlight <span className="font-bold text-white">{idx + 1}</span> / {total}
-        </div>
-
-        <a
-          href={instaHref}
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm font-bold text-white underline underline-offset-4"
-        >
-          More on Instagram
-        </a>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Portfolio tile ---------- */
-/**
- * Mobile behavior:
- * - Tap to play preview
- * Desktop behavior:
- * - Hover/focus to play preview
- * Brightness:
- * - Mobile gets brighter media + lighter overlay
- */
-function PortfolioTile({ label, sublabel, youtubeId, poster }) {
-  const [open, setOpen] = React.useState(false);
-
-  // Close on Escape
-  React.useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-
-  const embedSrc = youtubeId
-    ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`
-    : null;
-
+const DRONES = [
+  { img: "/matrice4e.png", name: "DJI Matrice 4E", tag: "01 / mapping", use: "documentation", body: "Centimeter-accurate mapping and inspection for construction projects." },
+  { img: "/mavic4pro.png", name: "DJI Mavic 4 Pro", tag: "02 / cinema", use: "media", body: "Clean, cinematic aerials for real estate, land, and brand visuals." },
+  { img: "/avata2.png", name: "DJI Avata 2", tag: "03 / fpv", use: "indoor", body: "Immersive FPV — perfect for indoor fly-throughs and dynamic reveals." },
+  { img: "/nazgulevoque.webp", name: "iFlight Nazgul Evoque F5", tag: "04 / fpv", use: "action", body: "High-energy FPV shots for motion, action, and cinematic chase sequences." },
+  { img: "/pavo20pro2.png", name: "BETAFPV Pavo20 Pro II", tag: "05 / micro fpv", use: "sub-250g", body: "Tiny enough to go anywhere. Light enough to fly over anyone." },
+];
+
+const STATS = [
+  { value: 2023, label: "flying arizona since" },
+  { value: 5, label: "aircraft in the kit" },
+  { value: 1, suffix: "cm", label: "rtk mapping accuracy" },
+  { value: 107, label: "FAA part 107 certified" },
+];
+
+const WORK = [
+  {
+    tag: "01 / media · events",
+    title: "Verde Valley Fair",
+    meta: "Cottonwood, AZ · Event coverage",
+    body: "Full event coverage of the fair, from the crowds and the rides to the view from above.",
+    yt: "Bi9FKKsMyBI",
+    ytTitle: "Verde Valley Fair 2026",
+    img: "https://i.ytimg.com/vi/Bi9FKKsMyBI/hqdefault.jpg",
+  },
+  {
+    tag: "02 / media · fpv",
+    title: "Commercial Building Flythrough",
+    meta: "Phoenix, AZ · Cinematic FPV",
+    body: "One continuous FPV pass through and around a commercial property.",
+    yt: "N8lq8gS1a20",
+    ytTitle: "Commercial Building Flythrough",
+    img: "/posters/commercial-building.jpg",
+  },
+];
+
+const REVIEWS = [
+  {
+    quote: "He shot and edited content for both my Airbnbs and executed my vision to perfection. The whole process was seamless, and the finished products were everything I wanted and then some.",
+    name: "Grace",
+    org: "Inspired Destinations",
+    tag: "media · rentals",
+  },
+  {
+    quote: "ALFA Drone Solutions did a fantastic job capturing all the excitement at this year's Verde Valley Fair! The videos, photos, and edited content he put together were all top notch!",
+    name: "Michael Gilboy",
+    org: "Verde Valley Fair",
+    tag: "media · events",
+  },
+  {
+    quote: "He was patient with us as we explained what we wanted to showcase, and he did so many videos with amazing edits that we were able to use for our social media. We could tell that he takes great pride in what he does.",
+    name: "Wendy Halliday",
+    org: "The Halliday House",
+    tag: "media · real estate",
+  },
+];
+
+const STEPS = [
+  { n: "01", title: "Tell me the idea", body: "Location, what you're picturing or what needs tracking, rough date. Quote back the same day." },
+  { n: "02", title: "I fly it", body: "Licensed, insured, airspace cleared. Nobody on your team has to stop what they're doing." },
+  { n: "03", title: "Final delivery", body: "Edited files delivered to one shared gallery, organized and ready to use. Post it, forward it, or drop it into a report." },
+];
+
+const SERVICES = [
+  "Media — FPV fly-through",
+  "Media — real estate",
+  "Media — event coverage",
+  "Media — business / brand",
+  "Media — second pilot on set",
+  "Documentation — construction updates",
+  "Documentation — land / future planning",
+  "Documentation — mapping over time",
+  "Something else entirely",
+];
+
+const workTitle = { margin: 0, fontSize: "clamp(25px,2.8vw,38px)", lineHeight: 1.03, letterSpacing: "-0.03em" };
+const workMeta = { fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" };
+
+export default function HomePage() {
   return (
     <>
-      {/* Tile */}
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="group relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10 transition-all duration-300 hover:border-zinc-600 text-left"
-        aria-label={`Play ${label}`}
-      >
-        <div className="relative aspect-[3/2] overflow-hidden bg-zinc-950">
-          {poster ? (
-            <Image
-              src={poster}
-              alt={label}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              priority={false}
+      <JsonLd data={BUSINESS_SCHEMA} />
+      <Hud label="live" sections={SECTIONS} />
+      <main id="main">
+        <Hero
+          gradient="linear-gradient(180deg, rgba(11,12,14,0.84) 0%, rgba(11,12,14,0.5) 45%, rgba(11,12,14,0.94) 100%)"
+          background={
+            <>
+              <Image src="/posters/hero-background.jpg" alt="" fill preload sizes="100vw" style={{ objectFit: "cover" }} />
+              <HeroVideo src="/hero-background.mp4" poster="/posters/hero-background.jpg" />
+            </>
+          }
+          bottom={
+            <Marquee
+              duration={26}
+              items={["real estate", "events", "photographers", "media teams", "general contractors", "land developers", "small business"]}
             />
-          ) : (
-            <div className="absolute inset-0 bg-zinc-900" />
-          )}
-
-          {/* Overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-
-          {/* Center play button */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-7 w-7 translate-x-[1px]"
-              >
-                <path
-                  d="M8 5v14l11-7-11-7z"
-                  fill="white"
-                  fillOpacity="0.9"
-                />
-              </svg>
-            </div>
-          </div>
-
-          {/* Labels */}
-          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-            <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
-            {sublabel ? (
-              <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>
-            ) : null}
-          </div>
-        </div>
-      </button>
-
-      {/* Modal */}
-      {open && (
-        <div
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4"
-          role="dialog"
-          aria-modal="true"
-          onMouseDown={(e) => {
-            // click outside closes
-            if (e.target === e.currentTarget) setOpen(false);
-          }}
+          }
         >
-          <div className="w-full max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-              <div className="text-sm font-bold text-white">{label}</div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Close
-              </button>
-            </div>
-
-            <div className="relative aspect-video bg-black">
-              {embedSrc ? (
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src={embedSrc}
-                  title={label}
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : (
-                <div className="absolute inset-0 grid place-items-center text-zinc-300">
-                  Missing youtubeId
-                </div>
-              )}
+          <Eyebrow
+            items={[
+              { text: "ALFA drone solutions" },
+              { text: "drone photo, video & mapping" },
+              { text: "part 107 certified · insured" },
+              { text: "northern arizona", teal: true },
+            ]}
+          />
+          <Split
+            as="h1"
+            className=""
+            style={{ margin: 0, fontSize: "clamp(44px,7vw,112px)", lineHeight: 1.02, letterSpacing: "-0.02em", fontWeight: 500, maxWidth: "16ch", textWrap: "balance" }}
+          >
+            The perspective that completes the story
+          </Split>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "26px 40px", alignItems: "center", maxWidth: 1040 }}>
+            <p style={{ margin: 0, display: "grid", gap: 4, paddingLeft: 20, borderLeft: "2px solid var(--orange)", fontSize: "clamp(19px,1.8vw,24px)", lineHeight: 1.3, letterSpacing: "-0.01em", textWrap: "balance" }}>
+              <span style={{ color: "var(--text-light)", fontWeight: 600 }}>Two jobs, one standard.</span>
+              <span style={{ color: "var(--muted-d1)" }}>Aerial work that&apos;s worth looking at.</span>
+            </p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link data-magnet href="/media" className="pill pill-fill">media ●</Link>
+              <Link data-magnet href="/construction" className="pill pill-fill">documentation ●</Link>
             </div>
           </div>
-        </div>
-      )}
+        </Hero>
+
+        <section id="help" className="paper px" style={{ paddingTop: 110, paddingBottom: 100 }}>
+          <div className="wrap grid" style={{ gap: 56 }}>
+            <div data-wordpin style={{ display: "grid", placeItems: "center" }}>
+              <h2 style={{ margin: 0, display: "grid", gap: 2, textAlign: "center", fontWeight: "inherit" }}>
+                <span data-word className="display" style={{ display: "block", fontSize: "clamp(38px,7.4vw,104px)", lineHeight: 0.88, letterSpacing: "-0.04em" }}>How can</span>
+                <span data-word className="display c-orange-l" style={{ display: "block", fontSize: "clamp(38px,7.4vw,104px)", lineHeight: 0.88, letterSpacing: "-0.04em" }}>We help?</span>
+                <span data-word className="mono" style={{ fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--muted-l2)", marginTop: 18, fontWeight: 400 }}>pick one below</span>
+              </h2>
+            </div>
+            <div className="auto-grid" style={{ "--min": "300px", gap: 20 }}>
+              {PATHS.map((p) => (
+                <Link key={p.href} data-path href={p.href} className="path">
+                  <Image src={p.img} alt={p.alt} fill sizes="(max-width: 760px) 100vw, 640px" style={{ objectFit: "cover" }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(11,12,14,0.35) 0%, rgba(11,12,14,0.88) 72%)" }} />
+                  <div className="path-body">
+                    <span className="mono" style={{ fontSize: 15, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: p.color }}>{p.label}</span>
+                    <h3 className="display" style={{ fontSize: "clamp(28px,3.4vw,44px)", lineHeight: 0.98, letterSpacing: "-0.03em" }}>{p.title}</h3>
+                    <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: "#c5c2bb", maxWidth: "38ch" }}>{p.body}</p>
+                    <span className="mono" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                      {p.cta} <span className="path-arrow">→</span>
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="pilot" className="dark px" style={{ paddingTop: 110, paddingBottom: 120 }}>
+          <div className="wrap auto-grid" style={{ "--min": "300px", gap: 56, alignItems: "start" }}>
+            <div className="sticky-col grid" style={{ top: 96, gap: 22 }}>
+              <span className="label c-orange">03 / the pilot</span>
+              <div style={{ position: "relative", height: 340, overflow: "hidden", border: "1px solid var(--ink-line)" }}>
+                <Image
+                  src="/pilot-shirt.jpg"
+                  alt="Turner Walz of ALFA Drone Solutions on a job, wearing an ALFA A Look From Above shirt"
+                  fill
+                  sizes="(max-width: 760px) 100vw, 620px"
+                  style={{ objectFit: "cover", objectPosition: "50% 52%" }}
+                />
+              </div>
+              <Split style={{ fontSize: "clamp(32px,4.2vw,58px)", lineHeight: 0.96, letterSpacing: "-0.035em", maxWidth: "14ch" }}>
+                The right drone for the job
+              </Split>
+              <p style={pilotP}>I&apos;m Turner. Building and flying drones started as a hobby. In 2023 I realized the best part of flying was the footage I could get, and I&apos;ve been chasing better shots ever since.</p>
+              <p style={pilotP}>You wouldn&apos;t hammer a nail with a wrench. That&apos;s why ALFA has 5 different drones in its fleet, from an RTK mapping platform to a sub-250g FPV that slips through a doorway. Every job gets the right one.</p>
+              <p style={{ ...pilotP, color: "var(--text-light)" }}>My goal is to make the process feel tailored and simple. Let&apos;s bring your ideas to life.</p>
+              <a data-magnet href="#contact" className="pill pill-solid" style={{ justifySelf: "start", padding: "17px 28px" }}>get a quote ●</a>
+            </div>
+            <div className="grid" style={{ gap: 16 }}>
+              {DRONES.map((d) => (
+                <article key={d.name} className="drone">
+                  <div className="drone-img">
+                    <div>
+                      <Image src={d.img} alt={d.name} fill sizes="150px" style={{ objectFit: "contain" }} />
+                    </div>
+                  </div>
+                  <div className="drone-body">
+                    <div className="drone-meta">
+                      <span className="c-orange">{d.tag}</span>
+                      <span style={{ color: "#5c6068" }}>{d.use}</span>
+                    </div>
+                    <h3 className="display" style={{ fontSize: 21, letterSpacing: "-0.02em" }}>{d.name}</h3>
+                    <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--muted-d1)" }}>{d.body}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="paper px" style={{ paddingTop: 100, paddingBottom: 80 }}>
+          <div className="wrap grid" style={{ gap: 56 }}>
+            <div className="auto-grid" style={{ "--min": "290px", gap: 44, alignItems: "start" }}>
+              <Split style={{ fontSize: "clamp(30px,3.4vw,52px)", lineHeight: 1.03, letterSpacing: "-0.03em", maxWidth: "20ch" }}>
+                Licensed, insured, and ready to fly
+              </Split>
+              <p style={{ margin: 0, fontSize: 17, lineHeight: 1.65, color: "var(--muted-l1)", maxWidth: "54ch", textWrap: "pretty" }}>
+                Part 107 certified with airspace authorization in a tricky corner of Arizona. Whether it&apos;s a listing at golden hour, an indoor FPV pass through a finished build, or the fourteenth monthly flyover of a pad, the standard doesn&apos;t change: clean files, organized, on time.
+              </p>
+            </div>
+            <div className="auto-grid hairline-grid" style={{ "--min": "180px" }}>
+              {STATS.map((s) => (
+                <div key={s.label} className="stat">
+                  <div data-count={s.value} data-suffix={s.suffix} className="stat-num" style={{ fontSize: "clamp(36px,4.2vw,62px)" }}>
+                    {s.value}{s.suffix}
+                  </div>
+                  <div className="stat-label">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="work" className="paper px" style={{ paddingTop: 40, paddingBottom: 120 }}>
+          <div className="wrap">
+            <SecHead label="04 / recent work" style={{ marginBottom: 48 }}>
+              <Link href="/media" className="aside" style={{ color: "var(--muted-l1)" }}>all media work →</Link>
+            </SecHead>
+            <Split style={{ margin: "0 auto 52px", fontSize: "clamp(36px,5.2vw,86px)", lineHeight: 0.93, letterSpacing: "-0.035em", maxWidth: "16ch", textAlign: "center" }}>
+              Across Northern Arizona
+            </Split>
+            <div className="grid" style={{ gap: 24 }}>
+              {WORK.map((w) => (
+                <article key={w.yt} data-card className="work-card">
+                  <div className="grid" style={{ gap: 14 }}>
+                    <span className="mono c-orange-l" style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase" }}>{w.tag}</span>
+                    <h3 className="display" style={workTitle}>{w.title}</h3>
+                    <span className="mono" style={{ ...workMeta, color: "var(--muted-l2)" }}>{w.meta}</span>
+                    <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "var(--muted-l1)", maxWidth: "44ch" }}>{w.body}</p>
+                    <button data-yt={w.yt} data-yt-title={w.ytTitle} type="button" className="link-under c-orange-l">watch the film ▶</button>
+                  </div>
+                  <button data-yt={w.yt} data-yt-title={w.ytTitle} type="button" className="thumb-btn" aria-label={`Play ${w.ytTitle}`}>
+                    <span data-reveal className="frame" style={{ height: 300 }}>
+                      <Image data-parallax src={w.img} alt={w.ytTitle} fill sizes="(max-width: 760px) 100vw, 620px" style={parallaxImg} />
+                      <span className="play" />
+                    </span>
+                  </button>
+                </article>
+              ))}
+              <article data-card className="work-card is-dark">
+                <div className="grid" style={{ gap: 14 }}>
+                  <span className="mono c-orange" style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase" }}>03 / media · brand lift</span>
+                  <h3 className="display" style={workTitle}>Veterinary Clinic</h3>
+                  <span className="mono" style={{ ...workMeta, color: "var(--muted-d2)" }}>Small business · Brand content</span>
+                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "var(--muted-d1)", maxWidth: "44ch" }}>
+                    A veterinary clinic needed better footage to work with. We built them a bank of edited, color-graded clips to pull from whenever they need it.
+                  </p>
+                  <Link href="/media" className="link-under c-orange">see media →</Link>
+                </div>
+                <Link href="/media" data-reveal className="frame svc-media" style={{ height: 300, border: "none" }} aria-label="Brand lift clip for a veterinary clinic — see media">
+                  <LazyVideo src="/brand-lift.mp4" poster="/brand-lift-clinic.jpg" label="Brand lift footage for a veterinary clinic" />
+                </Link>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="reviews" className="paper px" style={{ paddingBottom: 120 }}>
+          <div className="wrap">
+            <SecHead label="05 / reviews" style={{ marginBottom: 48 }}>
+              <span className="aside" style={{ color: "var(--muted-l1)" }}>★ 5.0 · 7 Google reviews</span>
+            </SecHead>
+            <div className="auto-grid" style={{ "--min": "320px", gap: 20 }}>
+              {REVIEWS.map((r) => (
+                <figure key={r.name} className="review">
+                  <div className="grid" style={{ gap: 14 }}>
+                    <span className="c-orange" style={{ letterSpacing: "0.12em", fontSize: 15 }} aria-label="5 out of 5 stars">★★★★★</span>
+                    <blockquote style={{ margin: 0, fontSize: 18, lineHeight: 1.5, letterSpacing: "-0.01em", textWrap: "pretty" }}>
+                      &ldquo;{r.quote}&rdquo;
+                    </blockquote>
+                  </div>
+                  <figcaption>
+                    <span className="grid" style={{ gap: 4 }}>
+                      <span style={{ fontWeight: 700, fontSize: 15 }}>{r.name}</span>
+                      <span className="micro" style={{ color: "var(--muted-l2)" }}>{r.org}</span>
+                    </span>
+                    <span className="micro c-orange-l">{r.tag}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="process" className="paper px" style={{ paddingBottom: 120 }}>
+          <div className="wrap">
+            <SecHead label="06 / how it works" style={{ marginBottom: 48 }}>
+              <span className="aside" style={{ color: "var(--muted-l2)" }}>same on both sides of the business</span>
+            </SecHead>
+            <div className="auto-grid hairline-grid" style={{ "--min": "250px" }}>
+              {STEPS.map((s) => (
+                <div key={s.n} className="grid" style={{ padding: "36px 30px", gap: 13, alignContent: "start" }}>
+                  <span className="mono c-orange-l" style={{ fontSize: 12, letterSpacing: "0.14em" }}>{s.n}</span>
+                  <h3 className="display" style={{ fontSize: 23, letterSpacing: "-0.02em" }}>{s.title}</h3>
+                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "var(--muted-l1)" }}>{s.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <ContactSection
+          quoteline="get a quote"
+          label="07 / request a quote"
+          heading="Tell me what you're picturing"
+          body="Media, documentation, or something that doesn't fit either — pricing depends on scope, location and deliverables, and you'll have it in writing before anything is booked."
+          note="no spam — your details are only used to answer your inquiry."
+        >
+          <FieldRow>
+            <Field type="text" name="name" required placeholder="Name" autoComplete="name" />
+            <Field type="email" name="email" required placeholder="Email" autoComplete="email" />
+          </FieldRow>
+          <FieldRow>
+            <Field type="tel" name="phone" placeholder="Phone (optional)" autoComplete="tel" />
+            <ServiceSelect options={SERVICES} />
+          </FieldRow>
+          <Field as="textarea" name="message" required rows={3} placeholder="Location, what you're picturing, and when" />
+        </ContactSection>
+      </main>
+      <Footer current="home" />
+      <VideoModal />
+      <PageMotion />
     </>
   );
 }
 
-/* ---------- Gear cards ---------- */
-function GearCard({ title, tip, specs, image }) {
-  const [isFlipped, setIsFlipped] = React.useState(false);
-
-  const benefits = {
-    "DJI Mavic 4 Pro": [
-      "Professional image quality that makes listings stand out",
-      "Reliable performance in various lighting conditions",
-      "Clean, MLS-ready photos every time",
-    ],
-    "DJI Avata 2": [
-      "Smooth indoor fly-through footage that feels immersive and cinematic",
-      "Unique perspectives through tight spaces that traditional drones can't capture",
-      "Eye-catching content that stands out for social media and promotions",
-    ],
-    "iFlight Nazgul Evoque F5": [
-      "Cinematic motion tracking for premium feel",
-      "High-speed shots that capture energy and scale",
-      "Creative angles that differentiate your brand",
-    ],
-  };
-
-  const cardBenefits = benefits[title] || [];
-
-  return (
-    <div
-      className="group relative h-[430px] sm:h-[460px] md:h-[480px] cursor-pointer"
-      style={{ perspective: "1000px" }}
-      onClick={() => setIsFlipped((v) => !v)}
-    >
-      <div
-        className="relative h-full w-full transition-transform duration-[600ms]"
-        style={{
-          transformStyle: "preserve-3d",
-          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-        }}
-      >
-        <div
-          className="absolute inset-0 rounded-3xl border border-zinc-700 bg-zinc-100 p-6 text-zinc-900"
-          style={{ backfaceVisibility: "hidden" }}
-        >
-          <div className="text-center">
-            <div className="text-sm font-extrabold uppercase tracking-wide text-zinc-500">
-              {title}
-            </div>
-          </div>
-
-          <div className="mt-6 flex items-center justify-center">
-            <div className="relative h-52 w-full max-w-[300px]">
-              <Image
-                src={image}
-                alt={title}
-                fill
-                className="object-contain transition-transform duration-300 ease-out group-hover:-translate-y-2 group-hover:scale-105"
-              />
-            </div>
-          </div>
-
-          <p className="mt-2 text-center text-sm font-semibold text-zinc-700">
-            {tip}
-          </p>
-
-          <ul className="mt-4 space-y-1.5 text-center text-sm text-zinc-700">
-            {specs.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-
-          <p className="mt-4 text-center text-xs text-zinc-400">
-            Tap to see how this helps you →
-          </p>
-        </div>
-
-        <div
-          className="absolute inset-0 rounded-3xl border border-zinc-700 bg-zinc-100 p-6 text-zinc-900"
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-        >
-          <div className="relative h-full">
-            <div className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center opacity-70">
-              <div className="relative h-36 w-36 md:h-40 md:w-40">
-                <Image src={image} alt={title} fill className="object-contain" />
-              </div>
-            </div>
-
-            <div className="relative z-10">
-              <div className="text-center">
-                <div className="text-sm font-extrabold uppercase tracking-wide text-zinc-500">
-                  {title}
-                </div>
-              </div>
-
-              <h3 className="mt-6 text-center text-lg font-extrabold text-zinc-800">
-                How this helps you
-              </h3>
-
-              <ul className="mt-6 space-y-3 text-sm text-zinc-700">
-                {cardBenefits.map((benefit, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-zinc-500" />
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Rainbow CTA components ---------- */
-
-const RAINBOW =
-  "linear-gradient(90deg, #ff3b30, #ff9500, #ffcc00, #34c759, #0a84ff, #5e5ce6, #ff2d55)";
-
-const RAINBOW_DARK_OVERLAY =
-  "linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.15), rgba(0,0,0,0.35))";
-
-function RainbowLink({ href, children, iconRight, size = "md", className = "" }) {
-  const sizeClass =
-    size === "sm"
-      ? "px-4 py-2 text-sm rounded-xl"
-      : "px-6 py-3 text-base rounded-xl";
-
-  return (
-    <a
-      href={href}
-      className={`group relative inline-flex items-center gap-2 overflow-hidden bg-white font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 ${sizeClass} ${className}`}
-    >
-      <span className="relative z-10">{children}</span>
-      {iconRight && <span className="relative z-10">{iconRight}</span>}
-    </a>
-  );
-}
-
-function RainbowButton({ type = "button", disabled, children, iconRight, className = "" }) {
-  return (
-    <button
-      type={type}
-      disabled={disabled}
-      className={`group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-white px-6 py-3 font-extrabold text-black transition hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
-    >
-      <span className="relative z-10">{children}</span>
-      {iconRight && <span className="relative z-10">{iconRight}</span>}
-
-      <span
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background: RAINBOW,
-          backgroundSize: "220% 220%",
-          animation: "rainbowShift 6.5s ease-in-out infinite",
-        }}
-      />
-
-      <span
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: RAINBOW_DARK_OVERLAY }}
-      />
-    </button>
-  );
-}
+const pilotP = { margin: 0, fontSize: 17, lineHeight: 1.6, color: "var(--muted-d1)", maxWidth: "42ch", textWrap: "pretty" };
+const parallaxImg = { objectFit: "cover", top: "-13%", height: "126%", bottom: "auto" };

@@ -1,541 +1,367 @@
-"use client";
-
-import React from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import Hud from "../components/Hud";
+import HeroVideo from "../components/HeroVideo";
+import LazyVideo from "../components/LazyVideo";
+import ListingSlideshow from "../components/ListingSlideshow";
+import PageMotion from "../components/PageMotion";
+import PortfolioFilters from "../components/PortfolioFilters";
+import VideoModal from "../components/VideoModal";
+import { ContactSection, Faq, Field, FieldRow, Footer, Hero, ServiceSelect } from "../components/sections";
+import { Chips, Eyebrow, JsonLd, SecHead, Split } from "../components/ui";
+import { INSTAGRAM, OPEN_GRAPH } from "../lib/site";
 
-const CATEGORIES = [
-  { id: "all", label: "All" },
-  { id: "fpv", label: "FPV / Flythrough" },
-  { id: "business", label: "Business & Events" },
+const TITLE = "FPV Fly-Throughs & Drone Video for Real Estate & Events — AZ";
+const DESCRIPTION =
+  "Cinematic FPV fly-throughs, real estate listings, event coverage and brand content in Sedona, Cottonwood, Prescott & Phoenix. Drone media from $150.";
+
+export const metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/media" },
+  // og:image comes from ./opengraph-image.jsx
+  openGraph: { ...OPEN_GRAPH, title: TITLE, description: DESCRIPTION, url: "/media" },
+};
+
+const SECTIONS = [
+  { id: "top", label: "intro" },
+  { id: "services", label: "what i shoot" },
+  { id: "who", label: "who i work with" },
+  { id: "work", label: "work" },
+  { id: "faq", label: "faq" },
+  { id: "contact", label: "contact" },
 ];
 
-export default function MediaPage() {
-  const [activeCategory, setActiveCategory] = React.useState("all");
+const QUOTES = [
+  { q: "Executed my vision to perfection.", by: "Inspired Destinations" },
+  { q: "The videos, photos, and edited content were all top notch!", by: "Verde Valley Fair" },
+  { q: "Takes great pride in what he does.", by: "The Halliday House" },
+];
 
-  const portfolioItems = [
-    {
-      label: "Commercial Building Flythrough",
-      sublabel: "Cottonwood, AZ • Cinematic FPV",
-      youtubeId: "N8lq8gS1a20",
-      image: "/posters/commercial-building.jpg",
-      category: "fpv",
-    },
-    {
-      label: "Choice Roofing",
-      sublabel: "Cottonwood, AZ • Brand Video",
-      youtubeId: "bNwrwLim6cA",
-      image: "/posters/choice-roofing.jpg",
-      category: "business",
-      vertical: true,
-    },
-    {
-      label: "Verde Valley Fair 2026",
-      sublabel: "Cottonwood, AZ • FPV Flyover",
-      youtubeId: "Bi9FKKsMyBI",
-      image: "/posters/fairthumbnail.jpg",
-      category: "fpv",
-    },
-    {
-      label: "The Halliday House",
-      sublabel: "Cornville, AZ • Vacation Rental",
-      youtubeId: "2xuluLFEzdo",
-      image: "/posters/halliday-house.jpg",
-      category: "fpv",
-    },
-    {
-      label: "Cornville Swap Meet",
-      sublabel: "Cornville, AZ • Event Reel",
-      youtubeId: "GIJsdV0fzwY",
-      image: "/posters/swapmeet.jpg",
-      category: "business",
-      vertical: true,
-    },
-    {
-      label: "Northern Arizona PT Clinic",
-      sublabel: "Cottonwood, AZ",
-      youtubeId: "BtMy19MHvlU",
-      image: "/posters/narf.jpg",
-      category: "business",
-    },
-    {
-      label: "FPV Truck Video",
-      sublabel: "Cinematic FPV • Dirt road",
-      youtubeId: "Y5r-9wg8KeE",
-      image: "/posters/fpv-truck.jpg",
-      category: "fpv",
-    },
-    {
-      label: "Sedona Aerial Reel",
-      sublabel: "Sedona, Arizona",
-      youtubeId: "Bsqh29oxDq8",
-      image: "/posters/montage.jpg",
-      category: "fpv",
-    },
-    {
-      label: "Moab Potash Ponds FPV",
-      sublabel: "FPV Drone Reveal",
-      youtubeId: "KOCAXZwLYM8",
-      image: "/posters/moab-potash.jpg",
-      category: "fpv",
-    },
-  ];
+const LISTING_SLIDES = [
+  { src: "/listing-residential.jpg", alt: "Residential listing aerial", label: "residential" },
+  { src: "/listing-commercial.jpg", alt: "Commercial property aerial", label: "commercial" },
+  { src: "/listing-land.jpg", alt: "Land parcel aerial with property boundary highlighted", label: "land" },
+];
 
-  const filtered = activeCategory === "all"
-    ? portfolioItems
-    : portfolioItems.filter((item) => item.category === activeCategory);
+const WHO = [
+  ["Realtors & builders", "Listings that show the lot, the view and the drive up — not just four walls."],
+  ["Small business", "One shoot, then months of footage for social, your site and ads."],
+  ["Photographers", "Add aerial to a package without buying an aircraft or a license. Raw files, your edit."],
+  ["Media teams", "A pilot who takes direction, works to a shot list and stays out of frame."],
+  ["Event organizers", "Proof of scale for sponsors, and a recap that sells next year's tickets."],
+  ["Anyone with a vision", "Bring the idea — a route, a reveal, a feeling. I'll work out how to fly it."],
+];
 
+const PORTFOLIO = [
+  { id: "N8lq8gS1a20", title: "Commercial Building Flythrough", cat: "fpv", meta: "Phoenix, AZ • Cinematic FPV", img: "/posters/commercial-building.jpg", date: "2026-05-07T18:00:42-07:00" },
+  { id: "bNwrwLim6cA", title: "Choice Roofing", cat: "business", meta: "Cottonwood, AZ • Brand Video", vertical: true, date: "2026-05-07T18:40:16-07:00" },
+  { id: "Bi9FKKsMyBI", title: "Verde Valley Fair 2026", cat: "fpv", meta: "Cottonwood, AZ • FPV Flyover", date: "2026-05-07T18:24:19-07:00" },
+  { id: "2xuluLFEzdo", title: "The Halliday House", cat: "fpv", meta: "Cornville, AZ • Vacation Rental", img: "/posters/halliday-house.jpg", date: "2026-04-21T09:46:03-07:00" },
+  { id: "GIJsdV0fzwY", title: "Cornville Swap Meet", cat: "business", meta: "Cornville, AZ • Event Reel", img: "/posters/swapmeet.jpg", vertical: true, date: "2026-05-07T18:55:36-07:00" },
+  { id: "BtMy19MHvlU", title: "Northern Arizona PT Clinic", cat: "business", meta: "Cottonwood, AZ", date: "2026-01-26T10:21:31-08:00" },
+  { id: "Y5r-9wg8KeE", title: "FPV Truck Video", cat: "fpv", meta: "Cinematic FPV • Dirt road", img: "/posters/fpv-truck.jpg", date: "2026-01-26T10:24:47-08:00" },
+  { id: "Bsqh29oxDq8", title: "Sedona Aerial Reel", cat: "fpv", meta: "Sedona, Arizona", img: "/posters/montage.jpg", date: "2026-01-25T11:11:56-08:00" },
+];
+
+const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+const VIDEO_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": PORTFOLIO.map((v) => ({
+    "@type": "VideoObject",
+    name: v.title,
+    description: `${v.title} — drone video by ALFA Drone Solutions. ${v.meta.replace(/ • /g, ", ")}.`,
+    thumbnailUrl: ytThumb(v.id),
+    embedUrl: `https://www.youtube.com/embed/${v.id}`,
+    uploadDate: v.date,
+  })),
+};
+
+const FAQ = [
+  { q: "How much does drone video cost?", a: "Drone media starts at $150. The final price depends on scope, location, and deliverables, like editing, color grading, and the number of finished clips or photos. Send a few details through the form below and you'll get a clear quote." },
+  { q: "Are you licensed and insured?", a: "Yes. ALFA Drone Solutions is FAA Part 107 certified and insured for commercial drone work." },
+  { q: "What areas do you serve?", a: "Northern Arizona: Sedona, Cottonwood and the Verde Valley, Prescott, and Flagstaff. Also Phoenix and anywhere else in Arizona by request." },
+  { q: "Can you fly indoors?", a: "Yes. Sub-250g FPV drones are built for indoor fly-throughs of homes, commercial spaces, and venues, and are safe to fly around people." },
+  { q: "Can you work alongside my photographer or media team?", a: "Yes. Second-pilot work is a big part of what I do: I show up, match your shot list and style, and hand off footage in the format your editor needs." },
+  { q: "How do I get my files?", a: "Edited, color-graded photos and video are delivered through one shared online gallery, ready to post, share, or download." },
+];
+
+const SERVICES = [
+  "FPV fly-through",
+  "Real estate listing",
+  "Event coverage",
+  "Business / brand content",
+  "Second pilot on set",
+  "Something else",
+];
+
+const parallaxImg = { objectFit: "cover", top: "-13%", height: "126%", bottom: "auto" };
+const wordStyle = { display: "block", fontSize: "clamp(48px,12vw,180px)", lineHeight: 0.86, letterSpacing: "-0.045em" };
+
+function Service({ tag, tagColor = "c-orange", aside, title, media, body, chips }) {
   return (
-    <main className="min-h-screen bg-zinc-900 text-white">
+    <article className="svc">
+      <div className="svc-meta">
+        <span className={tagColor}>{tag}</span>
+        <span>{aside}</span>
+      </div>
+      <h3>{title}</h3>
+      {media}
+      <p>{body}</p>
+      <Chips items={chips} />
+    </article>
+  );
+}
 
-      {/* HEADER */}
-      <section className="relative overflow-hidden border-b border-zinc-700/60 py-20">
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/textures/noise.jpg')] opacity-[0.08] mix-blend-soft-light" />
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.65)_100%)]" />
-        <div className="relative z-10 mx-auto max-w-5xl px-5">
-          <a href="/" className="text-sm text-zinc-400 underline underline-offset-4">
-            ← Back to home
-          </a>
-          <p className="mt-8 text-sm font-semibold uppercase tracking-wide text-zinc-400">
-            ALFA
-          </p>
-          <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">
-            Drone Media Production
-          </h1>
-          <p className="mt-4 max-w-2xl text-zinc-300">
-            Cinematic drone photo and video for real estate, businesses, events, and branded content.
-          </p>
-        </div>
-      </section>
-
-      {/* WHAT I CAN CAPTURE + HOW IT WORKS */}
-      <section className="relative isolate overflow-hidden border-y border-zinc-700/60">
-        <div className="absolute inset-0 z-0">
-          <video
-            className="h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-          >
-            <source src="/videos/buildingsband.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80" />
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-6xl px-5 py-16">
-          <div className="text-center">
-            <h2 className="mb-3 text-3xl font-extrabold">What I can capture</h2>
-            <p className="mx-auto max-w-2xl text-zinc-200">
-              Drone photos and video built for listings, websites, and social — shot clean and delivered fast.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-3 md:text-left">
-            <Service
-              title="Real Estate & Land"
-              bullets={[
-                "MLS-ready aerial photos",
-                "Lot lines & neighborhood context",
-                "Short listing clips",
-              ]}
-            />
-            <Service
-              title="Businesses"
-              bullets={[
-                "Building & property visuals",
-                "Website + social content",
-                "Premium establishing shots",
-              ]}
-            />
-            <Service
-              title="Events"
-              bullets={[
-                "Weddings, festivals, gatherings",
-                "Venue establishing shots",
-                "Highlight footage",
-              ]}
-            />
-          </div>
-
-          <div className="mt-16" />
-
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold">How it works</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-zinc-200">
-              A simple, straightforward process — no surprises, no pressure.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-4 md:text-left">
-            <StepCard step="Step 1" title="Request a quote">
-              Send a few details about your project, location, and timeline.
-            </StepCard>
-            <StepCard step="Step 2" title="Plan the shoot">
-              We align on goals, shot ideas, and timing — usually over a quick call or email.
-            </StepCard>
-            <StepCard step="Step 3" title="Capture the footage">
-              I handle the flight, angles, and execution with care and precision.
-            </StepCard>
-            <StepCard step="Step 4" title="Deliver the final assets">
-              You receive polished photos and/or video, ready to use.
-            </StepCard>
-          </div>
-
-          <div className="mt-10 flex justify-center">
-            <a
-              href="/#contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-bold text-black transition hover:-translate-y-0.5 hover:bg-zinc-200 active:translate-y-0"
-            >
-              Request a Quote <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* PORTFOLIO + CTA */}
-      <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/textures/noise.jpg')] opacity-[0.08] mix-blend-soft-light" />
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.65)_100%)]" />
-
-        <section className="relative z-10 mt-16" id="portfolio">
-          <div className="mx-auto max-w-6xl px-5">
-            <div className="text-center">
-              <h2 className="text-3xl font-extrabold">Recent Work</h2>
-              <p className="mx-auto mt-2 max-w-2xl text-zinc-300">
-                A selection of recent aerial photo and video work across Northern Arizona.
-              </p>
-              <p className="mx-auto mt-2 hidden max-w-2xl text-sm text-zinc-400 sm:block">
-                Click a clip to play the video.
-              </p>
-              <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-400 sm:hidden">
-                Swipe through highlights or tap a clip to play.
-              </p>
-              <a
-                href="https://www.instagram.com/alookfromabove_/"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/40 px-4 py-2 font-bold transition hover:-translate-y-0.5 hover:bg-zinc-800 active:translate-y-0"
-              >
-                See videos on Instagram <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
-
-            {/* FILTER TABS */}
-            <div className="mt-10 flex flex-wrap justify-center gap-2">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={[
-                    "rounded-full border px-5 py-2 text-sm font-semibold transition hover:-translate-y-0.5 active:translate-y-0",
-                    activeCategory === cat.id
-                      ? "border-white bg-white text-black"
-                      : "border-zinc-700 bg-zinc-800/40 text-zinc-300 hover:border-zinc-500 hover:text-white",
-                  ].join(" ")}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-10">
-              {/* MOBILE */}
-              <div className="sm:hidden">
-                <MobilePortfolioCarousel
-                  instaHref="https://www.instagram.com/alookfromabove_/"
-                  items={filtered}
-                />
+export default function MediaPage() {
+  return (
+    <>
+      <JsonLd data={VIDEO_SCHEMA} />
+      <Hud label="media" sections={SECTIONS} />
+      <main id="main">
+        <Hero
+          gradient="linear-gradient(180deg, rgba(11,12,14,0.82) 0%, rgba(11,12,14,0.48) 45%, rgba(11,12,14,0.94) 100%)"
+          background={
+            <>
+              <Image src="/posters/hero-background.jpg" alt="" fill preload sizes="100vw" style={{ objectFit: "cover" }} />
+              <HeroVideo src="/hero-background.mp4" poster="/posters/hero-background.jpg" />
+            </>
+          }
+          bottom={
+            <div className="ticker grid" style={{ padding: "18px 0 22px", gridTemplateColumns: "minmax(0,1fr)", gap: 14 }}>
+              <div className="mono c-orange" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase" }}>
+                <span aria-label="Five stars">★★★★★</span>
+                <span style={{ color: "var(--text-light)" }}>What people are saying</span>
               </div>
-              {/* DESKTOP */}
-              <div className="hidden grid-cols-1 gap-6 sm:grid md:grid-cols-2 lg:grid-cols-3">
-                {filtered.map((item) => (
-                  <PortfolioTile
-                    key={item.label}
-                    label={item.label}
-                    sublabel={item.sublabel}
-                    youtubeId={item.youtubeId}
-                    poster={item.image}
-                    vertical={item.vertical}
-                  />
+              <div data-marquee data-duration={55} className="marquee">
+                {[false, true].map((dup) => (
+                  <div key={String(dup)} aria-hidden={dup || undefined} style={{ display: "flex", gap: 72, paddingRight: 72, alignItems: "center", fontSize: 17, letterSpacing: "-0.005em", color: "var(--muted-d1)" }}>
+                    {QUOTES.map((r) => (
+                      <span key={r.by} style={{ display: "flex", gap: 12, alignItems: "baseline", whiteSpace: "nowrap" }}>
+                        <span style={{ color: "var(--text-light)", fontStyle: "italic" }}>&ldquo;{r.q}&rdquo;</span>
+                        <span style={{ color: "var(--muted-d2)" }}>— {r.by}</span>
+                      </span>
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="relative z-10 mx-auto mt-20 max-w-4xl px-5 pb-20">
-          <div className="rounded-3xl border border-zinc-700 bg-zinc-800/20 p-8 text-center md:p-10">
-            <h2 className="text-3xl font-extrabold">Need media like this for your project?</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-zinc-300">
-              Reach out with your project, property, or event and I'll help you plan the right coverage.
-            </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a
-                href="/#contact"
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-bold text-black transition hover:-translate-y-0.5 hover:bg-zinc-200 active:translate-y-0"
-              >
-                Request a Quote <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="mailto:hello@alookfromabove.co"
-                className="inline-flex items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800/30 px-6 py-3 font-bold transition hover:-translate-y-0.5 hover:bg-zinc-800/60 active:translate-y-0"
-              >
-                Email me
-              </a>
-            </div>
-          </div>
-        </section>
-      </div>
-
-    </main>
-  );
-}
-
-function Service({ title, bullets }) {
-  return (
-    <div className="group rounded-3xl border border-white/10 bg-black/35 p-8 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-black/20">
-      <h3 className="text-2xl font-extrabold text-white transition duration-300 group-hover:text-white">
-        {title}
-      </h3>
-      <ul className="mt-6 space-y-4 text-zinc-200">
-        {bullets.map((bullet) => (
-          <li key={bullet} className="flex items-start gap-3">
-            <span className="mt-1.5 text-white/80 transition duration-300 group-hover:text-white">✓</span>
-            <span>{bullet}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function StepCard({ step, title, children }) {
-  return (
-    <div className="group rounded-3xl border border-white/10 bg-black/35 p-8 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-black/20">
-      <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400 transition duration-300 group-hover:text-zinc-300">
-        {step}
-      </p>
-      <h3 className="mt-4 text-2xl font-extrabold text-white">{title}</h3>
-      <p className="mt-4 text-zinc-200">{children}</p>
-    </div>
-  );
-}
-
-function MobilePortfolioCarousel({ items, instaHref }) {
-  const [idx, setIdx] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
-
-  const total = items?.length || 0;
-  const current = total ? items[idx] : null;
-
-  React.useEffect(() => { setIdx(0); }, [items]);
-
-  const prev = React.useCallback(() => {
-    if (!total) return;
-    setIdx((i) => (i - 1 + total) % total);
-  }, [total]);
-
-  const next = React.useCallback(() => {
-    if (!total) return;
-    setIdx((i) => (i + 1) % total);
-  }, [total]);
-
-  React.useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [prev, next]);
-
-  const startRef = React.useRef({ x: 0, y: 0, t: 0, active: false });
-
-  const onTouchStart = (e) => {
-    const t = e.touches?.[0];
-    if (!t) return;
-    startRef.current = { x: t.clientX, y: t.clientY, t: Date.now(), active: true };
-  };
-
-  const onTouchMove = (e) => {
-    const s = startRef.current;
-    if (!s.active) return;
-    const t = e.touches?.[0];
-    if (!t) return;
-    const dx = t.clientX - s.x;
-    const dy = t.clientY - s.y;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) e.preventDefault();
-  };
-
-  const onTouchEnd = (e) => {
-    const s = startRef.current;
-    if (!s.active) return;
-    const changed = e.changedTouches?.[0];
-    if (!changed) return;
-    const dx = changed.clientX - s.x;
-    const dy = changed.clientY - s.y;
-    const dt = Date.now() - s.t;
-    if (Math.abs(dy) > 80 || dt > 800) { startRef.current.active = false; return; }
-    if (dx <= -40) next();
-    else if (dx >= 40) prev();
-    startRef.current.active = false;
-  };
-
-  if (!current) return null;
-
-  const embedSrc = current.youtubeId
-    ? `https://www.youtube.com/embed/${current.youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`
-    : null;
-
-  return (
-    <>
-      <div className="relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10">
-        <div
-          className="relative block w-full cursor-pointer text-left"
-          onClick={() => setOpen(true)}
-          role="button"
-          tabIndex={0}
-          aria-label={`Play ${current.label}`}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(true); }
-          }}
+          }
         >
-          <div
-            className="relative aspect-[3/2] overflow-hidden bg-zinc-950 touch-pan-y"
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
-          >
-            <Image src={current.image} alt={current.label} fill className="object-cover brightness-110" priority />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm">
-                <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 translate-x-[1px]">
-                  <path d="M8 5v14l11-7-11-7z" fill="white" fillOpacity="0.9" />
-                </svg>
-              </div>
+          <Eyebrow
+            items={[
+              { text: "media" },
+              { text: "cinema aerials · fpv · 5.1k imagery" },
+              { text: "sedona · cottonwood · prescott · phoenix", teal: true },
+            ]}
+          />
+          <Split as="h1" style={{ fontSize: "clamp(46px,8vw,128px)", lineHeight: 0.89, letterSpacing: "-0.04em", maxWidth: "14ch", textWrap: "balance" }}>
+            Content that elevates your brand
+          </Split>
+          <div className="auto-grid" style={{ "--min": "290px", gap: 34, alignItems: "end", maxWidth: 1040 }}>
+            <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55, color: "var(--muted-d1)", maxWidth: "48ch", textWrap: "pretty" }}>
+              People judge your brand by what they see online, often before they ever talk to you. We capture content that shows them you&apos;re the best at what you do, and that you aim for perfection in every client interaction.
+            </p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <a data-magnet href="#contact" className="pill pill-solid">start a project ●</a>
+              <Link href="/construction" className="pill pill-line">need documentation instead →</Link>
             </div>
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <p className="text-lg font-extrabold text-white">{current.label}</p>
-              {current.sublabel && <p className="mt-0.5 text-xs text-zinc-200">{current.sublabel}</p>}
+          </div>
+        </Hero>
+
+        <section data-wordpin className="paper px" style={{ minHeight: "100svh", display: "grid", placeItems: "center", paddingTop: 90, paddingBottom: 90 }}>
+          <h2 style={{ margin: 0, display: "grid", gap: 4, textAlign: "center", fontWeight: "inherit" }}>
+            <span data-word className="display" style={wordStyle}>One take</span>
+            <span data-word className="display c-orange-l" style={wordStyle}>Through</span>
+            <span data-word className="display" style={wordStyle}>Anything</span>
+            <span data-word className="mono" style={{ fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--muted-l2)", marginTop: 20, fontWeight: 400 }}>
+              events · real estate · you name it — captured inside and out
+            </span>
+          </h2>
+        </section>
+
+        <section id="services" className="dark px" style={{ paddingTop: 110, paddingBottom: 120 }}>
+          <div className="wrap auto-grid" style={{ "--min": "300px", gap: 56, alignItems: "start" }}>
+            <div className="sticky-col grid" style={{ top: 120, gap: 22 }}>
+              <span className="label c-orange">02 / what i shoot</span>
+              <Split style={{ fontSize: "clamp(32px,4.2vw,62px)", lineHeight: 0.96, letterSpacing: "-0.035em", maxWidth: "13ch" }}>
+                Five ways to put a camera in the air
+              </Split>
+              <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--muted-d1)", maxWidth: "38ch" }}>
+                Every one of these is quoted per project — tell me the location and the date and you&apos;ll have pricing the same day.
+              </p>
+              <a data-magnet href="#contact" className="pill pill-solid" style={{ justifySelf: "start", padding: "17px 28px" }}>start a project ●</a>
             </div>
-            <button type="button" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Previous" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95">
-              <span className="text-xl leading-none text-white">‹</span>
-            </button>
-            <button type="button" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Next" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-black/40 p-3 active:scale-95">
-              <span className="text-xl leading-none text-white">›</span>
-            </button>
-            <a href={instaHref} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs font-semibold text-white/90">
-              See videos <ArrowRight className="h-3 w-3" />
-            </a>
-            <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-              {items.map((_, i) => (
-                <button key={i} type="button" onClick={(e) => { e.stopPropagation(); setIdx(i); }} aria-label={`Go to ${i + 1}`}
-                  className={["h-2 w-2 rounded-full border border-white/30", i === idx ? "bg-white/90" : "bg-white/20"].join(" ")} />
+            <div className="grid" style={{ gap: 18 }}>
+              <Service
+                tag="01 / FPV"
+                aside="signature"
+                title="Fly-throughs"
+                media={
+                  <div data-reveal className="svc-media">
+                    <LazyVideo src="/flythrough.mp4" poster="/posters/flythrough.jpg" label="FPV fly-through through a commercial interior" />
+                  </div>
+                }
+                body="Indoor and outdoor. Through a front door, up a stairwell, out a window and over the property line without a single cut."
+                chips={["homes", "venues", "shops & gyms"]}
+              />
+              <Service
+                tag="02 / REAL ESTATE"
+                aside="per listing"
+                title="Listings"
+                media={
+                  <div data-reveal className="svc-media">
+                    <ListingSlideshow slides={LISTING_SLIDES} />
+                  </div>
+                }
+                body="Residential, commercial or land, I'll help you sell it. Aerial stills and video that show the property, the lot and the setting, cut vertical and wide for wherever the listing lives."
+                chips={["agents", "builders", "land"]}
+              />
+              <Service
+                tag="03 / EVENTS"
+                aside="half or full day"
+                title="Event Coverage"
+                media={
+                  <div data-reveal className="svc-media">
+                    <Image data-parallax src="/posters/swapmeet.jpg" alt="Drone event coverage of a crowded outdoor market in Arizona" fill sizes="(max-width: 760px) 100vw, 640px" style={parallaxImg} />
+                  </div>
+                }
+                body="An established drone operator on site for your event, so every shot from the sky is planned, flown, and executed with perfection."
+                chips={["festivals", "weddings", "rodeo & sport"]}
+              />
+              <Service
+                tag="04 / BUSINESS"
+                tagColor="c-teal"
+                aside="project or ongoing"
+                title="Brand lift"
+                media={
+                  <div data-reveal className="svc-media">
+                    <LazyVideo src="/brand-lift.mp4" poster="/brand-lift-clinic.jpg" label="Brand lift footage for a veterinary clinic" />
+                  </div>
+                }
+                body="A content bank for your small business: fully edited, color-graded footage you can pull from any time you need something stunning for social, your website or an ad."
+                chips={["social sets", "website hero", "ad footage"]}
+              />
+              <Service
+                tag="05 / FOR CREWS"
+                tagColor="c-teal"
+                aside="day rate"
+                title="Second pilot"
+                media={
+                  <div data-reveal className="svc-media">
+                    <Image data-parallax src="/pilot-shirt.jpg" alt="Turner Walz on set wearing an ALFA A Look From Above shirt" fill sizes="(max-width: 760px) 100vw, 640px" style={{ ...parallaxImg, objectPosition: "50% 55%" }} />
+                  </div>
+                }
+                body="Photographers and media teams: you keep the client and the creative, I bring the license, the aircraft and the airspace clearance."
+                chips={["raw files", "your shot list", "no credit needed"]}
+              />
+              <article className="svc-cta">
+                <span className="mono" style={{ fontSize: 11, letterSpacing: "0.16em" }}>06 / ANYTHING ELSE</span>
+                <h3 className="display" style={{ fontSize: "clamp(26px,3vw,40px)", lineHeight: 1, letterSpacing: "-0.03em" }}>
+                  Describe it and I&apos;ll tell you if it&apos;s flyable
+                </h3>
+                <a data-magnet href="#contact" className="pill pill-ink" style={{ justifySelf: "start" }}>get a quote ●</a>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="who" className="paper px" style={{ paddingTop: 100, paddingBottom: 80 }}>
+          <div className="wrap grid stack-sm" style={{ gridTemplateColumns: "minmax(0,230px) minmax(0,1fr)", gap: 56, alignItems: "start" }}>
+            <div className="sticky-col grid mono" style={{ top: 120, gap: 14, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-l2)" }}>
+              <span className="c-orange-l">● who i work with</span>
+              <span style={{ width: "100%", height: 1, background: "var(--paper-line)" }} />
+              <span>you don&apos;t need a<br />production budget<br />to book a drone.</span>
+            </div>
+            <div className="grid hairline-grid">
+              {WHO.map(([who, why]) => (
+                <div key={who} className="grid stack-sm" style={{ padding: "28px 30px", gridTemplateColumns: "minmax(0,200px) minmax(0,1fr)", gap: 24, alignItems: "baseline" }}>
+                  <span style={{ fontSize: 19, fontWeight: 800, letterSpacing: "-0.01em", textTransform: "uppercase" }}>{who}</span>
+                  <span style={{ fontSize: 15, lineHeight: 1.6, color: "var(--muted-l1)" }}>{why}</span>
+                </div>
               ))}
             </div>
           </div>
-        </div>
-        <div className="flex items-center justify-between px-5 py-4">
-          <div className="text-sm text-zinc-300">Highlight <span className="font-bold text-white">{idx + 1}</span> / {total}</div>
-          <a href={instaHref} target="_blank" rel="noreferrer" className="text-sm font-bold text-white underline underline-offset-4">More on Instagram</a>
-        </div>
-      </div>
+        </section>
 
-      {open && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true"
-          onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
-          <div className={["overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl", current.vertical ? "w-full max-w-sm" : "w-full max-w-4xl"].join(" ")}>
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-              <div className="text-sm font-bold text-white">{current.label}</div>
-              <button type="button" onClick={() => setOpen(false)} className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10">Close</button>
-            </div>
-            <div className={["relative bg-black", current.vertical ? "aspect-[9/16]" : "aspect-video"].join(" ")}>
-              {embedSrc ? (
-                <iframe className="absolute inset-0 h-full w-full" src={embedSrc} title={current.label} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
-              ) : (
-                <div className="absolute inset-0 grid place-items-center text-zinc-300">Missing youtubeId</div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
-function PortfolioTile({ label, sublabel, youtubeId, poster, vertical }) {
-  const [open, setOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-
-  const embedSrc = youtubeId
-    ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`
-    : null;
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="group relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800/10 text-left transition-all duration-300 hover:border-zinc-600"
-        aria-label={`Play ${label}`}
-      >
-        <div className="relative aspect-[3/2] overflow-hidden bg-zinc-950">
-          {poster ? (
-            <Image src={poster} alt={label} fill className="object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
-          ) : (
-            <div className="absolute inset-0 bg-zinc-900" />
-          )}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
-              <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7 translate-x-[1px]">
-                <path d="M8 5v14l11-7-11-7z" fill="white" fillOpacity="0.9" />
-              </svg>
+        <section id="work" className="paper px" style={{ paddingTop: 20, paddingBottom: 120 }}>
+          <div className="wrap">
+            <SecHead label="04 / recent work" style={{ marginBottom: 44 }}>
+              <a href={INSTAGRAM} target="_blank" rel="noreferrer" className="aside" style={{ color: "var(--muted-l1)" }}>more on instagram →</a>
+            </SecHead>
+            <Split style={{ margin: "0 0 20px", fontSize: "clamp(36px,5.6vw,92px)", lineHeight: 0.92, letterSpacing: "-0.04em", maxWidth: "15ch" }}>
+              Shot across Northern Arizona
+            </Split>
+            <p style={{ margin: "0 0 34px", fontSize: 17, lineHeight: 1.6, color: "var(--muted-l1)", maxWidth: "52ch" }}>
+              A selection of recent aerial photo and video work. Click any clip to play it.
+            </p>
+            <PortfolioFilters
+              total={PORTFOLIO.length}
+              filters={[
+                { value: "all", label: "all" },
+                { value: "fpv", label: "fpv / flythrough" },
+                { value: "business", label: "business & events" },
+              ]}
+            />
+            <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(min(300px,100%),1fr))", gap: "30px 22px" }}>
+              {PORTFOLIO.map((v) => (
+                <button
+                  key={v.id}
+                  type="button"
+                  className="item"
+                  data-item
+                  data-cat={v.cat}
+                  data-yt={v.id}
+                  data-yt-title={v.title}
+                  data-yt-vertical={v.vertical ? "1" : undefined}
+                >
+                  <span data-reveal className="frame" style={{ height: 250, background: "var(--ink)" }}>
+                    <Image
+                      data-parallax
+                      src={v.img || ytThumb(v.id)}
+                      alt={v.title}
+                      fill
+                      sizes="(max-width: 760px) 100vw, 420px"
+                      style={v.img ? parallaxImg : { ...parallaxImg, transform: "scale(1.34)" }}
+                    />
+                    <span className="shade" />
+                    <span className="play" />
+                    {v.vertical && <span className="badge">vertical</span>}
+                  </span>
+                  <span style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline" }}>
+                    <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.01em" }}>{v.title}</span>
+                    <span className="mono" style={{ fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted-l2)", whiteSpace: "nowrap" }}>{v.cat}</span>
+                  </span>
+                  <span className="mono" style={{ fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-l2)" }}>{v.meta}</span>
+                </button>
+              ))}
             </div>
           </div>
-          {vertical && (
-            <div className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/50 px-2 py-0.5 text-xs font-semibold text-white/80 backdrop-blur-sm">
-              Vertical
-            </div>
-          )}
-          <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-            <p className="text-lg font-extrabold text-white md:text-xl">{label}</p>
-            {sublabel && <p className="mt-0.5 text-xs text-zinc-200 md:text-sm">{sublabel}</p>}
-          </div>
-        </div>
-      </button>
+        </section>
 
-      {open && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true"
-          onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
-          <div className={["overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl", vertical ? "w-full max-w-sm" : "w-full max-w-4xl"].join(" ")}>
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-              <div className="text-sm font-bold text-white">{label}</div>
-              <button type="button" onClick={() => setOpen(false)} className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-white hover:bg-white/10">Close</button>
-            </div>
-            <div className={["relative bg-black", vertical ? "aspect-[9/16]" : "aspect-video"].join(" ")}>
-              {embedSrc ? (
-                <iframe className="absolute inset-0 h-full w-full" src={embedSrc} title={label} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
-              ) : (
-                <div className="absolute inset-0 grid place-items-center text-zinc-300">Missing youtubeId</div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+        <Faq items={FAQ} />
+
+        <ContactSection
+          quoteline="Ready to take flight?"
+          label="06 / start a project"
+          heading="Describe the shot"
+          body="A route, a reveal, a property, an event, or a day on set. Tell me what it needs to feel like and I'll tell you how I'd fly it and what it costs."
+        >
+          <FieldRow>
+            <Field type="text" name="name" required placeholder="Name" autoComplete="name" />
+            <Field type="email" name="email" required placeholder="Email" autoComplete="email" />
+          </FieldRow>
+          <FieldRow>
+            <Field type="tel" name="phone" placeholder="Phone (optional)" autoComplete="tel" />
+            <ServiceSelect options={SERVICES} />
+          </FieldRow>
+          <Field as="textarea" name="message" required rows={3} placeholder="Location, the shot you're picturing, and when" />
+        </ContactSection>
+      </main>
+      <Footer current="media" />
+      <VideoModal />
+      <PageMotion />
     </>
   );
 }
