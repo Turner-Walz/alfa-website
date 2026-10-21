@@ -1,5 +1,6 @@
 import { Archivo, JetBrains_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next"; // ADDED
 import "./globals.css";
 import SiteNav from "./components/SiteNav";
 import SmoothScroll from "./components/SmoothScroll";
@@ -9,7 +10,7 @@ import { OPEN_GRAPH, SITE_URL } from "./lib/site";
 const archivo = Archivo({ subsets: ["latin"], display: "swap", variable: "--font-archivo" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], display: "swap", variable: "--font-jetbrains" });
 
-const DEFAULT_TITLE = "ALFA Drone Solutions — Drone Photo, Video & Mapping, Northern AZ";
+const DEFAULT_TITLE = "ALFA Drone Solutions | Drone Photo, Video & Mapping, Northern AZ"; // CHANGED
 const DESCRIPTION =
   "Cinematic drone media and construction documentation across Northern Arizona. FAA Part 107 certified, 5-drone fleet. Request a quote.";
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
         <Cursor />
         <SmoothScroll />
         <SpeedInsights />
+        <Analytics /> {/* ADDED */}
       </body>
     </html>
   );
