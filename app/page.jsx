@@ -1,12 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
+import DeferredImage from "./components/DeferredImage";
 import Hud from "./components/Hud";
-import HeroVideo from "./components/HeroVideo";
 import LazyVideo from "./components/LazyVideo";
 import PageMotion from "./components/PageMotion";
 import VideoModal from "./components/VideoModal";
-import { ContactSection, Field, FieldRow, Footer, Hero, ServiceSelect } from "./components/sections";
-import { Eyebrow, JsonLd, Marquee, SecHead, Split } from "./components/ui";
+import { ContactSection, Field, FieldRow, Footer, Hero, ServiceSelect, VideoBackdrop, posterSrc } from "./components/sections";
+import { Eyebrow, JsonLd, Marquee, ParallaxImage, SecHead, Split } from "./components/ui";
 import { EMAIL, INSTAGRAM, SITE_URL } from "./lib/site";
 
 const SECTIONS = [
@@ -161,12 +160,7 @@ export default function HomePage() {
       <main id="main">
         <Hero
           gradient="linear-gradient(180deg, rgba(11,12,14,0.84) 0%, rgba(11,12,14,0.5) 45%, rgba(11,12,14,0.94) 100%)"
-          background={
-            <>
-              <Image src="/posters/hero-background.jpg" alt="" fill preload sizes="100vw" style={{ objectFit: "cover" }} />
-              <HeroVideo src="/hero-background.mp4" poster="/posters/hero-background.jpg" />
-            </>
-          }
+          background={<VideoBackdrop poster="/posters/hero-background.jpg" video="/hero-background.mp4" />}
           bottom={
             <Marquee
               duration={26}
@@ -182,13 +176,10 @@ export default function HomePage() {
               { text: "northern arizona", teal: true },
             ]}
           />
-          <Split
-            as="h1"
-            className=""
-            style={{ margin: 0, fontSize: "clamp(44px,7vw,112px)", lineHeight: 1.02, letterSpacing: "-0.02em", fontWeight: 500, maxWidth: "16ch", textWrap: "balance" }}
-          >
+          {/* Above the fold: plain server-rendered text (no split-text intro) so it paints immediately for LCP. */}
+          <h1 style={{ margin: 0, fontSize: "clamp(44px,7vw,112px)", lineHeight: 1.02, letterSpacing: "-0.02em", fontWeight: 500, maxWidth: "16ch", textWrap: "balance" }}>
             The perspective that completes the story
-          </Split>
+          </h1>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "26px 40px", alignItems: "center", maxWidth: 1040 }}>
             <p style={{ margin: 0, display: "grid", gap: 4, paddingLeft: 20, borderLeft: "2px solid var(--orange)", fontSize: "clamp(19px,1.8vw,24px)", lineHeight: 1.3, letterSpacing: "-0.01em", textWrap: "balance" }}>
               <span style={{ color: "var(--text-light)", fontWeight: 600 }}>Two jobs, one standard.</span>
@@ -213,7 +204,9 @@ export default function HomePage() {
             <div className="auto-grid" style={{ "--min": "300px", gap: 20 }}>
               {PATHS.map((p) => (
                 <Link key={p.href} data-path href={p.href} className="path">
-                  <Image src={p.img} alt={p.alt} fill sizes="(max-width: 760px) 100vw, 640px" style={{ objectFit: "cover" }} />
+                  <span className="path-media">
+                    <DeferredImage src={p.img} alt={p.alt} sizes="(max-width: 760px) 100vw, 640px" style={{ objectFit: "cover" }} />
+                  </span>
                   <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(11,12,14,0.35) 0%, rgba(11,12,14,0.88) 72%)" }} />
                   <div className="path-body">
                     <span className="mono" style={{ fontSize: 15, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: p.color }}>{p.label}</span>
@@ -234,10 +227,9 @@ export default function HomePage() {
             <div className="sticky-col grid" style={{ top: 96, gap: 22 }}>
               <span className="label c-orange">03 / the pilot</span>
               <div style={{ position: "relative", height: 340, overflow: "hidden", border: "1px solid var(--ink-line)" }}>
-                <Image
+                <DeferredImage
                   src="/pilot-shirt.jpg"
                   alt="Turner Walz of ALFA Drone Solutions on a job, wearing an ALFA A Look From Above shirt"
-                  fill
                   sizes="(max-width: 760px) 100vw, 620px"
                   style={{ objectFit: "cover", objectPosition: "50% 52%" }}
                 />
@@ -255,7 +247,7 @@ export default function HomePage() {
                 <article key={d.name} className="drone">
                   <div className="drone-img">
                     <div>
-                      <Image src={d.img} alt={d.name} fill sizes="150px" style={{ objectFit: "contain" }} />
+                      <DeferredImage src={d.img} alt={d.name} sizes="150px" style={{ objectFit: "contain" }} />
                     </div>
                   </div>
                   <div className="drone-body">
@@ -315,7 +307,7 @@ export default function HomePage() {
                   </div>
                   <button data-yt={w.yt} data-yt-title={w.ytTitle} type="button" className="thumb-btn" aria-label={`Play ${w.ytTitle}`}>
                     <span data-reveal className="frame" style={{ height: 300 }}>
-                      <Image data-parallax src={w.img} alt={w.ytTitle} fill sizes="(max-width: 760px) 100vw, 620px" style={parallaxImg} />
+                      <ParallaxImage src={w.img} alt={w.ytTitle} sizes="(max-width: 760px) 100vw, 620px" />
                       <span className="play" />
                     </span>
                   </button>
@@ -332,7 +324,7 @@ export default function HomePage() {
                   <Link href="/media" className="link-under c-orange">see media →</Link>
                 </div>
                 <Link href="/media" data-reveal className="frame svc-media" style={{ height: 300, border: "none" }} aria-label="Brand lift clip for a veterinary clinic — see media">
-                  <LazyVideo src="/brand-lift.mp4" poster="/brand-lift-clinic.jpg" label="Brand lift footage for a veterinary clinic" />
+                  <LazyVideo src="/brand-lift.mp4" poster={posterSrc("/brand-lift-clinic.jpg")} label="Brand lift footage for a veterinary clinic" />
                 </Link>
               </article>
             </div>
@@ -409,4 +401,3 @@ export default function HomePage() {
 }
 
 const pilotP = { margin: 0, fontSize: 17, lineHeight: 1.6, color: "var(--muted-d1)", maxWidth: "42ch", textWrap: "pretty" };
-const parallaxImg = { objectFit: "cover", top: "-13%", height: "126%", bottom: "auto" };

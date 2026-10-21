@@ -1,14 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import Hud from "../components/Hud";
-import HeroVideo from "../components/HeroVideo";
 import LazyVideo from "../components/LazyVideo";
 import ListingSlideshow from "../components/ListingSlideshow";
 import PageMotion from "../components/PageMotion";
 import PortfolioFilters from "../components/PortfolioFilters";
 import VideoModal from "../components/VideoModal";
-import { ContactSection, Faq, Field, FieldRow, Footer, Hero, ServiceSelect } from "../components/sections";
-import { Chips, Eyebrow, JsonLd, SecHead, Split } from "../components/ui";
+import { ContactSection, Faq, Field, FieldRow, Footer, Hero, ServiceSelect, VideoBackdrop, posterSrc } from "../components/sections";
+import { Chips, Eyebrow, JsonLd, ParallaxImage, SecHead, Split } from "../components/ui";
 import { INSTAGRAM, OPEN_GRAPH } from "../lib/site";
 
 const TITLE = "FPV Fly-Throughs & Drone Video for Real Estate & Events — AZ";
@@ -96,7 +94,6 @@ const SERVICES = [
   "Something else",
 ];
 
-const parallaxImg = { objectFit: "cover", top: "-13%", height: "126%", bottom: "auto" };
 const wordStyle = { display: "block", fontSize: "clamp(48px,12vw,180px)", lineHeight: 0.86, letterSpacing: "-0.045em" };
 
 function Service({ tag, tagColor = "c-orange", aside, title, media, body, chips }) {
@@ -122,12 +119,7 @@ export default function MediaPage() {
       <main id="main">
         <Hero
           gradient="linear-gradient(180deg, rgba(11,12,14,0.82) 0%, rgba(11,12,14,0.48) 45%, rgba(11,12,14,0.94) 100%)"
-          background={
-            <>
-              <Image src="/posters/hero-background.jpg" alt="" fill preload sizes="100vw" style={{ objectFit: "cover" }} />
-              <HeroVideo src="/hero-background.mp4" poster="/posters/hero-background.jpg" />
-            </>
-          }
+          background={<VideoBackdrop poster="/posters/hero-background.jpg" video="/hero-background.mp4" />}
           bottom={
             <div className="ticker grid" style={{ padding: "18px 0 22px", gridTemplateColumns: "minmax(0,1fr)", gap: 14 }}>
               <div className="mono c-orange" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase" }}>
@@ -156,9 +148,10 @@ export default function MediaPage() {
               { text: "sedona · cottonwood · prescott · phoenix", teal: true },
             ]}
           />
-          <Split as="h1" style={{ fontSize: "clamp(46px,8vw,128px)", lineHeight: 0.89, letterSpacing: "-0.04em", maxWidth: "14ch", textWrap: "balance" }}>
+          {/* Above the fold: plain server-rendered text (no split-text intro) so it paints immediately for LCP. */}
+          <h1 className="display" style={{ fontSize: "clamp(46px,8vw,128px)", lineHeight: 0.89, letterSpacing: "-0.04em", maxWidth: "14ch", textWrap: "balance" }}>
             Content that elevates your brand
-          </Split>
+          </h1>
           <div className="auto-grid" style={{ "--min": "290px", gap: 34, alignItems: "end", maxWidth: 1040 }}>
             <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55, color: "var(--muted-d1)", maxWidth: "48ch", textWrap: "pretty" }}>
               People judge your brand by what they see online, often before they ever talk to you. We capture content that shows them you&apos;re the best at what you do, and that you aim for perfection in every client interaction.
@@ -200,7 +193,7 @@ export default function MediaPage() {
                 title="Fly-throughs"
                 media={
                   <div data-reveal className="svc-media">
-                    <LazyVideo src="/flythrough.mp4" poster="/posters/flythrough.jpg" label="FPV fly-through through a commercial interior" />
+                    <LazyVideo src="/flythrough.mp4" poster={posterSrc("/posters/flythrough.jpg")} label="FPV fly-through through a commercial interior" />
                   </div>
                 }
                 body="Indoor and outdoor. Through a front door, up a stairwell, out a window and over the property line without a single cut."
@@ -224,7 +217,7 @@ export default function MediaPage() {
                 title="Event Coverage"
                 media={
                   <div data-reveal className="svc-media">
-                    <Image data-parallax src="/posters/swapmeet.jpg" alt="Drone event coverage of a crowded outdoor market in Arizona" fill sizes="(max-width: 760px) 100vw, 640px" style={parallaxImg} />
+                    <ParallaxImage src="/posters/swapmeet.jpg" alt="Drone event coverage of a crowded outdoor market in Arizona" sizes="(max-width: 760px) 100vw, 640px" />
                   </div>
                 }
                 body="An established drone operator on site for your event, so every shot from the sky is planned, flown, and executed with perfection."
@@ -237,7 +230,7 @@ export default function MediaPage() {
                 title="Brand lift"
                 media={
                   <div data-reveal className="svc-media">
-                    <LazyVideo src="/brand-lift.mp4" poster="/brand-lift-clinic.jpg" label="Brand lift footage for a veterinary clinic" />
+                    <LazyVideo src="/brand-lift.mp4" poster={posterSrc("/brand-lift-clinic.jpg")} label="Brand lift footage for a veterinary clinic" />
                   </div>
                 }
                 body="A content bank for your small business: fully edited, color-graded footage you can pull from any time you need something stunning for social, your website or an ad."
@@ -250,7 +243,7 @@ export default function MediaPage() {
                 title="Second pilot"
                 media={
                   <div data-reveal className="svc-media">
-                    <Image data-parallax src="/pilot-shirt.jpg" alt="Turner Walz on set wearing an ALFA A Look From Above shirt" fill sizes="(max-width: 760px) 100vw, 640px" style={{ ...parallaxImg, objectPosition: "50% 55%" }} />
+                    <ParallaxImage src="/pilot-shirt.jpg" alt="Turner Walz on set wearing an ALFA A Look From Above shirt" sizes="(max-width: 760px) 100vw, 640px" style={{ objectPosition: "50% 55%" }} />
                   </div>
                 }
                 body="Photographers and media teams: you keep the client and the creative, I bring the license, the aircraft and the airspace clearance."
@@ -317,14 +310,7 @@ export default function MediaPage() {
                   data-yt-vertical={v.vertical ? "1" : undefined}
                 >
                   <span data-reveal className="frame" style={{ height: 250, background: "var(--ink)" }}>
-                    <Image
-                      data-parallax
-                      src={v.img || ytThumb(v.id)}
-                      alt={v.title}
-                      fill
-                      sizes="(max-width: 760px) 100vw, 420px"
-                      style={v.img ? parallaxImg : { ...parallaxImg, transform: "scale(1.34)" }}
-                    />
+                    <ParallaxImage src={v.img || ytThumb(v.id)} alt={v.title} sizes="(max-width: 760px) 100vw, 420px" style={v.img ? undefined : { transform: "scale(1.34)" }} />
                     <span className="shade" />
                     <span className="play" />
                     {v.vertical && <span className="badge">vertical</span>}

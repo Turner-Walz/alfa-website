@@ -3,7 +3,7 @@ import Link from "next/link";
 import Hud from "../components/Hud";
 import PageMotion from "../components/PageMotion";
 import { ContactSection, Faq, Field, FieldRow, Footer, Hero, ServiceSelect } from "../components/sections";
-import { Chips, Eyebrow, Marquee, SecHead, Split } from "../components/ui";
+import { Chips, Eyebrow, Marquee, ParallaxImage, SecHead, Split } from "../components/ui";
 import { OPEN_GRAPH } from "../lib/site";
 
 const TITLE = "Construction Drone Progress Updates & Site Mapping — Arizona";
@@ -107,7 +107,6 @@ const SERVICE_OPTIONS = [
   "Multiple sites",
 ];
 
-const parallaxImg = { objectFit: "cover", top: "-13%", height: "126%", bottom: "auto" };
 const wordStyle = { display: "block", fontSize: "clamp(48px,12vw,180px)", lineHeight: 0.86, letterSpacing: "-0.045em" };
 
 export default function ConstructionPage() {
@@ -117,7 +116,7 @@ export default function ConstructionPage() {
       <main id="main">
         <Hero
           gradient="linear-gradient(180deg, rgba(11,12,14,0.86) 0%, rgba(11,12,14,0.55) 45%, rgba(11,12,14,0.95) 100%)"
-          background={<Image src="/construction/hero.jpg" alt="Construction site aerial overview" fill preload sizes="100vw" style={{ objectFit: "cover" }} />}
+          background={<Image src="/construction/hero.jpg" alt="Construction site aerial overview" fill preload fetchPriority="high" sizes="100vw" style={{ objectFit: "cover" }} />}
           bottom={<Marquee duration={26} items={["general contractors", "home builders", "land developers", "site supers", "owners & lenders"]} />}
         >
           <Eyebrow
@@ -127,9 +126,10 @@ export default function ConstructionPage() {
               { text: "northern arizona", teal: true },
             ]}
           />
-          <Split as="h1" style={{ fontSize: "clamp(46px,8vw,128px)", lineHeight: 0.89, letterSpacing: "-0.04em", maxWidth: "14ch", textWrap: "balance" }}>
+          {/* Above the fold: plain server-rendered text (no split-text intro) so it paints immediately for LCP. */}
+          <h1 className="display" style={{ fontSize: "clamp(46px,8vw,128px)", lineHeight: 0.89, letterSpacing: "-0.04em", maxWidth: "14ch", textWrap: "balance" }}>
             A record of every change on site
-          </Split>
+          </h1>
           <div className="auto-grid" style={{ "--min": "290px", gap: 34, alignItems: "end", maxWidth: 1040 }}>
             <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55, color: "var(--muted-d1)", maxWidth: "48ch", textWrap: "pretty" }}>
               Progress updates for builds in motion, land documentation for what you&apos;re planning next, and mapping that lets you compare a site to itself month over month.
@@ -177,7 +177,7 @@ export default function ConstructionPage() {
                     {s.title[1]}
                   </h3>
                   <div data-reveal className="svc-media">
-                    <Image data-parallax src={s.img} alt={s.alt} fill sizes="(max-width: 760px) 100vw, 640px" style={parallaxImg} />
+                    <ParallaxImage src={s.img} alt={s.alt} sizes="(max-width: 760px) 100vw, 640px" />
                   </div>
                   <p>{s.body}</p>
                   <Chips items={s.chips} />
@@ -237,7 +237,7 @@ export default function ConstructionPage() {
                   Documentation that pays for itself through faster decisions, clearer communication, and fewer repeat site visits.
                 </p>
                 <div data-reveal className="frame" style={{ height: 280, border: "1px solid var(--paper-line)" }}>
-                  <Image data-parallax src="/construction/value-card.jpg" alt="Aerial view of a construction site" fill sizes="(max-width: 760px) 100vw, 620px" style={parallaxImg} />
+                  <ParallaxImage src="/construction/value-card.jpg" alt="Aerial view of a construction site" sizes="(max-width: 760px) 100vw, 620px" />
                 </div>
               </div>
               <ol className="grid hairline-grid" style={{ margin: 0, padding: 0, listStyle: "none" }}>

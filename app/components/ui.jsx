@@ -1,4 +1,15 @@
 import { Fragment } from "react";
+import DeferredImage from "./DeferredImage";
+
+// Below-fold image inside a [data-reveal] frame. The always-present wrapper carries
+// the parallax (126% tall, offset -13%) so the tween exists before the image mounts.
+export function ParallaxImage({ style, ...props }) {
+  return (
+    <span data-parallax className="px-wrap">
+      <DeferredImage style={{ objectFit: "cover", ...style }} {...props} />
+    </span>
+  );
+}
 
 // Heading whose words are pre-wrapped on the server for the split-text reveal,
 // so the client never rewrites server-rendered markup.

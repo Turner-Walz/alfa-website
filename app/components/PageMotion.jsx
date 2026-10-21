@@ -129,7 +129,7 @@ export default function PageMotion() {
 
         const hover = canHover();
         document.querySelectorAll("[data-path]").forEach((card) => {
-          const img = card.querySelector("img");
+          const img = card.querySelector(".path-media");
           const arrow = card.querySelector(".path-arrow");
           gsap.fromTo(
             card,

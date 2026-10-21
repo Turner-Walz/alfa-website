@@ -230,6 +230,7 @@ html.lenis, html.lenis body { height: auto; }
 /* Media frames with a parallax image: image is 126% tall, offset -13%. */
 .frame { position: relative; display: block; overflow: hidden; }
 .frame-fill { position: absolute; inset: 0; }
+.px-wrap { position: absolute; left: 0; right: 0; top: -13%; height: 126%; display: block; will-change: transform; }
 
 /* Home path cards */
 .path {
@@ -238,7 +239,7 @@ html.lenis, html.lenis body { height: auto; }
   transition: border-color 0.3s;
 }
 .path:hover { color: var(--text-light); border-color: var(--orange); }
-.path img { will-change: transform; }
+.path-media { position: absolute; inset: 0; display: block; will-change: transform; }
 .path-body { position: relative; height: 100%; padding: 30px; display: grid; align-content: end; gap: 14px; }
 .path-arrow { display: inline-block; }
 

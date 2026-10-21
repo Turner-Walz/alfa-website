@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HeroVideo from "./HeroVideo";
 import QuoteForm from "./QuoteForm";
 import { JsonLd, Split, SecHead } from "./ui";
 import { EMAIL, INSTAGRAM, PHONE_DISPLAY, PHONE_TEL } from "../lib/site";
@@ -16,6 +17,24 @@ export function Hero({ background, gradient, children, bottom }) {
       {bottom}
     </section>
   );
+}
+
+// Hero poster (the LCP element) plus the background video. The poster is always
+// served at the video's full 1920×1080: LCP credits an upscaled image only with its
+// natural pixel area, so a smaller poster would let the video's first frame replace
+// it as the LCP element when it paints after load.
+export function VideoBackdrop({ poster, video }) {
+  return (
+    <>
+      <Image src={poster} alt="" fill preload fetchPriority="high" sizes="1920px" style={{ objectFit: "cover" }} />
+      <HeroVideo src={video} />
+    </>
+  );
+}
+
+// Optimized (AVIF/WebP, resized) URL for a <video poster>, which can't use next/image.
+export function posterSrc(src, width = 1080) {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=75`;
 }
 
 export function Field({ as = "input", ...props }) {

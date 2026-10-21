@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import DeferredImage from "./DeferredImage";
 import { useEffect, useState } from "react";
 import { prefersReducedMotion } from "../lib/motion";
 
-// Listings tile: crossfades through the slides every 3.2s.
+// Listings tile: crossfades through the slides every 3.2s. Images load on approach.
 export default function ListingSlideshow({ slides }) {
   const [index, setIndex] = useState(0);
 
@@ -20,7 +20,7 @@ export default function ListingSlideshow({ slides }) {
     <>
       {slides.map((s, i) => (
         <div key={s.src} className={i === index ? "slide is-on" : "slide"} aria-hidden={i !== index}>
-          <Image src={s.src} alt={s.alt} fill sizes="(max-width: 760px) 100vw, 640px" style={{ objectFit: "cover" }} />
+          <DeferredImage src={s.src} alt={s.alt} sizes="(max-width: 760px) 100vw, 640px" style={{ objectFit: "cover" }} />
         </div>
       ))}
       <div className="slide-bar">
