@@ -81,7 +81,7 @@ export function ContactSection({ quoteline, label, heading, body, note, children
           <div className="grid mono" style={{ gap: 9, fontSize: 12, letterSpacing: "0.1em", color: "var(--muted-d2)" }}>
             <a href={`mailto:${EMAIL}`} style={{ color: "var(--text-light)" }}>{EMAIL}</a>
             <a href={INSTAGRAM} style={{ color: "var(--text-light)" }}>instagram — @alookfromabove_</a>
-            <span>flagstaff, az · northern arizona</span>
+            <span>cornville, az · northern arizona</span>
           </div>
         </div>
         <QuoteForm note={note}>{children}</QuoteForm>
@@ -142,7 +142,7 @@ export function Footer({ current }) {
       <div className="wrap grid" style={{ gap: 26, justifyItems: "center", textAlign: "center" }}>
         <Image
           src="/alfa-logo.png"
-          alt="ALFA Drone Solutions — A Look From Above"
+          alt="ALFA Drone Solutions, A Look From Above"
           width={200}
           height={97}
           sizes="200px"
@@ -159,7 +159,7 @@ export function Footer({ current }) {
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a> · <a href={INSTAGRAM}>Instagram</a>
         </span>
         <span className="mono" style={{ fontSize: 11, letterSpacing: "0.1em", color: "var(--muted-l2)" }}>
-          © 2026 ALFA Drone Solutions
+          © 2026 ALFA Drone Solutions · <Link href="/privacy">Privacy Policy</Link>
           <br />a look from above
         </span>
       </div>
